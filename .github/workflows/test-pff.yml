@@ -1,0 +1,27 @@
+name: Test PFF API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-pff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install requests
+        run: |
+          pip install requests
+
+      - name: Test PFF API
+        env:
+          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+        run: |
+          python test_pff.py
