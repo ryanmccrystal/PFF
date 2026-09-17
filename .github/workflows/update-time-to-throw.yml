@@ -39,6 +39,34 @@ jobs:
         run: |
           python scripts/time_to_throw.py
 
+      - name: Inspect Time to Throw fields
+        run: |
+          restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > inspect_ttt.json
+          restish pff ref-games ncaa 2026 1 -p ci > inspect_games.json
+
+          python - <<'PY'
+          import json
+
+          with open("inspect_ttt.json") as f:
+              ttt = json.load(f)
+
+          with open("inspect_games.json") as f:
+              games = json.load(f)
+
+          row = ttt["time_in_pockets"][0]
+          game = games["games"][0]
+
+          print("========================================")
+          print("TIME TO THROW FIRST RECORD")
+          print("========================================")
+          print(json.dumps(row, indent=2))
+
+          print("\n========================================")
+          print("GAME FIRST RECORD")
+          print("========================================")
+          print(json.dumps(game, indent=2))
+          PY
+
       - name: Show generated data
         run: |
           echo "Generated file:"
