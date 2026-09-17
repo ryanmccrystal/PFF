@@ -3,6 +3,9 @@ name: Test PFF API
 on:
   workflow_dispatch:
 
+env:
+  PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+
 jobs:
   test-pff:
     runs-on: ubuntu-latest
@@ -23,10 +26,11 @@ jobs:
         run: |
           restish api connect pff https://api.pff.com
 
-      - name: Test PFF authentication
-        env:
-          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+      - name: Configure PFF authentication
         run: |
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
+
+      - name: Test PFF authentication
+        run: |
           restish pff whoami -p ci
