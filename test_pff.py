@@ -6,7 +6,7 @@ API_KEY = os.environ["PFF_API_KEY"]
 url = "https://api.pff.com/v1/auth/whoami"
 
 headers = {
-    "Authorization": API_KEY,
+    "Authorization": f"Bearer {API_KEY}",
     "Accept": "application/json",
 }
 
