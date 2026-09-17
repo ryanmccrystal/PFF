@@ -1,10 +1,10 @@
-name: Test PFF API
+name: Test NCAA PFF Stats
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-pff:
+  test-ncaa:
     runs-on: ubuntu-latest
 
     env:
@@ -23,14 +23,14 @@ jobs:
           sudo mv restish /usr/local/bin/restish
 
       # ----------------------------------------
-      # Connect Restish to PFF
+      # Connect to PFF
       # ----------------------------------------
       - name: Connect Restish to PFF
         run: |
           restish api connect pff https://api.pff.com
 
       # ----------------------------------------
-      # Configure PFF API key
+      # Configure authentication
       # ----------------------------------------
       - name: Configure PFF authentication
         run: |
@@ -40,20 +40,34 @@ jobs:
       # ----------------------------------------
       # Verify authentication
       # ----------------------------------------
-      - name: Test PFF authentication
+      - name: Test authentication
         run: |
           restish pff whoami -p ci
 
       # ----------------------------------------
-      # Show exact ref-games syntax
+      # Get NCAA Week 1 time-in-pocket data
       # ----------------------------------------
-      - name: Show games command
+      - name: Get NCAA Week 1 time-in-pocket data
         run: |
-          restish pff ref-games --help
+          restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > time_in_pocket_week1.json
 
       # ----------------------------------------
-      # Show exact time-in-pocket syntax
+      # Show basic information
       # ----------------------------------------
-      - name: Show time in pocket command
+      - name: Inspect data
         run: |
-          restish pff signature-passing-time-in-pocket --help
+          echo "File size:"
+          wc -c time_in_pocket_week1.json
+
+          echo ""
+          echo "First 1000 characters:"
+          head -c 1000 time_in_pocket_week1.json
+
+      # ----------------------------------------
+      # Upload the raw response
+      # ----------------------------------------
+      - name: Upload PFF data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pff-ncaa-week1-time-in-pocket
+          path: time_in_pocket_week1.json
