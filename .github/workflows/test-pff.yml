@@ -1,10 +1,10 @@
-name: Test PFF Time to Throw
+name: Update PFF Time to Throw
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-time-to-throw:
+  update-time-to-throw:
     runs-on: ubuntu-latest
 
     env:
@@ -35,49 +35,21 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Get NCAA Week 1 data
-        run: |
-          restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > time_in_pocket_week1.json
-          restish pff ref-games ncaa 2026 1 -p ci > games_week1.json
-
-      - name: Get NCAA Week 2 data
-        run: |
-          restish pff signature-passing-time-in-pocket ncaa 2026 2 -p ci > time_in_pocket_week2.json
-          restish pff ref-games ncaa 2026 2 -p ci > games_week2.json
-
-      - name: Get NCAA Week 3 data
-        run: |
-          restish pff signature-passing-time-in-pocket ncaa 2026 3 -p ci > time_in_pocket_week3.json
-          restish pff ref-games ncaa 2026 3 -p ci > games_week3.json
-
-      - name: Run Time to Throw aggregation
-        run: |
-          python scripts/time_to_throw.py
-
-      - name: Test NCAA Week 4 availability
-        run: |
-          echo "Testing Week 4..."
-          restish pff signature-passing-time-in-pocket ncaa 2026 4 -p ci > week4_test.json
-          echo ""
-          echo "Week 4 response:"
-          head -c 2000 week4_test.json
-          echo ""  
-
-      - name: Run Time to Throw aggregation
+      - name: Build Time to Throw data
         run: |
           python scripts/time_to_throw.py
 
       - name: Show generated data
         run: |
           echo "Generated file:"
-          ls -lh time_to_throw.json
+          ls -lh data/time_to_throw.json
 
           echo ""
           echo "First 100 lines:"
-          head -n 100 time_to_throw.json
+          head -n 100 data/time_to_throw.json
 
       - name: Upload generated data
         uses: actions/upload-artifact@v4
         with:
-          name: pff-time-to-throw-weeks-1-3
-          path: time_to_throw.json
+          name: pff-time-to-throw-data
+          path: data/time_to_throw.json
