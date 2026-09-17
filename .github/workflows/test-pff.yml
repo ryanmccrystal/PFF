@@ -35,15 +35,22 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Get NCAA Week 1 time-in-pocket data
+      - name: Get NCAA Week 1 data
         run: |
           restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > time_in_pocket_week1.json
-
-      - name: Get NCAA Week 1 games
-        run: |
           restish pff ref-games ncaa 2026 1 -p ci > games_week1.json
 
-      - name: Run Time to Throw script
+      - name: Get NCAA Week 2 data
+        run: |
+          restish pff signature-passing-time-in-pocket ncaa 2026 2 -p ci > time_in_pocket_week2.json
+          restish pff ref-games ncaa 2026 2 -p ci > games_week2.json
+
+      - name: Get NCAA Week 3 data
+        run: |
+          restish pff signature-passing-time-in-pocket ncaa 2026 3 -p ci > time_in_pocket_week3.json
+          restish pff ref-games ncaa 2026 3 -p ci > games_week3.json
+
+      - name: Run Time to Throw aggregation
         run: |
           python scripts/time_to_throw.py
 
@@ -59,5 +66,5 @@ jobs:
       - name: Upload generated data
         uses: actions/upload-artifact@v4
         with:
-          name: pff-time-to-throw-week1
+          name: pff-time-to-throw-weeks-1-3
           path: time_to_throw.json
