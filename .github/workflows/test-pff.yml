@@ -1,10 +1,10 @@
-name: Test NCAA PFF Stats
+name: Test PFF Games
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-ncaa:
+  test-games:
     runs-on: ubuntu-latest
 
     env:
@@ -12,9 +12,6 @@ jobs:
 
     steps:
 
-      # ----------------------------------------
-      # Install Restish
-      # ----------------------------------------
       - name: Install Restish
         run: |
           curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
@@ -22,52 +19,19 @@ jobs:
           chmod +x restish
           sudo mv restish /usr/local/bin/restish
 
-      # ----------------------------------------
-      # Connect to PFF
-      # ----------------------------------------
       - name: Connect Restish to PFF
         run: |
           restish api connect pff https://api.pff.com
 
-      # ----------------------------------------
-      # Configure authentication
-      # ----------------------------------------
       - name: Configure PFF authentication
         run: |
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
 
-      # ----------------------------------------
-      # Verify authentication
-      # ----------------------------------------
-      - name: Test authentication
+      - name: Verify authentication
         run: |
           restish pff whoami -p ci
 
-      # ----------------------------------------
-      # Get NCAA Week 1 time-in-pocket data
-      # ----------------------------------------
-      - name: Get NCAA Week 1 time-in-pocket data
+      - name: Show ref-games help
         run: |
-          restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > time_in_pocket_week1.json
-
-      # ----------------------------------------
-      # Show basic information
-      # ----------------------------------------
-      - name: Inspect data
-        run: |
-          echo "File size:"
-          wc -c time_in_pocket_week1.json
-
-          echo ""
-          echo "First 1000 characters:"
-          head -c 1000 time_in_pocket_week1.json
-
-      # ----------------------------------------
-      # Upload the raw response
-      # ----------------------------------------
-      - name: Upload PFF data
-        uses: actions/upload-artifact@v4
-        with:
-          name: pff-ncaa-week1-time-in-pocket
-          path: time_in_pocket_week1.json
+          restish pff ref-games --help
