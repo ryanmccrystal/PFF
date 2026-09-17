@@ -1,37 +1,79 @@
-name: Test PFF API
+import json
+import subprocess
 
-on:
-  workflow_dispatch:
 
-jobs:
-  test-pff:
-    runs-on: ubuntu-latest
+def run_restish(args):
+    result = subprocess.run(
+        ["restish"] + args,
+        capture_output=True,
+        text=True,
+    )
 
-    steps:
-      - name: Install Restish
-        run: |
-          curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
-          tar -xzf restish.tar.gz
-          chmod +x restish
-          sudo mv restish /usr/local/bin/restish
+    print("STDOUT:")
+    print(result.stdout)
 
-      - name: Check Restish version
-        run: |
-          restish --version
+    print("STDERR:")
+    print(result.stderr)
 
-      - name: Connect Restish to PFF
-        run: |
-          restish api connect pff https://api.pff.com
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"Restish failed with exit code {result.returncode}"
+        )
 
-      - name: Configure PFF authentication
-        env:
-          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
-        run: |
-          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
-          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
+    return result.stdout
 
-      - name: Test PFF authentication
-        env:
-          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
-        run: |
-          restish pff whoami -p ci
+
+# --------------------------------------------------
+# Test PFF authentication
+# --------------------------------------------------
+
+print("===== PFF AUTHENTICATION TEST =====")
+
+auth_result = run_restish([
+    "pff",
+    "whoami",
+    "-p",
+    "ci",
+])
+
+
+# --------------------------------------------------
+# Test NCAA Week 1 games
+# --------------------------------------------------
+
+print("\n===== NCAA WEEK 1 GAMES =====")
+
+games_result = run_restish([
+    "pff",
+    "games",
+    "--league",
+    "ncaa",
+    "--season",
+    "2026",
+    "--week",
+    "1",
+    "-p",
+    "ci",
+])
+
+
+# --------------------------------------------------
+# Test NCAA Week 1 time in pocket
+# --------------------------------------------------
+
+print("\n===== NCAA WEEK 1 TIME IN POCKET =====")
+
+ttt_result = run_restish([
+    "pff",
+    "time-in-pocket",
+    "--league",
+    "ncaa",
+    "--season",
+    "2026",
+    "--week",
+    "1",
+    "-p",
+    "ci",
+])
+
+print("\n===== TEST COMPLETE =====")
