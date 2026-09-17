@@ -76,8 +76,16 @@ jobs:
           echo "First 100 lines:"
           head -n 100 data/time_to_throw.json
 
-      - name: Upload generated data
-        uses: actions/upload-artifact@v4
-        with:
-          name: pff-time-to-throw-data
-          path: data/time_to_throw.json
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/time_to_throw.json
+
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update Time to Throw data"
+            git push
+          fi
