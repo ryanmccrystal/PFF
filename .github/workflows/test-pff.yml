@@ -54,6 +54,19 @@ jobs:
         run: |
           python scripts/time_to_throw.py
 
+      - name: Test NCAA Week 4 availability
+        run: |
+          echo "Testing Week 4..."
+          restish pff signature-passing-time-in-pocket ncaa 2026 4 -p ci > week4_test.json
+          echo ""
+          echo "Week 4 response:"
+          head -c 2000 week4_test.json
+          echo ""  
+
+      - name: Run Time to Throw aggregation
+        run: |
+          python scripts/time_to_throw.py
+
       - name: Show generated data
         run: |
           echo "Generated file:"
