@@ -8,20 +8,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Install requests
+      - name: Install Restish
         run: |
-          pip install requests
+          curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
+          tar -xzf restish.tar.gz
+          chmod +x restish
+          sudo mv restish /usr/local/bin/restish
 
-      - name: Test PFF API
+      - name: Check Restish version
+        run: |
+          restish --version
+
+      - name: Connect Restish to PFF
+        run: |
+          restish api connect pff https://api.pff.com
+
+      - name: Test PFF authentication
         env:
           PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
         run: |
-          python test_pff.py
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
+          restish pff whoami -p ci
