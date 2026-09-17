@@ -1,4 +1,4 @@
-name: Test PFF Games
+name: Test PFF NCAA Games
 
 on:
   workflow_dispatch:
@@ -32,6 +32,21 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Show ref-games help
+      - name: Get NCAA Week 1 games
         run: |
-          restish pff ref-games --help
+          restish pff ref-games ncaa 2026 1 -p ci > games_week1.json
+
+      - name: Show games
+        run: |
+          echo "File size:"
+          wc -c games_week1.json
+
+          echo ""
+          echo "Games:"
+          cat games_week1.json
+
+      - name: Upload game data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pff-ncaa-week1-games
+          path: games_week1.json
