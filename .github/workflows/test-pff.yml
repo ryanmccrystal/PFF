@@ -1,3 +1,45 @@
+name: Test PFF NCAA Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-pff:
+    runs-on: ubuntu-latest
+
+    env:
+      PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+
+    steps:
+
+      - name: Install Restish
+        run: |
+          curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
+          tar -xzf restish.tar.gz
+          chmod +x restish
+          sudo mv restish /usr/local/bin/restish
+
+      - name: Connect Restish to PFF
+        run: |
+          restish api connect pff https://api.pff.com
+
+      - name: Configure PFF authentication
+        run: |
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
+
+      - name: Verify authentication
+        run: |
+          restish pff whoami -p ci
+
+      - name: Get NCAA Week 1 time-in-pocket data
+        run: |
+          restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > time_in_pocket_week1.json
+
+      - name: Get NCAA Week 1 games
+        run: |
+          restish pff ref-games ncaa 2026 1 -p ci > games_week1.json
+
       - name: Inspect time-in-pocket records
         run: |
           python - <<'PY'
@@ -35,3 +77,38 @@
           print(franchise_ids[:100])
           print("Total:", len(franchise_ids))
           PY
+
+      - name: Inspect game records
+        run: |
+          python - <<'PY'
+          import json
+
+          with open("games_week1.json") as f:
+              data = json.load(f)
+
+          games = data["games"]
+
+          print("Number of games:", len(games))
+          print()
+
+          print("First 10 games:")
+          for game in games[:10]:
+              print({
+                  "game_id": game.get("id"),
+                  "away": game.get("away_team", {}).get("abbreviation"),
+                  "away_franchise_id": game.get("away_franchise_id"),
+                  "home": game.get("home_team", {}).get("abbreviation"),
+                  "home_franchise_id": game.get("home_franchise_id"),
+                  "score": game.get("score"),
+                  "has_stats": game.get("has_stats"),
+                  "lock_status": game.get("lock_status"),
+              })
+          PY
+
+      - name: Upload PFF data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pff-ncaa-week1-test-data
+          path: |
+            time_in_pocket_week1.json
+            games_week1.json
