@@ -1,26 +1,16 @@
-name: Test PFF API
+name: Test NCAA PFF Data
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-pff:
+  test-ncaa:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Check API key exists
-        env:
-          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
-        run: |
-          if [ -z "$PFF_API_KEY" ]; then
-            echo "PFF_API_KEY is NOT available"
-            exit 1
-          else
-            echo "PFF_API_KEY is available"
-            echo "Key length: ${#PFF_API_KEY}"
-            echo "Key prefix: ${PFF_API_KEY:0:3}"
-          fi
+    env:
+      PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
 
+    steps:
       - name: Install Restish
         run: |
           curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
@@ -33,15 +23,14 @@ jobs:
           restish api connect pff https://api.pff.com
 
       - name: Configure PFF authentication
-        env:
-          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
         run: |
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
 
-      - name: Test PFF authentication
-        env:
-          PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+      - name: Show available PFF commands
         run: |
-          echo "Testing PFF authentication..."
+          restish pff --help
+
+      - name: Test authentication
+        run: |
           restish pff whoami -p ci
