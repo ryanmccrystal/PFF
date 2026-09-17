@@ -1,10 +1,10 @@
-name: Test PFF NCAA Data
+name: Test PFF Defensive Join
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-pff:
+  test-join:
     runs-on: ubuntu-latest
 
     env:
@@ -40,75 +40,277 @@ jobs:
         run: |
           restish pff ref-games ncaa 2026 1 -p ci > games_week1.json
 
-      - name: Inspect time-in-pocket records
+      - name: Join quarterbacks to opposing defenses
         run: |
           python - <<'PY'
           import json
+          from collections import defaultdict
 
           with open("time_in_pocket_week1.json") as f:
-              data = json.load(f)
-
-          rows = data["time_in_pockets"]
-
-          print("Number of time-in-pocket records:", len(rows))
-          print()
-
-          print("First 5 records:")
-          for row in rows[:5]:
-              print({
-                  "player": row.get("player"),
-                  "player_id": row.get("player_id"),
-                  "team": row.get("team"),
-                  "franchise_id": row.get("franchise_id"),
-                  "player_game_count": row.get("player_game_count"),
-                  "less_dropbacks": row.get("less_dropbacks"),
-                  "more_dropbacks": row.get("more_dropbacks"),
-              })
-
-          print()
-          print("Unique franchise IDs in time-in-pocket data:")
-
-          franchise_ids = sorted({
-              row.get("franchise_id")
-              for row in rows
-              if row.get("franchise_id") is not None
-          })
-
-          print(franchise_ids[:100])
-          print("Total:", len(franchise_ids))
-          PY
-
-      - name: Inspect game records
-        run: |
-          python - <<'PY'
-          import json
+              tip_data = json.load(f)
 
           with open("games_week1.json") as f:
-              data = json.load(f)
+              game_data = json.load(f)
 
-          games = data["games"]
+          qb_rows = tip_data["time_in_pockets"]
+          games = game_data["games"]
 
-          print("Number of games:", len(games))
+          # Build a lookup from franchise ID to its opponent.
+          opponents = {}
+
+          for game in games:
+              away_id = game["away_franchise_id"]
+              home_id = game["home_franchise_id"]
+
+              away_team = game["away_team"]["display_abbreviation"]
+              home_team = game["home_team"]["display_abbreviation"]
+
+              opponents[away_id] = {
+                  "opponent_franchise_id": home_id,
+                  "opponent": home_team,
+                  "game_id": game["id"],
+              }
+
+              opponents[home_id] = {
+                  "opponent_franchise_id": away_id,
+                  "opponent": away_team,
+                  "game_id": game["id"],
+              }
+
+          # Aggregate QB statistics by opposing defense.
+          defenses = defaultdict(lambda: {
+              "games": set(),
+              "quarterbacks": set(),
+
+              "less_dropbacks": 0,
+              "less_attempts": 0,
+              "less_completions": 0,
+              "less_yards": 0,
+              "less_touchdowns": 0,
+              "less_interceptions": 0,
+              "less_sacks": 0,
+              "less_pressures": 0,
+
+              "more_dropbacks": 0,
+              "more_attempts": 0,
+              "more_completions": 0,
+              "more_yards": 0,
+              "more_touchdowns": 0,
+              "more_interceptions": 0,
+              "more_sacks": 0,
+              "more_pressures": 0,
+          })
+
+          unmatched = []
+
+          for row in qb_rows:
+
+              franchise_id = row.get("franchise_id")
+
+              if franchise_id not in opponents:
+                  unmatched.append({
+                      "player": row.get("player"),
+                      "team": row.get("team"),
+                      "franchise_id": franchise_id,
+                  })
+                  continue
+
+              opponent = opponents[franchise_id]
+
+              defense = defenses[opponent["opponent_franchise_id"]]
+
+              defense["games"].add(opponent["game_id"])
+              defense["quarterbacks"].add(row.get("player"))
+
+              # Under 2.5 seconds
+              defense["less_dropbacks"] += row.get("less_dropbacks") or 0
+              defense["less_attempts"] += row.get("less_attempts") or 0
+              defense["less_completions"] += row.get("less_completions") or 0
+              defense["less_yards"] += row.get("less_yards") or 0
+              defense["less_touchdowns"] += row.get("less_touchdowns") or 0
+              defense["less_interceptions"] += row.get("less_interceptions") or 0
+              defense["less_sacks"] += row.get("less_sacks") or 0
+              defense["less_pressures"] += row.get("less_def_gen_pressures") or 0
+
+              # 2.5 seconds or more
+              defense["more_dropbacks"] += row.get("more_dropbacks") or 0
+              defense["more_attempts"] += row.get("more_attempts") or 0
+              defense["more_completions"] += row.get("more_completions") or 0
+              defense["more_yards"] += row.get("more_yards") or 0
+              defense["more_touchdowns"] += row.get("more_touchdowns") or 0
+              defense["more_interceptions"] += row.get("more_interceptions") or 0
+              defense["more_sacks"] += row.get("more_sacks") or 0
+              defense["more_pressures"] += row.get("more_def_gen_pressures") or 0
+
+          print()
+          print("========================================")
+          print("WEEK 1 DEFENSIVE JOIN")
+          print("========================================")
           print()
 
-          print("First 10 games:")
-          for game in games[:10]:
+          print("QB records:", len(qb_rows))
+          print("Games:", len(games))
+          print("Defenses with QB data:", len(defenses))
+          print("Unmatched QB records:", len(unmatched))
+          print()
+
+          # Show the first 20 defensive records.
+          print("First 20 defensive records:")
+          print()
+
+          for franchise_id, defense in list(defenses.items())[:20]:
+
+              def pct(numerator, denominator):
+                  if denominator == 0:
+                      return 0
+                  return numerator / denominator * 100
+
+              comp_pct_less = pct(
+                  defense["less_completions"],
+                  defense["less_attempts"]
+              )
+
+              ypa_less = (
+                  defense["less_yards"] / defense["less_attempts"]
+                  if defense["less_attempts"]
+                  else 0
+              )
+
+              pressure_pct_less = pct(
+                  defense["less_pressures"],
+                  defense["less_dropbacks"]
+              )
+
+              comp_pct_more = pct(
+                  defense["more_completions"],
+                  defense["more_attempts"]
+              )
+
+              ypa_more = (
+                  defense["more_yards"] / defense["more_attempts"]
+                  if defense["more_attempts"]
+                  else 0
+              )
+
+              pressure_pct_more = pct(
+                  defense["more_pressures"],
+                  defense["more_dropbacks"]
+              )
+
               print({
-                  "game_id": game.get("id"),
-                  "away": game.get("away_team", {}).get("abbreviation"),
-                  "away_franchise_id": game.get("away_franchise_id"),
-                  "home": game.get("home_team", {}).get("abbreviation"),
-                  "home_franchise_id": game.get("home_franchise_id"),
-                  "score": game.get("score"),
-                  "has_stats": game.get("has_stats"),
-                  "lock_status": game.get("lock_status"),
+                  "defense_franchise_id": franchise_id,
+                  "games": len(defense["games"]),
+                  "quarterbacks": len(defense["quarterbacks"]),
+
+                  "less": {
+                      "dropbacks": defense["less_dropbacks"],
+                      "comp_pct": round(comp_pct_less, 1),
+                      "ypa": round(ypa_less, 1),
+                      "td": defense["less_touchdowns"],
+                      "int": defense["less_interceptions"],
+                      "sacks": defense["less_sacks"],
+                      "pressure_pct": round(pressure_pct_less, 1),
+                  },
+
+                  "more": {
+                      "dropbacks": defense["more_dropbacks"],
+                      "comp_pct": round(comp_pct_more, 1),
+                      "ypa": round(ypa_more, 1),
+                      "td": defense["more_touchdowns"],
+                      "int": defense["more_interceptions"],
+                      "sacks": defense["more_sacks"],
+                      "pressure_pct": round(pressure_pct_more, 1),
+                  }
               })
+
+          if unmatched:
+              print()
+              print("========================================")
+              print("UNMATCHED RECORDS")
+              print("========================================")
+              print()
+
+              for row in unmatched[:25]:
+                  print(row)
+
+          # Save the joined data so we can inspect it as an artifact.
+          output = []
+
+          for franchise_id, defense in defenses.items():
+
+              def pct(numerator, denominator):
+                  if denominator == 0:
+                      return 0
+                  return numerator / denominator * 100
+
+              output.append({
+                  "defense_franchise_id": franchise_id,
+                  "games": len(defense["games"]),
+
+                  "less": {
+                      "dropbacks": defense["less_dropbacks"],
+                      "completions": defense["less_completions"],
+                      "attempts": defense["less_attempts"],
+                      "yards": defense["less_yards"],
+                      "touchdowns": defense["less_touchdowns"],
+                      "interceptions": defense["less_interceptions"],
+                      "sacks": defense["less_sacks"],
+                      "pressures": defense["less_pressures"],
+                      "comp_pct": round(
+                          pct(
+                              defense["less_completions"],
+                              defense["less_attempts"]
+                          ), 1
+                      ),
+                      "ypa": round(
+                          defense["less_yards"] /
+                          defense["less_attempts"], 1
+                      ) if defense["less_attempts"] else 0,
+                      "pressure_pct": round(
+                          pct(
+                              defense["less_pressures"],
+                              defense["less_dropbacks"]
+                          ), 1
+                      ),
+                  },
+
+                  "more": {
+                      "dropbacks": defense["more_dropbacks"],
+                      "completions": defense["more_completions"],
+                      "attempts": defense["more_attempts"],
+                      "yards": defense["more_yards"],
+                      "touchdowns": defense["more_touchdowns"],
+                      "interceptions": defense["more_interceptions"],
+                      "sacks": defense["more_sacks"],
+                      "pressures": defense["more_pressures"],
+                      "comp_pct": round(
+                          pct(
+                              defense["more_completions"],
+                              defense["more_attempts"]
+                          ), 1
+                      ),
+                      "ypa": round(
+                          defense["more_yards"] /
+                          defense["more_attempts"], 1
+                      ) if defense["more_attempts"] else 0,
+                      "pressure_pct": round(
+                          pct(
+                              defense["more_pressures"],
+                              defense["more_dropbacks"]
+                          ), 1
+                      ),
+                  }
+              })
+
+          with open("defensive_week1.json", "w") as f:
+              json.dump(output, f, indent=2)
+
+          print()
+          print("Saved defensive_week1.json")
           PY
 
-      - name: Upload PFF data
+      - name: Upload joined data
         uses: actions/upload-artifact@v4
         with:
-          name: pff-ncaa-week1-test-data
-          path: |
-            time_in_pocket_week1.json
-            games_week1.json
+          name: pff-ncaa-week1-defensive-join
+          path: defensive_week1.json
