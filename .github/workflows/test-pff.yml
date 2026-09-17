@@ -1,52 +1,37 @@
-name: Test PFF NCAA Games
-
-on:
-  workflow_dispatch:
-
-jobs:
-  test-games:
-    runs-on: ubuntu-latest
-
-    env:
-      PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
-
-    steps:
-
-      - name: Install Restish
+      - name: Inspect time-in-pocket records
         run: |
-          curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
-          tar -xzf restish.tar.gz
-          chmod +x restish
-          sudo mv restish /usr/local/bin/restish
+          python - <<'PY'
+          import json
 
-      - name: Connect Restish to PFF
-        run: |
-          restish api connect pff https://api.pff.com
+          with open("time_in_pocket_week1.json") as f:
+              data = json.load(f)
 
-      - name: Configure PFF authentication
-        run: |
-          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
-          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
+          rows = data["time_in_pockets"]
 
-      - name: Verify authentication
-        run: |
-          restish pff whoami -p ci
+          print("Number of time-in-pocket records:", len(rows))
+          print()
 
-      - name: Get NCAA Week 1 games
-        run: |
-          restish pff ref-games ncaa 2026 1 -p ci > games_week1.json
+          print("First 5 records:")
+          for row in rows[:5]:
+              print({
+                  "player": row.get("player"),
+                  "player_id": row.get("player_id"),
+                  "team": row.get("team"),
+                  "franchise_id": row.get("franchise_id"),
+                  "player_game_count": row.get("player_game_count"),
+                  "less_dropbacks": row.get("less_dropbacks"),
+                  "more_dropbacks": row.get("more_dropbacks"),
+              })
 
-      - name: Show games
-        run: |
-          echo "File size:"
-          wc -c games_week1.json
+          print()
+          print("Unique franchise IDs in time-in-pocket data:")
 
-          echo ""
-          echo "Games:"
-          cat games_week1.json
+          franchise_ids = sorted({
+              row.get("franchise_id")
+              for row in rows
+              if row.get("franchise_id") is not None
+          })
 
-      - name: Upload game data
-        uses: actions/upload-artifact@v4
-        with:
-          name: pff-ncaa-week1-games
-          path: games_week1.json
+          print(franchise_ids[:100])
+          print("Total:", len(franchise_ids))
+          PY
