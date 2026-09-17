@@ -34,3 +34,11 @@ jobs:
       - name: Test authentication
         run: |
           restish pff whoami -p ci
+
+             - name: Show games command
+        run: |
+          restish pff ref-games --help
+
+      - name: Show time in pocket command
+        run: |
+          restish pff signature-passing-time-in-pocket --help   
