@@ -35,6 +35,19 @@ jobs:
         run: |
           restish pff whoami -p ci
 
+      - name: Inspect PFF NCAA teams
+        run: |
+          restish pff team-list ncaa -p ci > ncaa_teams.json
+
+          python - <<'PY'
+          import json
+
+          with open("ncaa_teams.json") as f:
+              data = json.load(f)
+
+          print(json.dumps(data, indent=2)[:10000])
+          PY
+
       - name: Build Time to Throw data
         run: |
           python scripts/time_to_throw.py
