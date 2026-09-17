@@ -1,16 +1,20 @@
-name: Test NCAA PFF Data
+name: Test PFF API
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-ncaa:
+  test-pff:
     runs-on: ubuntu-latest
 
     env:
       PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
 
     steps:
+
+      # ----------------------------------------
+      # Install Restish
+      # ----------------------------------------
       - name: Install Restish
         run: |
           curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
@@ -18,27 +22,38 @@ jobs:
           chmod +x restish
           sudo mv restish /usr/local/bin/restish
 
+      # ----------------------------------------
+      # Connect Restish to PFF
+      # ----------------------------------------
       - name: Connect Restish to PFF
         run: |
           restish api connect pff https://api.pff.com
 
+      # ----------------------------------------
+      # Configure PFF API key
+      # ----------------------------------------
       - name: Configure PFF authentication
         run: |
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
           restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
 
-      - name: Show available PFF commands
-        run: |
-          restish pff --help
-
-      - name: Test authentication
+      # ----------------------------------------
+      # Verify authentication
+      # ----------------------------------------
+      - name: Test PFF authentication
         run: |
           restish pff whoami -p ci
 
-             - name: Show games command
+      # ----------------------------------------
+      # Show exact ref-games syntax
+      # ----------------------------------------
+      - name: Show games command
         run: |
           restish pff ref-games --help
 
+      # ----------------------------------------
+      # Show exact time-in-pocket syntax
+      # ----------------------------------------
       - name: Show time in pocket command
         run: |
-          restish pff signature-passing-time-in-pocket --help   
+          restish pff signature-passing-time-in-pocket --help
