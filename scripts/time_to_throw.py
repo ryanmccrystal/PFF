@@ -1,54 +1,26 @@
 import json
+import sys
 from collections import defaultdict
-from pathlib import Path
 
 
 # ============================================================
-# LOAD DATA
+# SETTINGS
 # ============================================================
 
-with open("time_in_pocket_week1.json") as f:
-    tip_data = json.load(f)
+SEASON = 2026
 
-with open("games_week1.json") as f:
-    game_data = json.load(f)
-
-qb_rows = tip_data["time_in_pockets"]
-games = game_data["games"]
+# Weeks to process.
+# For this test, use Weeks 1-3.
+WEEKS = [1, 2, 3]
 
 
 # ============================================================
-# BUILD OPPONENT LOOKUP
+# HELPER FUNCTIONS
 # ============================================================
 
-opponents = {}
+def add_value(dictionary, key, value):
+    dictionary[key] += value or 0
 
-for game in games:
-
-    away_id = game["away_franchise_id"]
-    home_id = game["home_franchise_id"]
-
-    away_team = game["away_team"]
-    home_team = game["home_team"]
-
-    opponents[away_id] = {
-        "defense_franchise_id": home_id,
-        "defense_abbreviation": home_team["display_abbreviation"],
-        "defense_name": f'{home_team["city"]} {home_team["nickname"]}',
-        "game_id": game["id"],
-    }
-
-    opponents[home_id] = {
-        "defense_franchise_id": away_id,
-        "defense_abbreviation": away_team["display_abbreviation"],
-        "defense_name": f'{away_team["city"]} {away_team["nickname"]}',
-        "game_id": game["id"],
-    }
-
-
-# ============================================================
-# AGGREGATE BY DEFENSE
-# ============================================================
 
 def new_defense():
     return {
@@ -74,65 +46,6 @@ def new_defense():
         "more_pressures": 0,
     }
 
-
-defenses = defaultdict(new_defense)
-
-unmatched = []
-
-
-for row in qb_rows:
-
-    offense_franchise_id = row.get("franchise_id")
-
-    if offense_franchise_id not in opponents:
-
-        unmatched.append({
-            "player": row.get("player"),
-            "team": row.get("team"),
-            "franchise_id": offense_franchise_id,
-        })
-
-        continue
-
-    opponent = opponents[offense_franchise_id]
-
-    defense_id = opponent["defense_franchise_id"]
-
-    defense = defenses[defense_id]
-
-    defense["games"].add(opponent["game_id"])
-    defense["quarterbacks"].add(row.get("player"))
-
-    # --------------------------------------------------------
-    # UNDER 2.5 SECONDS
-    # --------------------------------------------------------
-
-    defense["less_dropbacks"] += row.get("less_dropbacks") or 0
-    defense["less_attempts"] += row.get("less_attempts") or 0
-    defense["less_completions"] += row.get("less_completions") or 0
-    defense["less_yards"] += row.get("less_yards") or 0
-    defense["less_touchdowns"] += row.get("less_touchdowns") or 0
-    defense["less_interceptions"] += row.get("less_interceptions") or 0
-    defense["less_sacks"] += row.get("less_sacks") or 0
-    defense["less_pressures"] += row.get("less_def_gen_pressures") or 0
-
-    # --------------------------------------------------------
-    # 2.5 SECONDS OR MORE
-    # --------------------------------------------------------
-
-    defense["more_dropbacks"] += row.get("more_dropbacks") or 0
-    defense["more_attempts"] += row.get("more_attempts") or 0
-    defense["more_completions"] += row.get("more_completions") or 0
-    defense["more_yards"] += row.get("more_yards") or 0
-    defense["more_touchdowns"] += row.get("more_touchdowns") or 0
-    defense["more_interceptions"] += row.get("more_interceptions") or 0
-    defense["more_sacks"] += row.get("more_sacks") or 0
-    defense["more_pressures"] += row.get("more_def_gen_pressures") or 0
-
-
-# ============================================================
-# CALCULATIONS
-# ============================================================
 
 def calculate_stats(defense, prefix):
 
@@ -169,12 +82,166 @@ def calculate_stats(defense, prefix):
         "sacks": defense[f"{prefix}_sacks"],
         "pressure_pct": round(pressure_pct, 1),
 
-        # Keep raw values for auditing/future use.
+        # Raw values retained for auditing.
         "attempts": attempts,
         "completions": completions,
         "yards": yards,
         "pressures": pressures,
     }
+
+
+# ============================================================
+# LOAD AND JOIN EACH WEEK
+# ============================================================
+
+defenses = defaultdict(new_defense)
+
+total_qb_records = 0
+total_games = 0
+total_unmatched = 0
+
+processed_weeks = []
+
+
+for week in WEEKS:
+
+    tip_filename = f"time_in_pocket_week{week}.json"
+    games_filename = f"games_week{week}.json"
+
+    print()
+    print("========================================")
+    print(f"PROCESSING WEEK {week}")
+    print("========================================")
+
+    try:
+
+        with open(tip_filename) as f:
+            tip_data = json.load(f)
+
+        with open(games_filename) as f:
+            game_data = json.load(f)
+
+    except FileNotFoundError as e:
+
+        print(f"Missing file: {e.filename}")
+        print(f"Skipping Week {week}")
+        continue
+
+    qb_rows = tip_data.get("time_in_pockets", [])
+    games = game_data.get("games", [])
+
+    total_qb_records += len(qb_rows)
+    total_games += len(games)
+
+    print("QB records:", len(qb_rows))
+    print("Games:", len(games))
+
+    # --------------------------------------------------------
+    # Build opponent lookup for this week
+    # --------------------------------------------------------
+
+    opponents = {}
+
+    for game in games:
+
+        # Only use 2026 games.
+        if game.get("season") != SEASON:
+            continue
+
+        away_id = game["away_franchise_id"]
+        home_id = game["home_franchise_id"]
+
+        away_team = game["away_team"]
+        home_team = game["home_team"]
+
+        opponents[away_id] = {
+            "defense_franchise_id": home_id,
+            "defense_abbreviation": home_team["display_abbreviation"],
+            "defense_name": (
+                f'{home_team["city"]} {home_team["nickname"]}'
+            ),
+            "game_id": game["id"],
+        }
+
+        opponents[home_id] = {
+            "defense_franchise_id": away_id,
+            "defense_abbreviation": away_team["display_abbreviation"],
+            "defense_name": (
+                f'{away_team["city"]} {away_team["nickname"]}'
+            ),
+            "game_id": game["id"],
+        }
+
+    # --------------------------------------------------------
+    # Join QB records to opposing defenses
+    # --------------------------------------------------------
+
+    unmatched = 0
+
+    for row in qb_rows:
+
+        # The season comes from the endpoint request/game.
+        # eligible_season is NOT used.
+        offense_franchise_id = row.get("franchise_id")
+
+        if offense_franchise_id not in opponents:
+
+            unmatched += 1
+
+            if unmatched <= 10:
+                print(
+                    "UNMATCHED:",
+                    row.get("player"),
+                    row.get("team"),
+                    offense_franchise_id
+                )
+
+            continue
+
+        opponent = opponents[offense_franchise_id]
+
+        defense_id = opponent["defense_franchise_id"]
+
+        defense = defenses[defense_id]
+
+        defense["games"].add(opponent["game_id"])
+        defense["quarterbacks"].add(row.get("player"))
+
+        # ----------------------------------------------------
+        # UNDER 2.5 SECONDS
+        # ----------------------------------------------------
+
+        defense["less_dropbacks"] += row.get("less_dropbacks") or 0
+        defense["less_attempts"] += row.get("less_attempts") or 0
+        defense["less_completions"] += row.get("less_completions") or 0
+        defense["less_yards"] += row.get("less_yards") or 0
+        defense["less_touchdowns"] += row.get("less_touchdowns") or 0
+        defense["less_interceptions"] += row.get("less_interceptions") or 0
+        defense["less_sacks"] += row.get("less_sacks") or 0
+        defense["less_pressures"] += (
+            row.get("less_def_gen_pressures") or 0
+        )
+
+        # ----------------------------------------------------
+        # 2.5 SECONDS OR MORE
+        # ----------------------------------------------------
+
+        defense["more_dropbacks"] += row.get("more_dropbacks") or 0
+        defense["more_attempts"] += row.get("more_attempts") or 0
+        defense["more_completions"] += row.get("more_completions") or 0
+        defense["more_yards"] += row.get("more_yards") or 0
+        defense["more_touchdowns"] += row.get("more_touchdowns") or 0
+        defense["more_interceptions"] += row.get("more_interceptions") or 0
+        defense["more_sacks"] += row.get("more_sacks") or 0
+        defense["more_pressures"] += (
+            row.get("more_def_gen_pressures") or 0
+        )
+
+    total_unmatched += unmatched
+
+    print("Unmatched:", unmatched)
+
+    processed_weeks.append(week)
 
 
 # ============================================================
@@ -185,7 +252,7 @@ output = []
 
 for defense_id, defense in defenses.items():
 
-    # Find the team information from any game involving this defense.
+    # Find the defense's team information.
     defense_info = None
 
     for offense_id, opponent in opponents.items():
@@ -215,17 +282,15 @@ for defense_id, defense in defenses.items():
     })
 
 
-# Sort alphabetically for now.
+# Alphabetical order for now.
 output.sort(key=lambda x: x["team"])
 
 
 # ============================================================
-# SAVE
+# SAVE JSON
 # ============================================================
 
-output_path = Path("time_to_throw.json")
-
-with open(output_path, "w") as f:
+with open("time_to_throw.json", "w") as f:
     json.dump(output, f, indent=2)
 
 
@@ -235,23 +300,17 @@ with open(output_path, "w") as f:
 
 print()
 print("========================================")
-print("TIME TO THROW DATA")
+print("2026 TIME TO THROW DATA")
 print("========================================")
 print()
 
-print("QB records:", len(qb_rows))
-print("Games:", len(games))
+print("Season:", SEASON)
+print("Weeks processed:", processed_weeks)
+print("QB records:", total_qb_records)
+print("Games:", total_games)
 print("Defenses:", len(output))
-print("Unmatched QB records:", len(unmatched))
+print("Unmatched QB records:", total_unmatched)
 print()
-
-if unmatched:
-    print("First unmatched records:")
-
-    for row in unmatched[:20]:
-        print(row)
-
-    print()
 
 print("First 10 defenses:")
 
@@ -259,6 +318,8 @@ for row in output[:10]:
 
     print()
     print(row["team"], "-", row["team_name"])
+    print("  Games:", row["games"])
+    print("  QBs:", row["quarterbacks"])
 
     print(
         "  <2.5:",
@@ -297,4 +358,4 @@ for row in output[:10]:
     )
 
 print()
-print("Saved:", output_path)
+print("Saved: time_to_throw.json")
