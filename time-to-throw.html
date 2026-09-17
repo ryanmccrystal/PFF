@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Time to Throw | College Football</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 20px;
+            background: #ffffff;
+            color: #111111;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+            font-size: 17px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 24px 0 12px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .toggle {
+            display: flex;
+            border: 1px solid #111;
+        }
+
+        .toggle button {
+            border: 0;
+            background: #ffffff;
+            color: #111111;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 18px;
+            cursor: pointer;
+        }
+
+        .toggle button + button {
+            border-left: 1px solid #111;
+        }
+
+        .toggle button.active {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .updated {
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 16px;
+        }
+
+        thead {
+            border-top: 2px solid #111;
+            border-bottom: 2px solid #111;
+        }
+
+        th {
+            padding: 7px 5px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        th:first-child {
+            text-align: left;
+            width: 28%;
+        }
+
+        td {
+            padding: 6px 5px;
+            border-bottom: 1px solid #cccccc;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background: #f3f3f3;
+        }
+
+        .rank {
+            display: inline-block;
+            width: 30px;
+            font-weight: normal;
+        }
+
+        .team {
+            font-weight: bold;
+        }
+
+        .team-name {
+            font-weight: normal;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+
+        .loading,
+        .error {
+            padding: 20px 0;
+            font-size: 17px;
+        }
+
+        .error {
+            color: #a00000;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 5px 3px;
+            }
+
+            th:first-child {
+                width: 24%;
+            }
+
+            .team-name {
+                display: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <h1>Time to Throw</h1>
+
+    <div class="subtitle">
+        Opposing quarterback performance by time to throw
+    </div>
+
+    <div class="controls">
+
+        <div class="toggle">
+            <button id="lessButton" class="active">
+                &lt; 2.5 sec
+            </button>
+
+            <button id="moreButton">
+                2.5+ sec
+            </button>
+        </div>
+
+        <div class="updated" id="updated">
+            Loading...
+        </div>
+
+    </div>
+
+    <div id="content" class="loading">
+        Loading data...
+    </div>
+
+</div>
+
+<script>
+
+let data = null;
+let currentBucket = "less_2_5";
+let sortColumn = "dropbacks";
+let sortDirection = "desc";
+
+
+async function loadData() {
+
+    try {
+
+        const response = await fetch("data/time_to_throw.json");
+
+        if (!response.ok) {
+            throw new Error("Unable to load data.");
+        }
+
+        data = await response.json();
+
+        document.getElementById("updated").textContent =
+            "2026 • Weeks " +
+            data.weeks_processed.join(", ");
+
+        renderTable();
+
+    } catch (error) {
+
+        document.getElementById("content").innerHTML =
+            '<div class="error">Unable to load Time to Throw data.</div>';
+
+        console.error(error);
+    }
+}
+
+
+function renderTable() {
+
+    const teams = [...data.defenses];
+
+    teams.sort((a, b) => {
+
+        const aValue = getSortValue(a);
+        const bValue = getSortValue(b);
+
+        if (aValue < bValue) {
+            return sortDirection === "asc" ? -1 : 1;
+        }
+
+        if (aValue > bValue) {
+            return sortDirection === "asc" ? 1 : -1;
+        }
+
+        return a.team.localeCompare(b.team);
+    });
+
+
+    let html = `
+        <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Defense</th>
+                    <th>Dropbacks</th>
+                    <th>Comp%</th>
+                    <th>Yds/Att</th>
+                    <th>TD</th>
+                    <th>INT</th>
+                    <th>Sacks</th>
+                    <th>Pressure%</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+
+    teams.forEach((team, index) => {
+
+        const stats = team[currentBucket];
+
+        html += `
+            <tr>
+
+                <td>
+                    <span class="rank">${index + 1}.</span>
+                    <span class="team">${team.team}</span>
+                </td>
+
+                <td>${stats.dropbacks}</td>
+
+                <td>${stats.comp_pct.toFixed(1)}%</td>
+
+                <td>${stats.ypa.toFixed(1)}</td>
+
+                <td>${stats.td}</td>
+
+                <td>${stats.int}</td>
+
+                <td>${stats.sacks}</td>
+
+                <td>${stats.pressure_pct.toFixed(1)}%</td>
+
+            </tr>
+        `;
+    });
+
+
+    html += `
+            </tbody>
+
+        </table>
+
+        </div>
+    `;
+
+
+    document.getElementById("content").innerHTML = html;
+}
+
+
+function getSortValue(team) {
+
+    const stats = team[currentBucket];
+
+    switch (sortColumn) {
+
+        case "dropbacks":
+            return stats.dropbacks;
+
+        case "comp_pct":
+            return stats.comp_pct;
+
+        case "ypa":
+            return stats.ypa;
+
+        case "td":
+            return stats.td;
+
+        case "int":
+            return stats.int;
+
+        case "sacks":
+            return stats.sacks;
+
+        case "pressure_pct":
+            return stats.pressure_pct;
+
+        default:
+            return stats.dropbacks;
+    }
+}
+
+
+document.getElementById("lessButton").addEventListener(
+    "click",
+    function() {
+
+        currentBucket = "less_2_5";
+
+        document.getElementById("lessButton")
+            .classList.add("active");
+
+        document.getElementById("moreButton")
+            .classList.remove("active");
+
+        renderTable();
+    }
+);
+
+
+document.getElementById("moreButton").addEventListener(
+    "click",
+    function() {
+
+        currentBucket = "more_2_5";
+
+        document.getElementById("moreButton")
+            .classList.add("active");
+
+        document.getElementById("lessButton")
+            .classList.remove("active");
+
+        renderTable();
+    }
+);
+
+
+loadData();
+
+</script>
+
+</body>
+</html>
