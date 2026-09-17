@@ -1,6 +1,7 @@
 import json
-import sys
+import subprocess
 from collections import defaultdict
+from pathlib import Path
 
 
 # ============================================================
@@ -9,20 +10,139 @@ from collections import defaultdict
 
 SEASON = 2026
 
-# Weeks to process.
-# For this test, use Weeks 1-3.
-WEEKS = [1, 2, 3]
+# Maximum possible NCAA weeks.
+# The script stops automatically when PFF returns no data.
+MAX_WEEKS = 20
 
 
 # ============================================================
-# HELPER FUNCTIONS
+# PFF DATA DOWNLOAD
 # ============================================================
 
-def add_value(dictionary, key, value):
-    dictionary[key] += value or 0
+def run_pff_command(command):
 
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        print("PFF command failed:")
+        print(" ".join(command))
+        print(result.stderr)
+        return None
+
+    try:
+        return json.loads(result.stdout)
+
+    except json.JSONDecodeError:
+        print("Could not decode PFF response:")
+        print(result.stdout[:1000])
+        return None
+
+
+def download_week(week):
+
+    print()
+    print("========================================")
+    print(f"CHECKING WEEK {week}")
+    print("========================================")
+
+    # --------------------------------------------------------
+    # Time in pocket
+    # --------------------------------------------------------
+
+    tip_command = [
+        "restish",
+        "pff",
+        "signature-passing-time-in-pocket",
+        "ncaa",
+        str(SEASON),
+        str(week),
+        "-p",
+        "ci",
+    ]
+
+    tip_data = run_pff_command(tip_command)
+
+    if tip_data is None:
+        return None
+
+    qb_rows = tip_data.get("time_in_pockets", [])
+
+    print("Time-in-pocket records:", len(qb_rows))
+
+    # If PFF returns an empty list, this week isn't available yet.
+    if not qb_rows:
+        print("No time-in-pocket data.")
+        return None
+
+    # --------------------------------------------------------
+    # Games
+    # --------------------------------------------------------
+
+    games_command = [
+        "restish",
+        "pff",
+        "ref-games",
+        "ncaa",
+        str(SEASON),
+        str(week),
+        "-p",
+        "ci",
+    ]
+
+    game_data = run_pff_command(games_command)
+
+    if game_data is None:
+        return None
+
+    games = game_data.get("games", [])
+
+    print("Games:", len(games))
+
+    # Save the raw data for this week.
+    with open(f"time_in_pocket_week{week}.json", "w") as f:
+        json.dump(tip_data, f)
+
+    with open(f"games_week{week}.json", "w") as f:
+        json.dump(game_data, f)
+
+    return {
+        "qb_rows": qb_rows,
+        "games": games,
+    }
+
+
+# ============================================================
+# DOWNLOAD ALL AVAILABLE WEEKS
+# ============================================================
+
+all_weeks = []
+
+for week in range(1, MAX_WEEKS + 1):
+
+    result = download_week(week)
+
+    if result is None:
+        print()
+        print(f"Stopping at Week {week}.")
+        break
+
+    all_weeks.append({
+        "week": week,
+        "qb_rows": result["qb_rows"],
+        "games": result["games"],
+    })
+
+
+# ============================================================
+# AGGREGATION STRUCTURE
+# ============================================================
 
 def new_defense():
+
     return {
         "games": set(),
         "quarterbacks": set(),
@@ -47,54 +167,12 @@ def new_defense():
     }
 
 
-def calculate_stats(defense, prefix):
-
-    dropbacks = defense[f"{prefix}_dropbacks"]
-    attempts = defense[f"{prefix}_attempts"]
-    completions = defense[f"{prefix}_completions"]
-    yards = defense[f"{prefix}_yards"]
-    pressures = defense[f"{prefix}_pressures"]
-
-    comp_pct = (
-        completions / attempts * 100
-        if attempts
-        else 0
-    )
-
-    ypa = (
-        yards / attempts
-        if attempts
-        else 0
-    )
-
-    pressure_pct = (
-        pressures / dropbacks * 100
-        if dropbacks
-        else 0
-    )
-
-    return {
-        "dropbacks": dropbacks,
-        "comp_pct": round(comp_pct, 1),
-        "ypa": round(ypa, 1),
-        "td": defense[f"{prefix}_touchdowns"],
-        "int": defense[f"{prefix}_interceptions"],
-        "sacks": defense[f"{prefix}_sacks"],
-        "pressure_pct": round(pressure_pct, 1),
-
-        # Raw values retained for auditing.
-        "attempts": attempts,
-        "completions": completions,
-        "yards": yards,
-        "pressures": pressures,
-    }
-
-
-# ============================================================
-# LOAD AND JOIN EACH WEEK
-# ============================================================
-
 defenses = defaultdict(new_defense)
+
+
+# ============================================================
+# PROCESS EACH WEEK
+# ============================================================
 
 total_qb_records = 0
 total_games = 0
@@ -103,48 +181,26 @@ total_unmatched = 0
 processed_weeks = []
 
 
-for week in WEEKS:
+for week_data in all_weeks:
 
-    tip_filename = f"time_in_pocket_week{week}.json"
-    games_filename = f"games_week{week}.json"
+    week = week_data["week"]
 
-    print()
-    print("========================================")
-    print(f"PROCESSING WEEK {week}")
-    print("========================================")
-
-    try:
-
-        with open(tip_filename) as f:
-            tip_data = json.load(f)
-
-        with open(games_filename) as f:
-            game_data = json.load(f)
-
-    except FileNotFoundError as e:
-
-        print(f"Missing file: {e.filename}")
-        print(f"Skipping Week {week}")
-        continue
-
-    qb_rows = tip_data.get("time_in_pockets", [])
-    games = game_data.get("games", [])
+    qb_rows = week_data["qb_rows"]
+    games = week_data["games"]
 
     total_qb_records += len(qb_rows)
     total_games += len(games)
 
-    print("QB records:", len(qb_rows))
-    print("Games:", len(games))
+    processed_weeks.append(week)
 
     # --------------------------------------------------------
-    # Build opponent lookup for this week
+    # Build opponent lookup
     # --------------------------------------------------------
 
     opponents = {}
 
     for game in games:
 
-        # Only use 2026 games.
         if game.get("season") != SEASON:
             continue
 
@@ -173,15 +229,13 @@ for week in WEEKS:
         }
 
     # --------------------------------------------------------
-    # Join QB records to opposing defenses
+    # Join QB records to opposing defense
     # --------------------------------------------------------
 
     unmatched = 0
 
     for row in qb_rows:
 
-        # The season comes from the endpoint request/game.
-        # eligible_season is NOT used.
         offense_franchise_id = row.get("franchise_id")
 
         if offense_franchise_id not in opponents:
@@ -239,26 +293,92 @@ for week in WEEKS:
 
     total_unmatched += unmatched
 
-    print("Unmatched:", unmatched)
 
-    processed_weeks.append(week)
+# ============================================================
+# CALCULATE DISPLAY STATISTICS
+# ============================================================
+
+def calculate_stats(defense, prefix):
+
+    dropbacks = defense[f"{prefix}_dropbacks"]
+    attempts = defense[f"{prefix}_attempts"]
+    completions = defense[f"{prefix}_completions"]
+    yards = defense[f"{prefix}_yards"]
+    pressures = defense[f"{prefix}_pressures"]
+
+    comp_pct = (
+        completions / attempts * 100
+        if attempts
+        else 0
+    )
+
+    ypa = (
+        yards / attempts
+        if attempts
+        else 0
+    )
+
+    pressure_pct = (
+        pressures / dropbacks * 100
+        if dropbacks
+        else 0
+    )
+
+    return {
+        "dropbacks": dropbacks,
+        "comp_pct": round(comp_pct, 1),
+        "ypa": round(ypa, 1),
+        "td": defense[f"{prefix}_touchdowns"],
+        "int": defense[f"{prefix}_interceptions"],
+        "sacks": defense[f"{prefix}_sacks"],
+        "pressure_pct": round(pressure_pct, 1),
+
+        # Raw values retained for auditing.
+        "attempts": attempts,
+        "completions": completions,
+        "yards": yards,
+        "pressures": pressures,
+    }
 
 
 # ============================================================
-# BUILD FINAL OUTPUT
+# BUILD FINAL JSON
 # ============================================================
 
 output = []
 
 for defense_id, defense in defenses.items():
 
-    # Find the defense's team information.
+    # Find team information from the games processed.
     defense_info = None
 
-    for offense_id, opponent in opponents.items():
+    for week_data in all_weeks:
 
-        if opponent["defense_franchise_id"] == defense_id:
-            defense_info = opponent
+        for game in week_data["games"]:
+
+            if game.get("home_franchise_id") == defense_id:
+
+                team = game["home_team"]
+
+                defense_info = {
+                    "abbreviation": team["display_abbreviation"],
+                    "name": f'{team["city"]} {team["nickname"]}',
+                }
+
+                break
+
+            if game.get("away_franchise_id") == defense_id:
+
+                team = game["away_team"]
+
+                defense_info = {
+                    "abbreviation": team["display_abbreviation"],
+                    "name": f'{team["city"]} {team["nickname"]}',
+                }
+
+                break
+
+        if defense_info:
             break
 
     if defense_info is None:
@@ -268,9 +388,9 @@ for defense_id, defense in defenses.items():
 
         "franchise_id": defense_id,
 
-        "team": defense_info["defense_abbreviation"],
+        "team": defense_info["abbreviation"],
 
-        "team_name": defense_info["defense_name"],
+        "team_name": defense_info["name"],
 
         "games": len(defense["games"]),
 
@@ -287,10 +407,12 @@ output.sort(key=lambda x: x["team"])
 
 
 # ============================================================
-# SAVE JSON
+# SAVE
 # ============================================================
 
-with open("time_to_throw.json", "w") as f:
+Path("data").mkdir(exist_ok=True)
+
+with open("data/time_to_throw.json", "w") as f:
     json.dump(output, f, indent=2)
 
 
@@ -300,7 +422,7 @@ with open("time_to_throw.json", "w") as f:
 
 print()
 print("========================================")
-print("2026 TIME TO THROW DATA")
+print("2026 TIME TO THROW")
 print("========================================")
 print()
 
@@ -358,4 +480,4 @@ for row in output[:10]:
     )
 
 print()
-print("Saved: time_to_throw.json")
+print("Saved: data/time_to_throw.json")
