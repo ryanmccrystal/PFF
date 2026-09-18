@@ -1,586 +1,411 @@
-import json
-import os
-import subprocess
-from collections import defaultdict
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-SEASON = 2026
-MAX_WEEKS = 20
+    <title>Time to Throw | College Football</title>
 
-DATA_DIR = "data"
-os.makedirs(DATA_DIR, exist_ok=True)
-
-
-def run_pff_command(command):
-    result = subprocess.run(
-        command,
-        capture_output=True,
-        text=True
-    )
-
-    if result.returncode != 0:
-        print("Command failed:")
-        print(" ".join(command))
-        print(result.stderr)
-        return None
-
-    try:
-        return json.loads(result.stdout)
-    except json.JSONDecodeError:
-        print("Could not decode JSON:")
-        print(result.stdout[:1000])
-        return None
-
-
-# ------------------------------------------------------------------
-# Get PFF's current FBS teams
-# ------------------------------------------------------------------
-
-def get_fbs_teams():
-
-    print("\n--- FBS Teams ---")
-
-    command = [
-        "restish",
-        "pff",
-        "facet-defense-summary",
-        "--league",
-        "ncaa",
-        "--season",
-        str(SEASON),
-        "--division",
-        "fbs",
-        "-p",
-        "ci"
-    ]
-
-    data = run_pff_command(command)
-
-    if data is None:
-        raise RuntimeError(
-            "Unable to retrieve PFF FBS team list."
-        )
-
-    rows = data.get("defense_summary", [])
-
-    teams = {}
-
-    for row in rows:
-
-        franchise_id = row.get("franchise_id")
-
-        if franchise_id is None:
-            continue
-
-        teams[franchise_id] = {
-            "team": row.get("team"),
-            "team_name": row.get("team_name")
+    <style>
+        * {
+            box-sizing: border-box;
         }
 
-    print(f"FBS player records: {len(rows)}")
-    print(f"Unique FBS teams:   {len(teams)}")
+        body {
+            margin: 0;
+            padding: 30px 20px;
+            background: #ffffff;
+            color: #111111;
+            font-family: "Times New Roman", Times, serif;
+        }
 
-    if len(teams) != 138:
-        print(
-            f"WARNING: Expected 138 FBS teams, "
-            f"but PFF returned {len(teams)}."
-        )
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-    return teams
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            line-height: 1;
+            font-weight: bold;
+        }
 
+        .subtitle {
+            margin-top: 6px;
+            font-size: 17px;
+        }
 
-# ------------------------------------------------------------------
-# Download one week
-# ------------------------------------------------------------------
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 24px 0 12px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-def download_week(week):
+        .toggle {
+            display: flex;
+            border: 1px solid #111;
+        }
 
-    print(f"\n--- Week {week} ---")
+        .toggle button {
+            border: 0;
+            background: #ffffff;
+            color: #111111;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 18px;
+            cursor: pointer;
+        }
 
-    # --------------------------------------------------------------
-    # Time to Throw
-    # --------------------------------------------------------------
+        .toggle button + button {
+            border-left: 1px solid #111;
+        }
 
-    tip_command = [
-        "restish",
-        "pff",
-        "signature-passing-time-in-pocket",
-        "ncaa",
-        str(SEASON),
-        str(week),
-        "-p",
-        "ci"
-    ]
+        .toggle button.active {
+            background: #111111;
+            color: #ffffff;
+        }
 
-    tip_data = run_pff_command(tip_command)
+        .updated {
+            font-size: 14px;
+        }
 
-    if tip_data is None:
-        return None
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 16px;
+        }
 
-    qb_rows = tip_data.get("time_in_pockets", [])
+        thead {
+            border-top: 2px solid #111;
+            border-bottom: 2px solid #111;
+        }
 
-    if not qb_rows:
-        print(f"Week {week}: no Time to Throw data")
-        return None
+        th {
+            padding: 7px 5px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
 
-    print(f"Time to Throw records: {len(qb_rows)}")
+        th:first-child {
+            text-align: left;
+            width: 28%;
+        }
 
-    # --------------------------------------------------------------
-    # Games
-    # --------------------------------------------------------------
+        td {
+            padding: 6px 5px;
+            border-bottom: 1px solid #cccccc;
+            text-align: center;
+            white-space: nowrap;
+        }
 
-    games_command = [
-        "restish",
-        "pff",
-        "ref-games",
-        "ncaa",
-        str(SEASON),
-        str(week),
-        "-p",
-        "ci"
-    ]
+        td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
 
-    game_data = run_pff_command(games_command)
+        tbody tr:hover {
+            background: #f3f3f3;
+        }
 
-    if game_data is None:
-        return None
+        .rank {
+            display: inline-block;
+            width: 30px;
+            font-weight: normal;
+        }
 
-    games = game_data.get("games", [])
+        .team {
+            font-weight: bold;
+        }
 
-    print(f"Games: {len(games)}")
+        .team-name {
+            font-weight: normal;
+            font-size: 13px;
+            margin-left: 5px;
+        }
 
-    # Save raw weekly files
-    with open(
-        os.path.join(DATA_DIR, f"time_in_pocket_week{week}.json"),
-        "w"
-    ) as f:
-        json.dump(tip_data, f, indent=2)
+        .loading,
+        .error {
+            padding: 20px 0;
+            font-size: 17px;
+        }
 
-    with open(
-        os.path.join(DATA_DIR, f"games_week{week}.json"),
-        "w"
-    ) as f:
-        json.dump(game_data, f, indent=2)
+        .error {
+            color: #a00000;
+        }
 
-    return {
-        "week": week,
-        "qb_rows": qb_rows,
-        "games": games
-    }
-
-
-# ------------------------------------------------------------------
-# Load FBS teams
-# ------------------------------------------------------------------
-
-fbs_teams = get_fbs_teams()
-
-
-# ------------------------------------------------------------------
-# Download all completed weeks
-# ------------------------------------------------------------------
-
-all_weeks = []
-
-for week in range(1, MAX_WEEKS + 1):
-
-    result = download_week(week)
-
-    if result is None:
-        print(f"\nStopping at Week {week}.")
-        break
-
-    all_weeks.append(result)
-
-
-if not all_weeks:
-    raise RuntimeError(
-        "No completed weeks of Time to Throw data found."
-    )
-
-
-# ------------------------------------------------------------------
-# Aggregate defensive statistics
-# ------------------------------------------------------------------
-
-defenses = defaultdict(
-    lambda: {
-        "less_dropbacks": 0,
-        "less_attempts": 0,
-        "less_completions": 0,
-        "less_yards": 0,
-        "less_touchdowns": 0,
-        "less_interceptions": 0,
-        "less_sacks": 0,
-        "less_pressures": 0,
-
-        "more_dropbacks": 0,
-        "more_attempts": 0,
-        "more_completions": 0,
-        "more_yards": 0,
-        "more_touchdowns": 0,
-        "more_interceptions": 0,
-        "more_sacks": 0,
-        "more_pressures": 0,
-
-        "games": set(),
-        "weeks": set(),
-        "qbs": set()
-    }
-)
-
-
-total_qb_records = 0
-total_games = 0
-total_unmatched = 0
-
-
-for week_data in all_weeks:
-
-    week = week_data["week"]
-    qb_rows = week_data["qb_rows"]
-    games = week_data["games"]
-
-    total_qb_records += len(qb_rows)
-    total_games += len(games)
-
-    # --------------------------------------------------------------
-    # Build:
-    #
-    # offense franchise ID
-    #       ↓
-    # opponent franchise ID
-    #
-    # Each team has one game per week.
-    # --------------------------------------------------------------
-
-    team_games = {}
-
-    for game in games:
-
-        away_id = game.get("away_franchise_id")
-        home_id = game.get("home_franchise_id")
-
-        if away_id is not None and home_id is not None:
-
-            team_games[away_id] = {
-                "game_id": game.get("id"),
-                "opponent_id": home_id
+        @media (max-width: 800px) {
+            body {
+                padding: 20px 10px;
             }
 
-            team_games[home_id] = {
-                "game_id": game.get("id"),
-                "opponent_id": away_id
+            h1 {
+                font-size: 27px;
             }
 
-    # --------------------------------------------------------------
-    # Match QB to opposing defense
-    # --------------------------------------------------------------
+            table {
+                font-size: 14px;
+            }
 
-    for row in qb_rows:
+            th,
+            td {
+                padding: 5px 3px;
+            }
 
-        offense_id = row.get("franchise_id")
+            th:first-child {
+                width: 24%;
+            }
 
-        if offense_id is None:
-            total_unmatched += 1
-            continue
+            .team-name {
+                display: none;
+            }
+        }
 
-        game_info = team_games.get(offense_id)
+        @media (max-width: 650px) {
+            .table-wrapper {
+                overflow-x: auto;
+            }
 
-        if game_info is None:
-            total_unmatched += 1
-            continue
+            table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
 
-        defense_id = game_info["opponent_id"]
+<body>
 
-        if defense_id is None:
-            total_unmatched += 1
-            continue
+<div class="page">
 
-        # ----------------------------------------------------------
-        # Only keep FBS defenses
-        # ----------------------------------------------------------
+    <h1>Time to Throw</h1>
 
-        if defense_id not in fbs_teams:
-            continue
+    <div class="subtitle">
+        Opposing quarterback performance by time to throw
+    </div>
 
-        d = defenses[defense_id]
+    <div class="controls">
 
-        d["games"].add(game_info["game_id"])
-        d["weeks"].add(week)
+        <div class="toggle">
+            <button id="lessButton" class="active">
+                &lt; 2.5 sec
+            </button>
 
-        player_id = row.get("player_id")
+            <button id="moreButton">
+                2.5+ sec
+            </button>
+        </div>
 
-        if player_id is not None:
-            d["qbs"].add(player_id)
+        <div class="updated" id="updated">
+            Loading...
+        </div>
 
-        # ----------------------------------------------------------
-        # < 2.5 seconds
-        # ----------------------------------------------------------
+    </div>
 
-        d["less_dropbacks"] += (
-            row.get("less_dropbacks", 0) or 0
-        )
+    <div id="content" class="loading">
+        Loading data...
+    </div>
 
-        d["less_attempts"] += (
-            row.get("less_attempts", 0) or 0
-        )
+</div>
 
-        d["less_completions"] += (
-            row.get("less_completions", 0) or 0
-        )
+<script>
 
-        d["less_yards"] += (
-            row.get("less_yards", 0) or 0
-        )
-
-        d["less_touchdowns"] += (
-            row.get("less_touchdowns", 0) or 0
-        )
-
-        d["less_interceptions"] += (
-            row.get("less_interceptions", 0) or 0
-        )
-
-        d["less_sacks"] += (
-            row.get("less_sacks", 0) or 0
-        )
-
-        d["less_pressures"] += (
-            row.get("less_def_gen_pressures", 0) or 0
-        )
-
-        # ----------------------------------------------------------
-        # 2.5 seconds or more
-        # ----------------------------------------------------------
-
-        d["more_dropbacks"] += (
-            row.get("more_dropbacks", 0) or 0
-        )
-
-        d["more_attempts"] += (
-            row.get("more_attempts", 0) or 0
-        )
-
-        d["more_completions"] += (
-            row.get("more_completions", 0) or 0
-        )
-
-        d["more_yards"] += (
-            row.get("more_yards", 0) or 0
-        )
-
-        d["more_touchdowns"] += (
-            row.get("more_touchdowns", 0) or 0
-        )
-
-        d["more_interceptions"] += (
-            row.get("more_interceptions", 0) or 0
-        )
-
-        d["more_sacks"] += (
-            row.get("more_sacks", 0) or 0
-        )
-
-        d["more_pressures"] += (
-            row.get("more_def_gen_pressures", 0) or 0
-        )
+let data = null;
+let currentBucket = "less_2_5";
+let sortColumn = "dropbacks";
+let sortDirection = "desc";
 
 
-# ------------------------------------------------------------------
-# Calculate display statistics
-# ------------------------------------------------------------------
+async function loadData() {
 
-def calculate_stats(
-    dropbacks,
-    attempts,
-    completions,
-    yards,
-    touchdowns,
-    interceptions,
-    sacks,
-    pressures
-):
+    try {
 
-    if attempts:
+        const response = await fetch("data/time_to_throw.json");
 
-        comp_pct = round(
-            completions / attempts * 100,
-            1
-        )
+        if (!response.ok) {
+            throw new Error("Unable to load data.");
+        }
 
-        ypa = round(
-            yards / attempts,
-            1
-        )
+        data = await response.json();
 
-    else:
+        document.getElementById("updated").textContent =
+            "2026 • Weeks " +
+            data.weeks_processed.join(", ");
 
-        comp_pct = 0
-        ypa = 0
+        renderTable();
 
-    if dropbacks:
+    } catch (error) {
 
-        pressure_pct = round(
-            pressures / dropbacks * 100,
-            1
-        )
+        document.getElementById("content").innerHTML =
+            '<div class="error">Unable to load Time to Throw data.</div>';
 
-    else:
-
-        pressure_pct = 0
-
-    return {
-        "dropbacks": int(dropbacks),
-        "comp_pct": comp_pct,
-        "ypa": ypa,
-        "td": int(touchdowns),
-        "int": int(interceptions),
-        "sacks": int(sacks),
-        "pressure_pct": pressure_pct,
-
-        # Raw values retained for auditing
-        "attempts": int(attempts),
-        "completions": int(completions),
-        "yards": int(yards),
-        "pressures": int(pressures)
+        console.error(error);
     }
-
-
-# ------------------------------------------------------------------
-# Build final output
-# ------------------------------------------------------------------
-
-output = []
-
-for defense_id, d in defenses.items():
-
-    team_info = fbs_teams.get(defense_id)
-
-    if team_info is None:
-        continue
-
-    less = calculate_stats(
-        d["less_dropbacks"],
-        d["less_attempts"],
-        d["less_completions"],
-        d["less_yards"],
-        d["less_touchdowns"],
-        d["less_interceptions"],
-        d["less_sacks"],
-        d["less_pressures"]
-    )
-
-    more = calculate_stats(
-        d["more_dropbacks"],
-        d["more_attempts"],
-        d["more_completions"],
-        d["more_yards"],
-        d["more_touchdowns"],
-        d["more_interceptions"],
-        d["more_sacks"],
-        d["more_pressures"]
-    )
-
-    output.append({
-        "franchise_id": defense_id,
-
-        "team": team_info.get("team"),
-
-        "team_name": team_info.get("team_name"),
-
-        "games": len(d["games"]),
-
-        "weeks": sorted(d["weeks"]),
-
-        "qbs": len(d["qbs"]),
-
-        "less_2_5": less,
-
-        "more_2_5": more
-    })
-
-
-# Sort by school name
-output.sort(
-    key=lambda x: x["team_name"] or ""
-)
-
-
-# ------------------------------------------------------------------
-# Write JSON
-# ------------------------------------------------------------------
-
-final_data = {
-    "season": SEASON,
-
-    "weeks_processed": [
-        x["week"]
-        for x in all_weeks
-    ],
-
-    "total_qb_records": total_qb_records,
-
-    "total_games": total_games,
-
-    "total_defenses": len(output),
-
-    "total_unmatched": total_unmatched,
-
-    "defenses": output
 }
 
 
-output_file = os.path.join(
-    DATA_DIR,
-    "time_to_throw.json"
-)
+function renderTable() {
 
-with open(output_file, "w") as f:
-    json.dump(
-        final_data,
-        f,
-        indent=2
-    )
+    const teams = [...data.defenses];
 
+    teams.sort((a, b) => {
 
-# ------------------------------------------------------------------
-# Summary
-# ------------------------------------------------------------------
+        const aValue = getSortValue(a);
+        const bValue = getSortValue(b);
 
-print("\n========================================")
-print("TIME TO THROW BUILD COMPLETE")
-print("========================================")
-print(
-    f"Weeks processed: {final_data['weeks_processed']}"
-)
-print(
-    f"QB records:      {total_qb_records}"
-)
-print(
-    f"Games:           {total_games}"
-)
-print(
-    f"FBS defenses:    {len(output)}"
-)
-print(
-    f"Unmatched:       {total_unmatched}"
-)
-print(
-    f"Output:          {output_file}"
-)
-print("========================================\n")
+        if (aValue < bValue) {
+            return sortDirection === "asc" ? -1 : 1;
+        }
+
+        if (aValue > bValue) {
+            return sortDirection === "asc" ? 1 : -1;
+        }
+
+        return a.team.localeCompare(b.team);
+    });
 
 
-for team in output[:10]:
+    let html = `
+        <div class="table-wrapper">
 
-    less = team["less_2_5"]
+        <table>
 
-    print(
-        f"{team['team_name']:20} "
-        f"Games={team['games']:2} "
-        f"QBs={team['qbs']:2} "
-        f"<2.5 DB={less['dropbacks']:3} "
-        f"Comp={less['comp_pct']:5.1f}% "
-        f"YPA={less['ypa']:4.1f} "
-        f"Press={less['pressure_pct']:5.1f}%"
-    )
+            <thead>
+                <tr>
+                    <th>Defense</th>
+                    <th>Dropbacks</th>
+                    <th>Comp%</th>
+                    <th>Yds/Att</th>
+                    <th>TD</th>
+                    <th>INT</th>
+                    <th>Sacks</th>
+                    <th>Pressure%</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+
+    teams.forEach((team, index) => {
+
+        const stats = team[currentBucket];
+
+        html += `
+            <tr>
+
+                <td>
+                    <span class="rank">${index + 1}.</span>
+                    <span class="team">${team.team}</span>
+                </td>
+
+                <td>${stats.dropbacks}</td>
+
+                <td>${stats.comp_pct.toFixed(1)}%</td>
+
+                <td>${stats.ypa.toFixed(1)}</td>
+
+                <td>${stats.td}</td>
+
+                <td>${stats.int}</td>
+
+                <td>${stats.sacks}</td>
+
+                <td>${stats.pressure_pct.toFixed(1)}%</td>
+
+            </tr>
+        `;
+    });
+
+
+    html += `
+            </tbody>
+
+        </table>
+
+        </div>
+    `;
+
+
+    document.getElementById("content").innerHTML = html;
+}
+
+
+function getSortValue(team) {
+
+    const stats = team[currentBucket];
+
+    switch (sortColumn) {
+
+        case "dropbacks":
+            return stats.dropbacks;
+
+        case "comp_pct":
+            return stats.comp_pct;
+
+        case "ypa":
+            return stats.ypa;
+
+        case "td":
+            return stats.td;
+
+        case "int":
+            return stats.int;
+
+        case "sacks":
+            return stats.sacks;
+
+        case "pressure_pct":
+            return stats.pressure_pct;
+
+        default:
+            return stats.dropbacks;
+    }
+}
+
+
+document.getElementById("lessButton").addEventListener(
+    "click",
+    function() {
+
+        currentBucket = "less_2_5";
+
+        document.getElementById("lessButton")
+            .classList.add("active");
+
+        document.getElementById("moreButton")
+            .classList.remove("active");
+
+        renderTable();
+    }
+);
+
+
+document.getElementById("moreButton").addEventListener(
+    "click",
+    function() {
+
+        currentBucket = "more_2_5";
+
+        document.getElementById("moreButton")
+            .classList.add("active");
+
+        document.getElementById("lessButton")
+            .classList.remove("active");
+
+        renderTable();
+    }
+);
+
+
+loadData();
+
+</script>
+
+</body>
+</html>
