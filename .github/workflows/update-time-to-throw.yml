@@ -35,16 +35,10 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Show PFF available commands
+      - name: Inspect defense summary
         run: |
           echo "========================================"
-          echo "PFF AVAILABLE COMMANDS"
+          echo "DEFENSE SUMMARY HELP"
           echo "========================================"
-          restish pff --help
 
-      - name: Inspect facet command
-        run: |
-          echo "========================================"
-          echo "PFF FACET HELP"
-          echo "========================================"
-          restish pff facet --help
+          restish pff facet-defense-summary --help
