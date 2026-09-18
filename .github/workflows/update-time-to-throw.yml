@@ -35,6 +35,49 @@ jobs:
         run: |
           restish pff whoami -p ci
 
+      - name: Test PFF FBS defense list
+        run: |
+          restish pff facet-defense-summary --league ncaa --season 2026 --division fbs -p ci > fbs_defense.json
+
+          python - <<'PY'
+          import json
+
+          with open("fbs_defense.json") as f:
+              data = json.load(f)
+
+          rows = data.get("defense_summary", [])
+
+          teams = {}
+
+          for row in rows:
+              franchise_id = row.get("franchise_id")
+              team = row.get("team")
+              team_name = row.get("team_name")
+
+              if franchise_id is not None:
+                  teams[franchise_id] = {
+                      "team": team,
+                      "team_name": team_name
+                  }
+
+          print("========================================")
+          print("PFF FBS TEAMS")
+          print("========================================")
+          print(f"Player records: {len(rows)}")
+          print(f"Unique franchises: {len(teams)}")
+          print("")
+
+          for franchise_id, info in sorted(
+              teams.items(),
+              key=lambda x: x[1]["team_name"] or ""
+          ):
+              print(
+                  f"{franchise_id}: "
+                  f"{info['team']} - "
+                  f"{info['team_name']}"
+              )
+          PY
+
       - name: Inspect defense summary
         run: |
           echo "========================================"
