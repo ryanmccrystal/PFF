@@ -35,13 +35,9 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Test PFF FBS filter
+      - name: Inspect PFF facet command
         run: |
-          restish pff facet --league ncaa --season 2026 --division fbs -p ci > fbs_test.json
-
-          echo "FBS response:"
-          head -c 5000 fbs_test.json
-          echo ""
+          restish pff facet --help
 
       - name: Build Time to Throw data
         run: |
