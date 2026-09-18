@@ -1,10 +1,10 @@
-name: Update PFF Time to Throw
+name: PFF FBS Diagnostic
 
 on:
   workflow_dispatch:
 
 jobs:
-  update-time-to-throw:
+  inspect-pff:
     runs-on: ubuntu-latest
 
     env:
@@ -35,61 +35,16 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Inspect PFF facet command
+      - name: Show PFF available commands
         run: |
+          echo "========================================"
+          echo "PFF AVAILABLE COMMANDS"
+          echo "========================================"
+          restish pff --help
+
+      - name: Inspect facet command
+        run: |
+          echo "========================================"
+          echo "PFF FACET HELP"
+          echo "========================================"
           restish pff facet --help
-
-      - name: Build Time to Throw data
-        run: |
-          python scripts/time_to_throw.py
-
-      - name: Inspect Time to Throw fields
-        run: |
-          restish pff signature-passing-time-in-pocket ncaa 2026 1 -p ci > inspect_ttt.json
-          restish pff ref-games ncaa 2026 1 -p ci > inspect_games.json
-
-          python - <<'PY'
-          import json
-
-          with open("inspect_ttt.json") as f:
-              ttt = json.load(f)
-
-          with open("inspect_games.json") as f:
-              games = json.load(f)
-
-          row = ttt["time_in_pockets"][0]
-          game = games["games"][0]
-
-          print("========================================")
-          print("TIME TO THROW FIRST RECORD")
-          print("========================================")
-          print(json.dumps(row, indent=2))
-
-          print("\n========================================")
-          print("GAME FIRST RECORD")
-          print("========================================")
-          print(json.dumps(game, indent=2))
-          PY
-
-      - name: Show generated data
-        run: |
-          echo "Generated file:"
-          ls -lh data/time_to_throw.json
-
-          echo ""
-          echo "First 100 lines:"
-          head -n 100 data/time_to_throw.json
-
-      - name: Commit updated data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add data/time_to_throw.json
-
-          if git diff --cached --quiet; then
-            echo "No data changes to commit."
-          else
-            git commit -m "Update Time to Throw data"
-            git push
-          fi
