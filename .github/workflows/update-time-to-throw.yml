@@ -1,42 +1,44 @@
-      - name: Test PFF FBS defense list
+name: PFF FBS Diagnostic
+
+on:
+  workflow_dispatch:
+
+jobs:
+  inspect-pff:
+    runs-on: ubuntu-latest
+
+    env:
+      PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Restish
         run: |
-          restish pff facet-defense-summary --league ncaa --season 2026 --division fbs -p ci > fbs_defense.json
+          curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
+          tar -xzf restish.tar.gz
+          chmod +x restish
+          sudo mv restish /usr/local/bin/restish
 
-          python - <<'PY'
-          import json
+      - name: Connect Restish to PFF
+        run: |
+          restish api connect pff https://api.pff.com
 
-          with open("fbs_defense.json") as f:
-              data = json.load(f)
+      - name: Configure PFF authentication
+        run: |
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
 
-          rows = data.get("defense_summary", [])
+      - name: Verify authentication
+        run: |
+          restish pff whoami -p ci
 
-          teams = {}
+      - name: Inspect defense summary
+        run: |
+          echo "========================================"
+          echo "DEFENSE SUMMARY HELP"
+          echo "========================================"
 
-          for row in rows:
-              franchise_id = row.get("franchise_id")
-              team = row.get("team")
-              team_name = row.get("team_name")
-
-              if franchise_id is not None:
-                  teams[franchise_id] = {
-                      "team": team,
-                      "team_name": team_name
-                  }
-
-          print("========================================")
-          print("PFF FBS TEAMS")
-          print("========================================")
-          print(f"Player records: {len(rows)}")
-          print(f"Unique franchises: {len(teams)}")
-          print("")
-
-          for franchise_id, info in sorted(
-              teams.items(),
-              key=lambda x: x[1]["team_name"] or ""
-          ):
-              print(
-                  f"{franchise_id}: "
-                  f"{info['team']} - "
-                  f"{info['team_name']}"
-              )
-          PY
+          restish pff facet-defense-summary --help
