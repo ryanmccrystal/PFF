@@ -31,7 +31,7 @@ def slugify(value):
 def build_team_page(team):
 
     team_name = team["team_name"]
-    team_id = team["franchise_id"]
+    team_id = str(team["franchise_id"])
     abbreviation = team["team"]
 
     return f"""<!DOCTYPE html>
@@ -174,7 +174,6 @@ tbody tr:last-child td {{
 </a>
 </div>
 
-
 <h1>{team_name}</h1>
 
 <div class="subtitle">
@@ -184,7 +183,6 @@ Time to Throw
 <div id="teamInfo" class="team-info">
 Loading...
 </div>
-
 
 <div class="section-title">
 Offense
@@ -198,7 +196,6 @@ Offense
 Loading...
 </div>
 </div>
-
 
 <div class="section-title">
 Defense
@@ -287,7 +284,6 @@ Opponent
 
 </tr>
 
-
 <tr>
 
 <th class="bucket-less">
@@ -317,7 +313,6 @@ Sacks
 <th>
 Pressure%
 </th>
-
 
 <th>
 Dropbacks
@@ -351,7 +346,6 @@ Pressure%
 
 </thead>
 
-
 <tbody>
 
 `;
@@ -359,11 +353,8 @@ Pressure%
 
     games.forEach(game => {{
 
-        const less =
-            game.less_2_5;
-
-        const more =
-            game.more_2_5;
+        const less = game.less_2_5;
+        const more = game.more_2_5;
 
 
         html += `
@@ -379,7 +370,6 @@ Week ${{game.week}}
 ${{game.opponent}}
 </b>
 </td>
-
 
 <td class="bucket-less">
 ${{formatNumber(less.dropbacks)}}
@@ -408,7 +398,6 @@ ${{formatNumber(less.sacks)}}
 <td>
 ${{formatPercent(less.pressure_pct)}}
 </td>
-
 
 <td>
 ${{formatNumber(more.dropbacks)}}
@@ -474,21 +463,52 @@ fetch("../data/time_to_throw.json")
 
 }})
 
-
 .then(data => {{
 
+    console.log(
+        "Time to Throw data loaded"
+    );
+
+    console.log(
+        "Team ID:",
+        teamId
+    );
+
+    console.log(
+        "Team name:",
+        teamName
+    );
+
+
+    const gameLogs =
+        data.game_logs || {};
+
+
+    const defenseLogs =
+        gameLogs.defense || {};
+
+
+    const offenseLogs =
+        gameLogs.offense || {};
+
+
     const defenseGames =
-        data.game_logs &&
-        data.game_logs.defense
-            ? data.game_logs.defense[teamId]
-            : [];
+        defenseLogs[String(teamId)] || [];
 
 
     const offenseGames =
-        data.game_logs &&
-        data.game_logs.offense
-            ? data.game_logs.offense[teamId]
-            : [];
+        offenseLogs[String(teamId)] || [];
+
+
+    console.log(
+        "Defense games:",
+        defenseGames.length
+    );
+
+    console.log(
+        "Offense games:",
+        offenseGames.length
+    );
 
 
     const weeks =
@@ -535,10 +555,12 @@ fetch("../data/time_to_throw.json")
 
 }})
 
-
 .catch(error => {{
 
-    console.error(error);
+    console.error(
+        "Time to Throw error:",
+        error
+    );
 
 
     document.getElementById(
@@ -613,8 +635,10 @@ def main():
             + ".html"
         )
 
-        output_file = OUTPUT_DIR / filename
-            
+        output_file = (
+            OUTPUT_DIR / filename
+        )
+
 
         page = build_team_page(team)
 
