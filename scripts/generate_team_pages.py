@@ -32,7 +32,6 @@ def build_team_page(team):
 
     team_name = team["team_name"]
     team_id = str(team["franchise_id"])
-    abbreviation = team["team"]
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -184,6 +183,7 @@ Time to Throw
 Loading...
 </div>
 
+
 <div class="section-title">
 Offense
 </div>
@@ -196,6 +196,7 @@ Offense
 Loading...
 </div>
 </div>
+
 
 <div class="section-title">
 Defense
@@ -216,10 +217,6 @@ Loading...
 <script>
 
 const teamId = "{team_id}";
-
-const teamName = {json.dumps(team_name)};
-
-const abbreviation = {json.dumps(abbreviation)};
 
 
 function formatNumber(value) {{
@@ -284,6 +281,7 @@ Opponent
 
 </tr>
 
+
 <tr>
 
 <th class="bucket-less">
@@ -313,6 +311,7 @@ Sacks
 <th>
 Pressure%
 </th>
+
 
 <th>
 Dropbacks
@@ -346,6 +345,7 @@ Pressure%
 
 </thead>
 
+
 <tbody>
 
 `;
@@ -370,6 +370,7 @@ Week ${{game.week}}
 ${{game.opponent}}
 </b>
 </td>
+
 
 <td class="bucket-less">
 ${{formatNumber(less.dropbacks)}}
@@ -398,6 +399,7 @@ ${{formatNumber(less.sacks)}}
 <td>
 ${{formatPercent(less.pressure_pct)}}
 </td>
+
 
 <td>
 ${{formatNumber(more.dropbacks)}}
@@ -469,27 +471,23 @@ fetch("../data/time_to_throw.json")
         "Time to Throw data loaded"
     );
 
+
     console.log(
         "Team ID:",
         teamId
     );
 
-    console.log(
-        "Team name:",
-        teamName
-    );
-
 
     const gameLogs =
-        data.game_logs || {};
+        data.game_logs || {{}};
 
 
     const defenseLogs =
-        gameLogs.defense || {};
+        gameLogs.defense || {{}};
 
 
     const offenseLogs =
-        gameLogs.offense || {};
+        gameLogs.offense || {{}};
 
 
     const defenseGames =
@@ -504,6 +502,7 @@ fetch("../data/time_to_throw.json")
         "Defense games:",
         defenseGames.length
     );
+
 
     console.log(
         "Offense games:",
@@ -590,6 +589,7 @@ def main():
     print("GENERATING TEAM PAGES")
     print("=" * 50)
 
+
     with DATA_FILE.open(
         "r",
         encoding="utf-8"
@@ -605,6 +605,7 @@ def main():
 
 
     teams = {}
+
 
     for team in data.get("offenses", []):
 
@@ -635,6 +636,7 @@ def main():
             + ".html"
         )
 
+
         output_file = (
             OUTPUT_DIR / filename
         )
@@ -653,15 +655,19 @@ def main():
 
         generated += 1
 
+
         print(
             f"Created: {output_file}"
         )
 
 
     print()
+
+
     print(
         f"Generated {generated} team pages."
     )
+
 
     print("=" * 50)
 
