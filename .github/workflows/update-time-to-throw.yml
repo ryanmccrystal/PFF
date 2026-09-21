@@ -1,3 +1,4 @@
+```yaml
 name: PFF FBS Diagnostic
 
 on:
@@ -35,10 +36,11 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Inspect defense summary
+      - name: Inspect team directory
         run: |
           echo "========================================"
-          echo "DEFENSE SUMMARY HELP"
+          echo "TEAM DIRECTORY"
           echo "========================================"
 
-          restish pff facet-defense-summary --help
+          restish pff team-directory -p ci
+```
