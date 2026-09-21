@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,208 +9,210 @@
 
 <style>
 
-    body {
-        font-family: "Times New Roman", Times, serif;
-        background: #ffffff;
-        color: #111111;
-        margin: 0;
-        padding: 30px 15px;
-    }
+body {
+    font-family: "Times New Roman", Times, serif;
+    background: #ffffff;
+    color: #111111;
+    margin: 0;
+    padding: 30px 15px;
+}
 
-    .container {
-        max-width: 1100px;
-        margin: 0 auto;
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 32px;
+}
+
+.subtitle {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.toggle {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    padding: 7px 16px;
+    border: 1px solid #222;
+    background: #ffffff;
+    color: #111111;
+    cursor: pointer;
+}
+
+.toggle.active {
+    background: #111111;
+    color: #ffffff;
+}
+
+.season-info {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+th {
+    border-top: 2px solid #111111;
+    border-bottom: 1px solid #111111;
+    padding: 7px 6px;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+}
+
+th:hover {
+    background: #eeeeee;
+}
+
+td {
+    padding: 6px;
+    border-bottom: 1px solid #dddddd;
+    text-align: center;
+    white-space: nowrap;
+}
+
+th:first-child,
+td:first-child {
+    text-align: left;
+}
+
+tbody tr:last-child td {
+    border-bottom: 2px solid #111111;
+}
+
+.rank {
+    display: inline-block;
+    width: 28px;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.team {
+    font-weight: bold;
+}
+
+.team-link {
+    color: #111111;
+    text-decoration: none;
+}
+
+.team-link:hover {
+    text-decoration: underline;
+}
+
+.sort-arrow {
+    font-size: 11px;
+    margin-left: 3px;
+}
+
+.loading,
+.error {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 20px 8px;
     }
 
     h1 {
-        text-align: center;
-        margin: 0;
-        font-size: 32px;
-    }
-
-    .subtitle {
-        text-align: center;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        font-size: 16px;
-    }
-
-    .controls {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 8px;
-    }
-
-    .controls:last-of-type {
-        margin-bottom: 15px;
-    }
-
-    .toggle {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 15px;
-        padding: 7px 16px;
-        border: 1px solid #222;
-        background: #ffffff;
-        color: #111111;
-        cursor: pointer;
-    }
-
-    .toggle.active {
-        background: #111111;
-        color: #ffffff;
-    }
-
-    .season-info {
-        text-align: center;
-        font-size: 14px;
-        margin-bottom: 12px;
+        font-size: 26px;
     }
 
     table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 15px;
+        font-size: 13px;
     }
 
-    th {
-        border-top: 2px solid #111111;
-        border-bottom: 1px solid #111111;
-        padding: 7px 6px;
-        text-align: center;
-        white-space: nowrap;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    th:hover {
-        background: #eeeeee;
-    }
-
+    th,
     td {
-        padding: 6px;
-        border-bottom: 1px solid #dddddd;
-        text-align: center;
-        white-space: nowrap;
-    }
-
-    th:first-child,
-    td:first-child {
-        text-align: left;
-    }
-
-    tbody tr:last-child td {
-        border-bottom: 2px solid #111111;
+        padding: 5px 4px;
     }
 
     .rank {
-        display: inline-block;
-        width: 28px;
-        text-align: right;
-        margin-right: 5px;
+        width: 22px;
+        margin-right: 2px;
     }
 
-    .team {
-        font-weight: bold;
+    .toggle {
+        padding: 7px 12px;
     }
-
-    .sort-arrow {
-        font-size: 11px;
-        margin-left: 3px;
-    }
-
-    .loading,
-    .error {
-        text-align: center;
-        margin-top: 30px;
-        font-size: 16px;
-    }
-
-    @media (max-width: 700px) {
-
-        body {
-            padding: 20px 8px;
-        }
-
-        h1 {
-            font-size: 26px;
-        }
-
-        table {
-            font-size: 13px;
-        }
-
-        th,
-        td {
-            padding: 5px 4px;
-        }
-
-        .rank {
-            width: 22px;
-            margin-right: 2px;
-        }
-
-        .toggle {
-            padding: 7px 12px;
-        }
-    }
+}
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Time to Throw</h1>
+<h1>Time to Throw</h1>
 
-    <div class="subtitle">
-        Quarterback performance by time to throw
-    </div>
-
-
-    <!-- OFFENSE / DEFENSE TOGGLE -->
-
-    <div class="controls">
-
-        <button id="defenseButton" class="toggle active">
-            Defense
-        </button>
-
-        <button id="offenseButton" class="toggle">
-            Offense
-        </button>
-
-    </div>
+<div class="subtitle">
+Quarterback performance by time to throw
+</div>
 
 
-    <!-- LESS / MORE TOGGLE -->
+<div class="controls">
 
-    <div class="controls">
+<button id="defenseButton" class="toggle active">
+Defense
+</button>
 
-        <button id="lessButton" class="toggle active">
-            &lt; 2.5 sec
-        </button>
+<button id="offenseButton" class="toggle">
+Offense
+</button>
 
-        <button id="moreButton" class="toggle">
-            2.5+ sec
-        </button>
-
-    </div>
+</div>
 
 
-    <div id="seasonInfo" class="season-info">
-        Loading...
-    </div>
+<div class="controls">
+
+<button id="lessButton" class="toggle active">
+&lt; 2.5 sec
+</button>
+
+<button id="moreButton" class="toggle">
+2.5+ sec
+</button>
+
+</div>
 
 
-    <div id="tableContainer">
+<div id="seasonInfo" class="season-info">
+Loading...
+</div>
 
-        <div class="loading">
-            Loading Time to Throw data...
-        </div>
 
-    </div>
+<div id="tableContainer">
+
+<div class="loading">
+Loading Time to Throw data...
+</div>
+
+</div>
 
 </div>
 
@@ -218,31 +221,12 @@
 
 let data = null;
 
-
-/*
- * Current team type:
- *
- * "defense" = opposing quarterbacks
- * "offense" = team's own quarterbacks
- */
 let currentTeamType = "defense";
 
-
-/*
- * Current time-to-throw bucket:
- *
- * "less_2_5" = less than 2.5 seconds
- * "more_2_5" = 2.5 seconds or more
- */
 let currentMode = "less_2_5";
 
-
-/*
- * Default sort:
- *
- * Dropbacks, highest to lowest
- */
 let sortColumn = "dropbacks";
+
 let sortDirection = "desc";
 
 
@@ -267,15 +251,6 @@ function formatYPA(value) {
 }
 
 
-/*
- * Get the currently selected dataset.
- *
- * Defense:
- *     data.defenses
- *
- * Offense:
- *     data.offenses
- */
 function getCurrentTeams() {
 
     if (currentTeamType === "offense") {
@@ -289,19 +264,28 @@ function getCurrentTeams() {
 }
 
 
-/*
- * Get the % of all dropbacks that occurred
- * in the currently selected time-to-throw bucket.
- */
+function slugify(value) {
+
+    return value
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+}
+
+
 function getPercentOfTotal(team) {
 
-    const lessDropbacks = Number(
-        team.less_2_5.dropbacks || 0
-    );
+    const lessDropbacks =
+        Number(
+            team.less_2_5.dropbacks || 0
+        );
 
-    const moreDropbacks = Number(
-        team.more_2_5.dropbacks || 0
-    );
+    const moreDropbacks =
+        Number(
+            team.more_2_5.dropbacks || 0
+        );
 
     const totalDropbacks =
         lessDropbacks + moreDropbacks;
@@ -313,7 +297,9 @@ function getPercentOfTotal(team) {
     }
 
     const currentDropbacks =
-        Number(team[currentMode].dropbacks || 0);
+        Number(
+            team[currentMode].dropbacks || 0
+        );
 
     return (
         currentDropbacks /
@@ -324,12 +310,10 @@ function getPercentOfTotal(team) {
 }
 
 
-/*
- * Get the value used for sorting.
- */
 function getSortValue(team, column) {
 
-    const stats = team[currentMode];
+    const stats =
+        team[currentMode];
 
     switch (column) {
 
@@ -403,9 +387,6 @@ function getSortValue(team, column) {
 }
 
 
-/*
- * Sort the table.
- */
 function sortTeams(teams) {
 
     teams.sort((a, b) => {
@@ -422,10 +403,6 @@ function sortTeams(teams) {
                 sortColumn
             );
 
-
-        /*
-         * Text sorting
-         */
 
         if (
             typeof aValue === "string" &&
@@ -444,10 +421,6 @@ function sortTeams(teams) {
         }
 
 
-        /*
-         * Numeric sorting
-         */
-
         const comparison =
             aValue - bValue;
 
@@ -462,10 +435,6 @@ function sortTeams(teams) {
 }
 
 
-/*
- * Get the arrow displayed in the
- * currently sorted column.
- */
 function getSortArrow(column) {
 
     if (sortColumn !== column) {
@@ -481,18 +450,9 @@ function getSortArrow(column) {
 }
 
 
-/*
- * Change sorting when a column header
- * is clicked.
- */
 function handleSort(column) {
 
     if (sortColumn === column) {
-
-        /*
-         * Clicking the same column reverses
-         * the sort direction.
-         */
 
         sortDirection =
             sortDirection === "asc"
@@ -501,11 +461,8 @@ function handleSort(column) {
 
     } else {
 
-        /*
-         * A new column starts descending.
-         */
-
         sortColumn = column;
+
         sortDirection = "desc";
 
     }
@@ -515,9 +472,6 @@ function handleSort(column) {
 }
 
 
-/*
- * Render the table.
- */
 function renderTable() {
 
     if (!data) {
@@ -542,64 +496,55 @@ function renderTable() {
 
     let html = `
 
-        <table>
+<table>
 
-            <thead>
+<thead>
 
-                <tr>
+<tr>
 
-                    <th onclick="handleSort('team_name')">
-                        ${teamLabel}${getSortArrow("team_name")}
-                    </th>
+<th onclick="handleSort('team_name')">
+${teamLabel}${getSortArrow("team_name")}
+</th>
 
+<th onclick="handleSort('percent_total')">
+% of Total${getSortArrow("percent_total")}
+</th>
 
-                    <th onclick="handleSort('percent_total')">
-                        % of Total${getSortArrow("percent_total")}
-                    </th>
+<th onclick="handleSort('dropbacks')">
+Dropbacks${getSortArrow("dropbacks")}
+</th>
 
+<th onclick="handleSort('comp_pct')">
+Comp%${getSortArrow("comp_pct")}
+</th>
 
-                    <th onclick="handleSort('dropbacks')">
-                        Dropbacks${getSortArrow("dropbacks")}
-                    </th>
+<th onclick="handleSort('ypa')">
+Yds/Att${getSortArrow("ypa")}
+</th>
 
+<th onclick="handleSort('td')">
+TD${getSortArrow("td")}
+</th>
 
-                    <th onclick="handleSort('comp_pct')">
-                        Comp%${getSortArrow("comp_pct")}
-                    </th>
+<th onclick="handleSort('int')">
+INT${getSortArrow("int")}
+</th>
 
+<th onclick="handleSort('sacks')">
+Sacks${getSortArrow("sacks")}
+</th>
 
-                    <th onclick="handleSort('ypa')">
-                        Yds/Att${getSortArrow("ypa")}
-                    </th>
+<th onclick="handleSort('pressure_pct')">
+Pressure%${getSortArrow("pressure_pct")}
+</th>
 
+</tr>
 
-                    <th onclick="handleSort('td')">
-                        TD${getSortArrow("td")}
-                    </th>
+</thead>
 
+<tbody>
 
-                    <th onclick="handleSort('int')">
-                        INT${getSortArrow("int")}
-                    </th>
-
-
-                    <th onclick="handleSort('sacks')">
-                        Sacks${getSortArrow("sacks")}
-                    </th>
-
-
-                    <th onclick="handleSort('pressure_pct')">
-                        Pressure%${getSortArrow("pressure_pct")}
-                    </th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-    `;
+`;
 
 
     teams.forEach((team, index) => {
@@ -607,97 +552,78 @@ function renderTable() {
         const stats =
             team[currentMode];
 
-
         const percentOfTotal =
             getPercentOfTotal(team);
+
+        const teamSlug =
+            slugify(team.team_name);
 
 
         html += `
 
-            <tr>
+<tr>
 
-                <td>
+<td>
 
-                    <span class="rank">
-                        ${index + 1}.
-                    </span>
+<span class="rank">
+${index + 1}.
+</span>
 
-                    <span class="team">
-                        ${team.team_name}
-                    </span>
+<a
+    class="team team-link"
+    href="teams/${teamSlug}.html"
+>
+${team.team_name}
+</a>
 
-                </td>
+</td>
 
+<td>
+${formatPercent(percentOfTotal)}
+</td>
 
-                <td>
-                    ${formatPercent(
-                        percentOfTotal
-                    )}
-                </td>
+<td>
+${formatNumber(stats.dropbacks)}
+</td>
 
+<td>
+${formatPercent(stats.comp_pct)}
+</td>
 
-                <td>
-                    ${formatNumber(
-                        stats.dropbacks
-                    )}
-                </td>
+<td>
+${formatYPA(stats.ypa)}
+</td>
 
+<td>
+${formatNumber(stats.td)}
+</td>
 
-                <td>
-                    ${formatPercent(
-                        stats.comp_pct
-                    )}
-                </td>
+<td>
+${formatNumber(stats.int)}
+</td>
 
+<td>
+${formatNumber(stats.sacks)}
+</td>
 
-                <td>
-                    ${formatYPA(
-                        stats.ypa
-                    )}
-                </td>
+<td>
+${formatPercent(stats.pressure_pct)}
+</td>
 
+</tr>
 
-                <td>
-                    ${formatNumber(
-                        stats.td
-                    )}
-                </td>
-
-
-                <td>
-                    ${formatNumber(
-                        stats.int
-                    )}
-                </td>
-
-
-                <td>
-                    ${formatNumber(
-                        stats.sacks
-                    )}
-                </td>
-
-
-                <td>
-                    ${formatPercent(
-                        stats.pressure_pct
-                    )}
-                </td>
-
-            </tr>
-
-        `;
+`;
 
     });
 
 
     html += `
 
-            </tbody>
+</tbody>
 
-        </table>
+</table>
 
-    `;
+`;
 
 
     document.getElementById(
@@ -707,29 +633,19 @@ function renderTable() {
 }
 
 
-/*
- * Update the Defense / Offense buttons.
- */
 function updateTeamTypeButtons() {
 
-    const defenseButton =
-        document.getElementById(
-            "defenseButton"
-        );
-
-    const offenseButton =
-        document.getElementById(
-            "offenseButton"
-        );
-
-
-    defenseButton.classList.toggle(
+    document.getElementById(
+        "defenseButton"
+    ).classList.toggle(
         "active",
         currentTeamType === "defense"
     );
 
 
-    offenseButton.classList.toggle(
+    document.getElementById(
+        "offenseButton"
+    ).classList.toggle(
         "active",
         currentTeamType === "offense"
     );
@@ -737,29 +653,19 @@ function updateTeamTypeButtons() {
 }
 
 
-/*
- * Update the <2.5 / 2.5+ buttons.
- */
 function updateTimeButtons() {
 
-    const lessButton =
-        document.getElementById(
-            "lessButton"
-        );
-
-    const moreButton =
-        document.getElementById(
-            "moreButton"
-        );
-
-
-    lessButton.classList.toggle(
+    document.getElementById(
+        "lessButton"
+    ).classList.toggle(
         "active",
         currentMode === "less_2_5"
     );
 
 
-    moreButton.classList.toggle(
+    document.getElementById(
+        "moreButton"
+    ).classList.toggle(
         "active",
         currentMode === "more_2_5"
     );
@@ -767,9 +673,6 @@ function updateTimeButtons() {
 }
 
 
-/*
- * Defense button.
- */
 document.getElementById(
     "defenseButton"
 ).addEventListener(
@@ -786,9 +689,6 @@ document.getElementById(
 );
 
 
-/*
- * Offense button.
- */
 document.getElementById(
     "offenseButton"
 ).addEventListener(
@@ -805,9 +705,6 @@ document.getElementById(
 );
 
 
-/*
- * <2.5 button.
- */
 document.getElementById(
     "lessButton"
 ).addEventListener(
@@ -824,9 +721,6 @@ document.getElementById(
 );
 
 
-/*
- * 2.5+ button.
- */
 document.getElementById(
     "moreButton"
 ).addEventListener(
@@ -843,91 +737,81 @@ document.getElementById(
 );
 
 
-/*
- * Load the JSON data.
- */
 fetch("data/time_to_throw.json")
 
-    .then(response => {
+.then(response => {
 
-        if (!response.ok) {
+    if (!response.ok) {
 
-            throw new Error(
-                "Unable to load Time to Throw data."
-            );
+        throw new Error(
+            "Unable to load Time to Throw data."
+        );
 
-        }
+    }
 
-        return response.json();
+    return response.json();
 
-    })
-
-
-    .then(json => {
-
-        data = json;
+})
 
 
-        /*
-         * Build the season/week information.
-         */
+.then(json => {
 
-        const weeks =
-            json.weeks_processed || [];
+    data = json;
 
+    const weeks =
+        json.weeks_processed || [];
 
-        let weekText = "";
-
-
-        if (weeks.length === 1) {
-
-            weekText =
-                `Week ${weeks[0]}`;
-
-        } else if (weeks.length > 1) {
-
-            weekText =
-                `Weeks ${weeks[0]}–${weeks[weeks.length - 1]}`;
-
-        } else {
-
-            weekText =
-                "No weeks available";
-
-        }
+    let weekText = "";
 
 
-        document.getElementById(
-            "seasonInfo"
-        ).textContent =
-            `${json.season} • ${weekText} • FBS vs FBS`;
+    if (weeks.length === 1) {
+
+        weekText =
+            `Week ${weeks[0]}`;
+
+    } else if (weeks.length > 1) {
+
+        weekText =
+            `Weeks ${weeks[0]}–${weeks[weeks.length - 1]}`;
+
+    } else {
+
+        weekText =
+            "No weeks available";
+
+    }
 
 
-        updateTeamTypeButtons();
-
-        updateTimeButtons();
-
-        renderTable();
-
-    })
+    document.getElementById(
+        "seasonInfo"
+    ).textContent =
+        `${json.season} • ${weekText} • FBS vs FBS`;
 
 
-    .catch(error => {
+    updateTeamTypeButtons();
 
-        console.error(error);
+    updateTimeButtons();
+
+    renderTable();
+
+})
 
 
-        document.getElementById(
-            "tableContainer"
-        ).innerHTML = `
+.catch(error => {
 
-            <div class="error">
-                Unable to load Time to Throw data.
-            </div>
+    console.error(error);
 
-        `;
+    document.getElementById(
+        "tableContainer"
+    ).innerHTML = `
 
-    });
+<div class="error">
+Unable to load Time to Throw data.
+</div>
+
+`;
+
+});
 
 </script>
 
