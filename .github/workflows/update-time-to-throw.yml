@@ -1,10 +1,10 @@
-name: PFF FBS Diagnostic
+name: Update PFF Time to Throw
 
 on:
   workflow_dispatch:
 
 jobs:
-  inspect-pff:
+  update-time-to-throw:
     runs-on: ubuntu-latest
 
     env:
@@ -35,10 +35,32 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Inspect team directory
+      - name: Build Time to Throw data
+        run: |
+          python scripts/time_to_throw.py
+
+      - name: Show generated data
         run: |
           echo "========================================"
-          echo "TEAM DIRECTORY"
+          echo "GENERATED DATA"
           echo "========================================"
 
-          restish pff team-directory ncaa -p ci
+          ls -lh data/time_to_throw.json
+
+          echo ""
+          echo "First 100 lines:"
+          head -n 100 data/time_to_throw.json
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/time_to_throw.json
+
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update Time to Throw data"
+            git push
+          fi
