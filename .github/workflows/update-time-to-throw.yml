@@ -35,19 +35,10 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Inspect defense summary
-        run: |
-          echo "========================================"
-          echo "DEFENSE SUMMARY HELP"
-          echo "========================================"
-
-          restish pff facet-defense-summary --help
-
       - name: Inspect team directory
         run: |
           echo "========================================"
           echo "TEAM DIRECTORY"
           echo "========================================"
 
-          restish pff team-directory -p ci
-
+          restish pff team-directory ncaa -p ci
