@@ -12,7 +12,7 @@
     "less_than_2_5": "< 2.5 seconds",
     "more_than_or_equal_2_5": "2.5 seconds or more"
   },
-  "teams": [
+  "defenses": [
     {
       "franchise_id": 101,
       "team": "AF",
@@ -948,19 +948,19 @@
         2,
         3
       ],
-      "qbs": 4,
+      "qbs": 5,
       "less_2_5": {
-        "dropbacks": 59,
-        "attempts": 59,
-        "completions": 47,
-        "yards": 397,
-        "comp_pct": 79.7,
-        "ypa": 6.7,
+        "dropbacks": 60,
+        "attempts": 60,
+        "completions": 48,
+        "yards": 409,
+        "comp_pct": 80.0,
+        "ypa": 6.8,
         "td": 2,
         "int": 2,
         "sacks": 0,
-        "pressures": 5,
-        "pressure_pct": 8.5
+        "pressures": 6,
+        "pressure_pct": 10.0
       },
       "more_2_5": {
         "dropbacks": 39,
@@ -1161,8 +1161,8 @@
         "td": 3,
         "int": 1,
         "sacks": 9,
-        "pressures": 34,
-        "pressure_pct": 61.8
+        "pressures": 31,
+        "pressure_pct": 56.4
       }
     },
     {
@@ -5158,10 +5158,5157 @@
       }
     }
   ],
+  "offenses": [
+    {
+      "franchise_id": 101,
+      "team": "AF",
+      "team_name": "Air Force",
+      "games": 1,
+      "weeks": [
+        2
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 3,
+        "attempts": 3,
+        "completions": 2,
+        "yards": 27,
+        "comp_pct": 66.7,
+        "ypa": 9.0,
+        "td": 0,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 1,
+        "pressure_pct": 33.3
+      },
+      "more_2_5": {
+        "dropbacks": 19,
+        "attempts": 12,
+        "completions": 7,
+        "yards": 152,
+        "comp_pct": 58.3,
+        "ypa": 12.7,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 10,
+        "pressure_pct": 52.6
+      }
+    },
+    {
+      "franchise_id": 102,
+      "team": "AKR",
+      "team_name": "Akron",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 45,
+        "attempts": 45,
+        "completions": 36,
+        "yards": 210,
+        "comp_pct": 80.0,
+        "ypa": 4.7,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 17.8
+      },
+      "more_2_5": {
+        "dropbacks": 38,
+        "attempts": 27,
+        "completions": 13,
+        "yards": 119,
+        "comp_pct": 48.1,
+        "ypa": 4.4,
+        "td": 0,
+        "int": 0,
+        "sacks": 4,
+        "pressures": 21,
+        "pressure_pct": 55.3
+      }
+    },
+    {
+      "franchise_id": 103,
+      "team": "BAMA",
+      "team_name": "Alabama",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 44,
+        "attempts": 41,
+        "completions": 32,
+        "yards": 337,
+        "comp_pct": 78.0,
+        "ypa": 8.2,
+        "td": 4,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 4,
+        "pressure_pct": 9.1
+      },
+      "more_2_5": {
+        "dropbacks": 59,
+        "attempts": 45,
+        "completions": 26,
+        "yards": 431,
+        "comp_pct": 57.8,
+        "ypa": 9.6,
+        "td": 0,
+        "int": 1,
+        "sacks": 3,
+        "pressures": 29,
+        "pressure_pct": 49.2
+      }
+    },
+    {
+      "franchise_id": 108,
+      "team": "APP",
+      "team_name": "Appalachian State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 30,
+        "attempts": 30,
+        "completions": 24,
+        "yards": 177,
+        "comp_pct": 80.0,
+        "ypa": 5.9,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 20.0
+      },
+      "more_2_5": {
+        "dropbacks": 45,
+        "attempts": 41,
+        "completions": 25,
+        "yards": 440,
+        "comp_pct": 61.0,
+        "ypa": 10.7,
+        "td": 0,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 13,
+        "pressure_pct": 28.9
+      }
+    },
+    {
+      "franchise_id": 109,
+      "team": "ARIZ",
+      "team_name": "Arizona",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 30,
+        "attempts": 30,
+        "completions": 23,
+        "yards": 176,
+        "comp_pct": 76.7,
+        "ypa": 5.9,
+        "td": 0,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 16.7
+      },
+      "more_2_5": {
+        "dropbacks": 52,
+        "attempts": 37,
+        "completions": 31,
+        "yards": 412,
+        "comp_pct": 83.8,
+        "ypa": 11.1,
+        "td": 5,
+        "int": 1,
+        "sacks": 8,
+        "pressures": 17,
+        "pressure_pct": 32.7
+      }
+    },
+    {
+      "franchise_id": 110,
+      "team": "ASU",
+      "team_name": "Arizona State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 39,
+        "attempts": 39,
+        "completions": 26,
+        "yards": 212,
+        "comp_pct": 66.7,
+        "ypa": 5.4,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 9,
+        "pressure_pct": 23.1
+      },
+      "more_2_5": {
+        "dropbacks": 26,
+        "attempts": 18,
+        "completions": 6,
+        "yards": 132,
+        "comp_pct": 33.3,
+        "ypa": 7.3,
+        "td": 1,
+        "int": 1,
+        "sacks": 3,
+        "pressures": 16,
+        "pressure_pct": 61.5
+      }
+    },
+    {
+      "franchise_id": 111,
+      "team": "ARK",
+      "team_name": "Arkansas",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 42,
+        "attempts": 39,
+        "completions": 25,
+        "yards": 209,
+        "comp_pct": 64.1,
+        "ypa": 5.4,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 9,
+        "pressure_pct": 21.4
+      },
+      "more_2_5": {
+        "dropbacks": 59,
+        "attempts": 52,
+        "completions": 26,
+        "yards": 318,
+        "comp_pct": 50.0,
+        "ypa": 6.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 22,
+        "pressure_pct": 37.3
+      }
+    },
+    {
+      "franchise_id": 113,
+      "team": "ARST",
+      "team_name": "Arkansas State",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 23,
+        "attempts": 22,
+        "completions": 18,
+        "yards": 120,
+        "comp_pct": 81.8,
+        "ypa": 5.5,
+        "td": 0,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 2,
+        "pressure_pct": 8.7
+      },
+      "more_2_5": {
+        "dropbacks": 39,
+        "attempts": 32,
+        "completions": 14,
+        "yards": 338,
+        "comp_pct": 43.8,
+        "ypa": 10.6,
+        "td": 1,
+        "int": 3,
+        "sacks": 4,
+        "pressures": 13,
+        "pressure_pct": 33.3
+      }
+    },
+    {
+      "franchise_id": 114,
+      "team": "ARMY",
+      "team_name": "Army",
+      "games": 1,
+      "weeks": [
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 3,
+        "attempts": 3,
+        "completions": 3,
+        "yards": 12,
+        "comp_pct": 100.0,
+        "ypa": 4.0,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 0,
+        "pressure_pct": 0.0
+      },
+      "more_2_5": {
+        "dropbacks": 11,
+        "attempts": 8,
+        "completions": 7,
+        "yards": 104,
+        "comp_pct": 87.5,
+        "ypa": 13.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 4,
+        "pressure_pct": 36.4
+      }
+    },
+    {
+      "franchise_id": 115,
+      "team": "AUB",
+      "team_name": "Auburn",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 41,
+        "attempts": 40,
+        "completions": 32,
+        "yards": 232,
+        "comp_pct": 80.0,
+        "ypa": 5.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 3,
+        "pressure_pct": 7.3
+      },
+      "more_2_5": {
+        "dropbacks": 89,
+        "attempts": 64,
+        "completions": 35,
+        "yards": 568,
+        "comp_pct": 54.7,
+        "ypa": 8.9,
+        "td": 6,
+        "int": 4,
+        "sacks": 15,
+        "pressures": 39,
+        "pressure_pct": 43.8
+      }
+    },
+    {
+      "franchise_id": 117,
+      "team": "BALL",
+      "team_name": "Ball State",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 35,
+        "attempts": 35,
+        "completions": 21,
+        "yards": 144,
+        "comp_pct": 60.0,
+        "ypa": 4.1,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 5.7
+      },
+      "more_2_5": {
+        "dropbacks": 33,
+        "attempts": 23,
+        "completions": 9,
+        "yards": 69,
+        "comp_pct": 39.1,
+        "ypa": 3.0,
+        "td": 0,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 18,
+        "pressure_pct": 54.5
+      }
+    },
+    {
+      "franchise_id": 118,
+      "team": "BAY",
+      "team_name": "Baylor",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 51,
+        "attempts": 49,
+        "completions": 31,
+        "yards": 284,
+        "comp_pct": 63.3,
+        "ypa": 5.8,
+        "td": 2,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 9,
+        "pressure_pct": 17.6
+      },
+      "more_2_5": {
+        "dropbacks": 32,
+        "attempts": 28,
+        "completions": 16,
+        "yards": 302,
+        "comp_pct": 57.1,
+        "ypa": 10.8,
+        "td": 3,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 14,
+        "pressure_pct": 43.8
+      }
+    },
+    {
+      "franchise_id": 120,
+      "team": "BSU",
+      "team_name": "Boise State",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 31,
+        "attempts": 31,
+        "completions": 21,
+        "yards": 216,
+        "comp_pct": 67.7,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 16.1
+      },
+      "more_2_5": {
+        "dropbacks": 33,
+        "attempts": 26,
+        "completions": 11,
+        "yards": 186,
+        "comp_pct": 42.3,
+        "ypa": 7.2,
+        "td": 2,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 18,
+        "pressure_pct": 54.5
+      }
+    },
+    {
+      "franchise_id": 121,
+      "team": "BC",
+      "team_name": "Boston College",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 29,
+        "attempts": 29,
+        "completions": 23,
+        "yards": 190,
+        "comp_pct": 79.3,
+        "ypa": 6.6,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 0,
+        "pressure_pct": 0.0
+      },
+      "more_2_5": {
+        "dropbacks": 59,
+        "attempts": 35,
+        "completions": 13,
+        "yards": 284,
+        "comp_pct": 37.1,
+        "ypa": 8.1,
+        "td": 2,
+        "int": 3,
+        "sacks": 5,
+        "pressures": 34,
+        "pressure_pct": 57.6
+      }
+    },
+    {
+      "franchise_id": 122,
+      "team": "BGSU",
+      "team_name": "Bowling Green",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 15,
+        "attempts": 15,
+        "completions": 11,
+        "yards": 105,
+        "comp_pct": 73.3,
+        "ypa": 7.0,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 26.7
+      },
+      "more_2_5": {
+        "dropbacks": 26,
+        "attempts": 24,
+        "completions": 8,
+        "yards": 75,
+        "comp_pct": 33.3,
+        "ypa": 3.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 16,
+        "pressure_pct": 61.5
+      }
+    },
+    {
+      "franchise_id": 126,
+      "team": "BUFF",
+      "team_name": "Buffalo",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 46,
+        "attempts": 45,
+        "completions": 25,
+        "yards": 223,
+        "comp_pct": 55.6,
+        "ypa": 5.0,
+        "td": 1,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 16,
+        "pressure_pct": 34.8
+      },
+      "more_2_5": {
+        "dropbacks": 25,
+        "attempts": 21,
+        "completions": 7,
+        "yards": 93,
+        "comp_pct": 33.3,
+        "ypa": 4.4,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 15,
+        "pressure_pct": 60.0
+      }
+    },
+    {
+      "franchise_id": 128,
+      "team": "BYU",
+      "team_name": "BYU",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 31,
+        "attempts": 31,
+        "completions": 20,
+        "yards": 217,
+        "comp_pct": 64.5,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 9.7
+      },
+      "more_2_5": {
+        "dropbacks": 13,
+        "attempts": 12,
+        "completions": 8,
+        "yards": 227,
+        "comp_pct": 66.7,
+        "ypa": 18.9,
+        "td": 1,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 38.5
+      }
+    },
+    {
+      "franchise_id": 130,
+      "team": "CAL",
+      "team_name": "California",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 42,
+        "attempts": 40,
+        "completions": 28,
+        "yards": 126,
+        "comp_pct": 70.0,
+        "ypa": 3.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 4,
+        "pressure_pct": 9.5
+      },
+      "more_2_5": {
+        "dropbacks": 44,
+        "attempts": 41,
+        "completions": 19,
+        "yards": 347,
+        "comp_pct": 46.3,
+        "ypa": 8.5,
+        "td": 3,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 17,
+        "pressure_pct": 38.6
+      }
+    },
+    {
+      "franchise_id": 134,
+      "team": "CMU",
+      "team_name": "Central Michigan",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 12,
+        "attempts": 11,
+        "completions": 8,
+        "yards": 42,
+        "comp_pct": 72.7,
+        "ypa": 3.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 4,
+        "pressure_pct": 33.3
+      },
+      "more_2_5": {
+        "dropbacks": 18,
+        "attempts": 12,
+        "completions": 3,
+        "yards": 20,
+        "comp_pct": 25.0,
+        "ypa": 1.7,
+        "td": 0,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 10,
+        "pressure_pct": 55.6
+      }
+    },
+    {
+      "franchise_id": 136,
+      "team": "CHAR",
+      "team_name": "Charlotte",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 43,
+        "attempts": 43,
+        "completions": 30,
+        "yards": 222,
+        "comp_pct": 69.8,
+        "ypa": 5.2,
+        "td": 0,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 7,
+        "pressure_pct": 16.3
+      },
+      "more_2_5": {
+        "dropbacks": 25,
+        "attempts": 20,
+        "completions": 12,
+        "yards": 168,
+        "comp_pct": 60.0,
+        "ypa": 8.4,
+        "td": 0,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 10,
+        "pressure_pct": 40.0
+      }
+    },
+    {
+      "franchise_id": 138,
+      "team": "CIN",
+      "team_name": "Cincinnati",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 25,
+        "attempts": 25,
+        "completions": 22,
+        "yards": 142,
+        "comp_pct": 88.0,
+        "ypa": 5.7,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 0,
+        "pressure_pct": 0.0
+      },
+      "more_2_5": {
+        "dropbacks": 46,
+        "attempts": 33,
+        "completions": 20,
+        "yards": 250,
+        "comp_pct": 60.6,
+        "ypa": 7.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 4,
+        "pressures": 14,
+        "pressure_pct": 30.4
+      }
+    },
+    {
+      "franchise_id": 140,
+      "team": "CLEM",
+      "team_name": "Clemson",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 53,
+        "attempts": 52,
+        "completions": 39,
+        "yards": 298,
+        "comp_pct": 75.0,
+        "ypa": 5.7,
+        "td": 0,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 7,
+        "pressure_pct": 13.2
+      },
+      "more_2_5": {
+        "dropbacks": 51,
+        "attempts": 33,
+        "completions": 15,
+        "yards": 216,
+        "comp_pct": 45.5,
+        "ypa": 6.5,
+        "td": 2,
+        "int": 2,
+        "sacks": 10,
+        "pressures": 26,
+        "pressure_pct": 51.0
+      }
+    },
+    {
+      "franchise_id": 141,
+      "team": "CCAR",
+      "team_name": "Coastal Carolina",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 31,
+        "attempts": 31,
+        "completions": 19,
+        "yards": 254,
+        "comp_pct": 61.3,
+        "ypa": 8.2,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 12.9
+      },
+      "more_2_5": {
+        "dropbacks": 52,
+        "attempts": 33,
+        "completions": 18,
+        "yards": 355,
+        "comp_pct": 54.5,
+        "ypa": 10.8,
+        "td": 5,
+        "int": 0,
+        "sacks": 8,
+        "pressures": 32,
+        "pressure_pct": 61.5
+      }
+    },
+    {
+      "franchise_id": 143,
+      "team": "COLO",
+      "team_name": "Colorado",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 32,
+        "attempts": 32,
+        "completions": 23,
+        "yards": 182,
+        "comp_pct": 71.9,
+        "ypa": 5.7,
+        "td": 1,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 12.5
+      },
+      "more_2_5": {
+        "dropbacks": 28,
+        "attempts": 24,
+        "completions": 10,
+        "yards": 110,
+        "comp_pct": 41.7,
+        "ypa": 4.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 9,
+        "pressure_pct": 32.1
+      }
+    },
+    {
+      "franchise_id": 144,
+      "team": "CSU",
+      "team_name": "Colorado State",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 4,
+      "less_2_5": {
+        "dropbacks": 55,
+        "attempts": 54,
+        "completions": 37,
+        "yards": 265,
+        "comp_pct": 68.5,
+        "ypa": 4.9,
+        "td": 4,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 9.1
+      },
+      "more_2_5": {
+        "dropbacks": 26,
+        "attempts": 21,
+        "completions": 12,
+        "yards": 201,
+        "comp_pct": 57.1,
+        "ypa": 9.6,
+        "td": 3,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 9,
+        "pressure_pct": 34.6
+      }
+    },
+    {
+      "franchise_id": 146,
+      "team": "CONN",
+      "team_name": "Connecticut",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 22,
+        "attempts": 21,
+        "completions": 15,
+        "yards": 100,
+        "comp_pct": 71.4,
+        "ypa": 4.8,
+        "td": 1,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 1,
+        "pressure_pct": 4.5
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 26,
+        "completions": 13,
+        "yards": 279,
+        "comp_pct": 50.0,
+        "ypa": 10.7,
+        "td": 3,
+        "int": 0,
+        "sacks": 6,
+        "pressures": 22,
+        "pressure_pct": 59.5
+      }
+    },
+    {
+      "franchise_id": 151,
+      "team": "DEL",
+      "team_name": "Delaware",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 43,
+        "attempts": 40,
+        "completions": 25,
+        "yards": 240,
+        "comp_pct": 62.5,
+        "ypa": 6.0,
+        "td": 1,
+        "int": 2,
+        "sacks": 3,
+        "pressures": 10,
+        "pressure_pct": 23.3
+      },
+      "more_2_5": {
+        "dropbacks": 34,
+        "attempts": 25,
+        "completions": 16,
+        "yards": 302,
+        "comp_pct": 64.0,
+        "ypa": 12.1,
+        "td": 2,
+        "int": 0,
+        "sacks": 5,
+        "pressures": 21,
+        "pressure_pct": 61.8
+      }
+    },
+    {
+      "franchise_id": 154,
+      "team": "DUKE",
+      "team_name": "Duke",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 39,
+        "attempts": 38,
+        "completions": 23,
+        "yards": 223,
+        "comp_pct": 60.5,
+        "ypa": 5.9,
+        "td": 4,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 7.7
+      },
+      "more_2_5": {
+        "dropbacks": 39,
+        "attempts": 35,
+        "completions": 19,
+        "yards": 316,
+        "comp_pct": 54.3,
+        "ypa": 9.0,
+        "td": 0,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 14,
+        "pressure_pct": 35.9
+      }
+    },
+    {
+      "franchise_id": 156,
+      "team": "ECU",
+      "team_name": "East Carolina",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 49,
+        "attempts": 47,
+        "completions": 28,
+        "yards": 281,
+        "comp_pct": 59.6,
+        "ypa": 6.0,
+        "td": 2,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 11,
+        "pressure_pct": 22.4
+      },
+      "more_2_5": {
+        "dropbacks": 43,
+        "attempts": 30,
+        "completions": 15,
+        "yards": 225,
+        "comp_pct": 50.0,
+        "ypa": 7.5,
+        "td": 2,
+        "int": 1,
+        "sacks": 5,
+        "pressures": 25,
+        "pressure_pct": 58.1
+      }
+    },
+    {
+      "franchise_id": 160,
+      "team": "EMU",
+      "team_name": "Eastern Michigan",
+      "games": 4,
+      "weeks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 90,
+        "attempts": 89,
+        "completions": 61,
+        "yards": 426,
+        "comp_pct": 68.5,
+        "ypa": 4.8,
+        "td": 1,
+        "int": 3,
+        "sacks": 1,
+        "pressures": 14,
+        "pressure_pct": 15.6
+      },
+      "more_2_5": {
+        "dropbacks": 62,
+        "attempts": 49,
+        "completions": 24,
+        "yards": 304,
+        "comp_pct": 49.0,
+        "ypa": 6.2,
+        "td": 3,
+        "int": 0,
+        "sacks": 7,
+        "pressures": 30,
+        "pressure_pct": 48.4
+      }
+    },
+    {
+      "franchise_id": 163,
+      "team": "UF",
+      "team_name": "Florida",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 24,
+        "attempts": 24,
+        "completions": 20,
+        "yards": 247,
+        "comp_pct": 83.3,
+        "ypa": 10.3,
+        "td": 3,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 8.3
+      },
+      "more_2_5": {
+        "dropbacks": 33,
+        "attempts": 25,
+        "completions": 16,
+        "yards": 348,
+        "comp_pct": 64.0,
+        "ypa": 13.9,
+        "td": 2,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 20,
+        "pressure_pct": 60.6
+      }
+    },
+    {
+      "franchise_id": 165,
+      "team": "FAU",
+      "team_name": "Florida Atlantic",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 82,
+        "attempts": 82,
+        "completions": 60,
+        "yards": 488,
+        "comp_pct": 73.2,
+        "ypa": 6.0,
+        "td": 3,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 7.3
+      },
+      "more_2_5": {
+        "dropbacks": 53,
+        "attempts": 41,
+        "completions": 26,
+        "yards": 376,
+        "comp_pct": 63.4,
+        "ypa": 9.2,
+        "td": 3,
+        "int": 0,
+        "sacks": 8,
+        "pressures": 25,
+        "pressure_pct": 47.2
+      }
+    },
+    {
+      "franchise_id": 166,
+      "team": "FIU",
+      "team_name": "Florida International",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 64,
+        "attempts": 64,
+        "completions": 47,
+        "yards": 575,
+        "comp_pct": 73.4,
+        "ypa": 9.0,
+        "td": 3,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 17,
+        "pressure_pct": 26.6
+      },
+      "more_2_5": {
+        "dropbacks": 76,
+        "attempts": 66,
+        "completions": 28,
+        "yards": 374,
+        "comp_pct": 42.4,
+        "ypa": 5.7,
+        "td": 2,
+        "int": 4,
+        "sacks": 2,
+        "pressures": 36,
+        "pressure_pct": 47.4
+      }
+    },
+    {
+      "franchise_id": 167,
+      "team": "FSU",
+      "team_name": "Florida State",
+      "games": 3,
+      "weeks": [
+        0,
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 24,
+        "attempts": 24,
+        "completions": 17,
+        "yards": 194,
+        "comp_pct": 70.8,
+        "ypa": 8.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 16.7
+      },
+      "more_2_5": {
+        "dropbacks": 75,
+        "attempts": 54,
+        "completions": 28,
+        "yards": 510,
+        "comp_pct": 51.9,
+        "ypa": 9.4,
+        "td": 3,
+        "int": 3,
+        "sacks": 7,
+        "pressures": 38,
+        "pressure_pct": 50.7
+      }
+    },
+    {
+      "franchise_id": 169,
+      "team": "FRES",
+      "team_name": "Fresno State",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 47,
+        "attempts": 47,
+        "completions": 36,
+        "yards": 378,
+        "comp_pct": 76.6,
+        "ypa": 8.0,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 14,
+        "pressure_pct": 29.8
+      },
+      "more_2_5": {
+        "dropbacks": 38,
+        "attempts": 28,
+        "completions": 12,
+        "yards": 234,
+        "comp_pct": 42.9,
+        "ypa": 8.4,
+        "td": 1,
+        "int": 0,
+        "sacks": 4,
+        "pressures": 22,
+        "pressure_pct": 57.9
+      }
+    },
+    {
+      "franchise_id": 173,
+      "team": "UGA",
+      "team_name": "Georgia",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 24,
+        "attempts": 24,
+        "completions": 20,
+        "yards": 235,
+        "comp_pct": 83.3,
+        "ypa": 9.8,
+        "td": 5,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 8.3
+      },
+      "more_2_5": {
+        "dropbacks": 31,
+        "attempts": 22,
+        "completions": 13,
+        "yards": 234,
+        "comp_pct": 59.1,
+        "ypa": 10.6,
+        "td": 2,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 13,
+        "pressure_pct": 41.9
+      }
+    },
+    {
+      "franchise_id": 174,
+      "team": "GASO",
+      "team_name": "Georgia Southern",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 55,
+        "attempts": 55,
+        "completions": 36,
+        "yards": 249,
+        "comp_pct": 65.5,
+        "ypa": 4.5,
+        "td": 0,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 10.9
+      },
+      "more_2_5": {
+        "dropbacks": 33,
+        "attempts": 26,
+        "completions": 14,
+        "yards": 182,
+        "comp_pct": 53.8,
+        "ypa": 7.0,
+        "td": 1,
+        "int": 0,
+        "sacks": 4,
+        "pressures": 12,
+        "pressure_pct": 36.4
+      }
+    },
+    {
+      "franchise_id": 175,
+      "team": "GAST",
+      "team_name": "Georgia State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 39,
+        "attempts": 39,
+        "completions": 29,
+        "yards": 243,
+        "comp_pct": 74.4,
+        "ypa": 6.2,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 12.8
+      },
+      "more_2_5": {
+        "dropbacks": 40,
+        "attempts": 33,
+        "completions": 17,
+        "yards": 292,
+        "comp_pct": 51.5,
+        "ypa": 8.8,
+        "td": 0,
+        "int": 3,
+        "sacks": 2,
+        "pressures": 17,
+        "pressure_pct": 42.5
+      }
+    },
+    {
+      "franchise_id": 176,
+      "team": "GT",
+      "team_name": "Georgia Tech",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 44,
+        "attempts": 42,
+        "completions": 31,
+        "yards": 265,
+        "comp_pct": 73.8,
+        "ypa": 6.3,
+        "td": 1,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 6,
+        "pressure_pct": 13.6
+      },
+      "more_2_5": {
+        "dropbacks": 26,
+        "attempts": 21,
+        "completions": 12,
+        "yards": 193,
+        "comp_pct": 57.1,
+        "ypa": 9.2,
+        "td": 0,
+        "int": 0,
+        "sacks": 5,
+        "pressures": 17,
+        "pressure_pct": 65.4
+      }
+    },
+    {
+      "franchise_id": 180,
+      "team": "HAW",
+      "team_name": "Hawaii",
+      "games": 3,
+      "weeks": [
+        0,
+        1,
+        2
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 84,
+        "attempts": 83,
+        "completions": 58,
+        "yards": 389,
+        "comp_pct": 69.9,
+        "ypa": 4.7,
+        "td": 1,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 9,
+        "pressure_pct": 10.7
+      },
+      "more_2_5": {
+        "dropbacks": 75,
+        "attempts": 60,
+        "completions": 26,
+        "yards": 418,
+        "comp_pct": 43.3,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 8,
+        "pressures": 42,
+        "pressure_pct": 56.0
+      }
+    },
+    {
+      "franchise_id": 182,
+      "team": "HOU",
+      "team_name": "Houston",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 39,
+        "attempts": 39,
+        "completions": 29,
+        "yards": 359,
+        "comp_pct": 74.4,
+        "ypa": 9.2,
+        "td": 4,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 20.5
+      },
+      "more_2_5": {
+        "dropbacks": 39,
+        "attempts": 30,
+        "completions": 18,
+        "yards": 228,
+        "comp_pct": 60.0,
+        "ypa": 7.6,
+        "td": 0,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 18,
+        "pressure_pct": 46.2
+      }
+    },
+    {
+      "franchise_id": 187,
+      "team": "ILL",
+      "team_name": "Illinois",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 28,
+        "attempts": 28,
+        "completions": 25,
+        "yards": 250,
+        "comp_pct": 89.3,
+        "ypa": 8.9,
+        "td": 3,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 0,
+        "pressure_pct": 0.0
+      },
+      "more_2_5": {
+        "dropbacks": 30,
+        "attempts": 24,
+        "completions": 12,
+        "yards": 203,
+        "comp_pct": 50.0,
+        "ypa": 8.5,
+        "td": 3,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 9,
+        "pressure_pct": 30.0
+      }
+    },
+    {
+      "franchise_id": 190,
+      "team": "IND",
+      "team_name": "Indiana",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 29,
+        "attempts": 29,
+        "completions": 26,
+        "yards": 339,
+        "comp_pct": 89.7,
+        "ypa": 11.7,
+        "td": 5,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 6.9
+      },
+      "more_2_5": {
+        "dropbacks": 15,
+        "attempts": 12,
+        "completions": 6,
+        "yards": 172,
+        "comp_pct": 50.0,
+        "ypa": 14.3,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 4,
+        "pressure_pct": 26.7
+      }
+    },
+    {
+      "franchise_id": 192,
+      "team": "IOWA",
+      "team_name": "Iowa",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 36,
+        "attempts": 36,
+        "completions": 22,
+        "yards": 165,
+        "comp_pct": 61.1,
+        "ypa": 4.6,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 11.1
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 34,
+        "completions": 20,
+        "yards": 244,
+        "comp_pct": 58.8,
+        "ypa": 7.2,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 10,
+        "pressure_pct": 27.0
+      }
+    },
+    {
+      "franchise_id": 193,
+      "team": "ISU",
+      "team_name": "Iowa State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 21,
+        "attempts": 21,
+        "completions": 14,
+        "yards": 131,
+        "comp_pct": 66.7,
+        "ypa": 6.2,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 0,
+        "pressure_pct": 0.0
+      },
+      "more_2_5": {
+        "dropbacks": 22,
+        "attempts": 16,
+        "completions": 8,
+        "yards": 128,
+        "comp_pct": 50.0,
+        "ypa": 8.0,
+        "td": 0,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 9,
+        "pressure_pct": 40.9
+      }
+    },
+    {
+      "franchise_id": 196,
+      "team": "JVST",
+      "team_name": "Jacksonville State",
+      "games": 3,
+      "weeks": [
+        0,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 44,
+        "attempts": 44,
+        "completions": 35,
+        "yards": 283,
+        "comp_pct": 79.5,
+        "ypa": 6.4,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 9.1
+      },
+      "more_2_5": {
+        "dropbacks": 42,
+        "attempts": 29,
+        "completions": 14,
+        "yards": 276,
+        "comp_pct": 48.3,
+        "ypa": 9.5,
+        "td": 1,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 14,
+        "pressure_pct": 33.3
+      }
+    },
+    {
+      "franchise_id": 197,
+      "team": "JMU",
+      "team_name": "James Madison",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 25,
+        "attempts": 25,
+        "completions": 17,
+        "yards": 147,
+        "comp_pct": 68.0,
+        "ypa": 5.9,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 8.0
+      },
+      "more_2_5": {
+        "dropbacks": 24,
+        "attempts": 16,
+        "completions": 11,
+        "yards": 165,
+        "comp_pct": 68.8,
+        "ypa": 10.3,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 11,
+        "pressure_pct": 45.8
+      }
+    },
+    {
+      "franchise_id": 198,
+      "team": "KU",
+      "team_name": "Kansas",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 21,
+        "attempts": 21,
+        "completions": 14,
+        "yards": 117,
+        "comp_pct": 66.7,
+        "ypa": 5.6,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 1,
+        "pressure_pct": 4.8
+      },
+      "more_2_5": {
+        "dropbacks": 53,
+        "attempts": 43,
+        "completions": 17,
+        "yards": 292,
+        "comp_pct": 39.5,
+        "ypa": 6.8,
+        "td": 1,
+        "int": 2,
+        "sacks": 5,
+        "pressures": 30,
+        "pressure_pct": 56.6
+      }
+    },
+    {
+      "franchise_id": 199,
+      "team": "KSU",
+      "team_name": "Kansas State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 32,
+        "attempts": 32,
+        "completions": 23,
+        "yards": 148,
+        "comp_pct": 71.9,
+        "ypa": 4.6,
+        "td": 1,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 6.2
+      },
+      "more_2_5": {
+        "dropbacks": 38,
+        "attempts": 30,
+        "completions": 20,
+        "yards": 271,
+        "comp_pct": 66.7,
+        "ypa": 9.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 13.2
+      }
+    },
+    {
+      "franchise_id": 200,
+      "team": "KENN",
+      "team_name": "Kennesaw State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 42,
+        "attempts": 42,
+        "completions": 31,
+        "yards": 236,
+        "comp_pct": 73.8,
+        "ypa": 5.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 19.0
+      },
+      "more_2_5": {
+        "dropbacks": 36,
+        "attempts": 26,
+        "completions": 12,
+        "yards": 208,
+        "comp_pct": 46.2,
+        "ypa": 8.0,
+        "td": 0,
+        "int": 1,
+        "sacks": 5,
+        "pressures": 26,
+        "pressure_pct": 72.2
+      }
+    },
+    {
+      "franchise_id": 201,
+      "team": "KENT",
+      "team_name": "Kent State",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 5,
+      "less_2_5": {
+        "dropbacks": 31,
+        "attempts": 30,
+        "completions": 16,
+        "yards": 80,
+        "comp_pct": 53.3,
+        "ypa": 2.7,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 16.1
+      },
+      "more_2_5": {
+        "dropbacks": 21,
+        "attempts": 14,
+        "completions": 6,
+        "yards": 62,
+        "comp_pct": 42.9,
+        "ypa": 4.4,
+        "td": 0,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 14,
+        "pressure_pct": 66.7
+      }
+    },
+    {
+      "franchise_id": 202,
+      "team": "UK",
+      "team_name": "Kentucky",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 23,
+        "attempts": 23,
+        "completions": 17,
+        "yards": 161,
+        "comp_pct": 73.9,
+        "ypa": 7.0,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 8.7
+      },
+      "more_2_5": {
+        "dropbacks": 35,
+        "attempts": 26,
+        "completions": 15,
+        "yards": 237,
+        "comp_pct": 57.7,
+        "ypa": 9.1,
+        "td": 2,
+        "int": 1,
+        "sacks": 6,
+        "pressures": 14,
+        "pressure_pct": 40.0
+      }
+    },
+    {
+      "franchise_id": 206,
+      "team": "LIB",
+      "team_name": "Liberty",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 26,
+        "attempts": 26,
+        "completions": 21,
+        "yards": 191,
+        "comp_pct": 80.8,
+        "ypa": 7.3,
+        "td": 3,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 19.2
+      },
+      "more_2_5": {
+        "dropbacks": 34,
+        "attempts": 26,
+        "completions": 12,
+        "yards": 287,
+        "comp_pct": 46.2,
+        "ypa": 11.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 9,
+        "pressure_pct": 26.5
+      }
+    },
+    {
+      "franchise_id": 207,
+      "team": "ULL",
+      "team_name": "Louisiana",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 24,
+        "attempts": 24,
+        "completions": 20,
+        "yards": 192,
+        "comp_pct": 83.3,
+        "ypa": 8.0,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 20.8
+      },
+      "more_2_5": {
+        "dropbacks": 29,
+        "attempts": 19,
+        "completions": 10,
+        "yards": 130,
+        "comp_pct": 52.6,
+        "ypa": 6.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 18,
+        "pressure_pct": 62.1
+      }
+    },
+    {
+      "franchise_id": 208,
+      "team": "LAT",
+      "team_name": "Louisiana Tech",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 30,
+        "attempts": 30,
+        "completions": 20,
+        "yards": 137,
+        "comp_pct": 66.7,
+        "ypa": 4.6,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 16.7
+      },
+      "more_2_5": {
+        "dropbacks": 51,
+        "attempts": 37,
+        "completions": 18,
+        "yards": 221,
+        "comp_pct": 48.6,
+        "ypa": 6.0,
+        "td": 1,
+        "int": 1,
+        "sacks": 8,
+        "pressures": 29,
+        "pressure_pct": 56.9
+      }
+    },
+    {
+      "franchise_id": 209,
+      "team": "ULM",
+      "team_name": "Louisiana-Monroe",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 30,
+        "attempts": 30,
+        "completions": 20,
+        "yards": 157,
+        "comp_pct": 66.7,
+        "ypa": 5.2,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 6.7
+      },
+      "more_2_5": {
+        "dropbacks": 31,
+        "attempts": 17,
+        "completions": 6,
+        "yards": 39,
+        "comp_pct": 35.3,
+        "ypa": 2.3,
+        "td": 0,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 15,
+        "pressure_pct": 48.4
+      }
+    },
+    {
+      "franchise_id": 210,
+      "team": "LOU",
+      "team_name": "Louisville",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 25,
+        "attempts": 25,
+        "completions": 17,
+        "yards": 158,
+        "comp_pct": 68.0,
+        "ypa": 6.3,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 12.0
+      },
+      "more_2_5": {
+        "dropbacks": 34,
+        "attempts": 27,
+        "completions": 15,
+        "yards": 326,
+        "comp_pct": 55.6,
+        "ypa": 12.1,
+        "td": 3,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 16,
+        "pressure_pct": 47.1
+      }
+    },
+    {
+      "franchise_id": 211,
+      "team": "LSU",
+      "team_name": "LSU",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 59,
+        "attempts": 59,
+        "completions": 38,
+        "yards": 390,
+        "comp_pct": 64.4,
+        "ypa": 6.6,
+        "td": 2,
+        "int": 3,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 10.2
+      },
+      "more_2_5": {
+        "dropbacks": 73,
+        "attempts": 45,
+        "completions": 27,
+        "yards": 484,
+        "comp_pct": 60.0,
+        "ypa": 10.8,
+        "td": 2,
+        "int": 2,
+        "sacks": 8,
+        "pressures": 38,
+        "pressure_pct": 52.1
+      }
+    },
+    {
+      "franchise_id": 214,
+      "team": "MRSH",
+      "team_name": "Marshall",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 41,
+        "attempts": 41,
+        "completions": 33,
+        "yards": 305,
+        "comp_pct": 80.5,
+        "ypa": 7.4,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 12.2
+      },
+      "more_2_5": {
+        "dropbacks": 43,
+        "attempts": 36,
+        "completions": 18,
+        "yards": 176,
+        "comp_pct": 50.0,
+        "ypa": 4.9,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 23,
+        "pressure_pct": 53.5
+      }
+    },
+    {
+      "franchise_id": 215,
+      "team": "UMD",
+      "team_name": "Maryland",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 51,
+        "attempts": 51,
+        "completions": 44,
+        "yards": 357,
+        "comp_pct": 86.3,
+        "ypa": 7.0,
+        "td": 4,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 1,
+        "pressure_pct": 2.0
+      },
+      "more_2_5": {
+        "dropbacks": 40,
+        "attempts": 35,
+        "completions": 21,
+        "yards": 357,
+        "comp_pct": 60.0,
+        "ypa": 10.2,
+        "td": 1,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 15,
+        "pressure_pct": 37.5
+      }
+    },
+    {
+      "franchise_id": 216,
+      "team": "MASS",
+      "team_name": "Massachusetts",
+      "games": 1,
+      "weeks": [
+        1
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 8,
+        "attempts": 8,
+        "completions": 8,
+        "yards": 48,
+        "comp_pct": 100.0,
+        "ypa": 6.0,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 0,
+        "pressure_pct": 0.0
+      },
+      "more_2_5": {
+        "dropbacks": 19,
+        "attempts": 15,
+        "completions": 11,
+        "yards": 149,
+        "comp_pct": 73.3,
+        "ypa": 9.9,
+        "td": 3,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 8,
+        "pressure_pct": 42.1
+      }
+    },
+    {
+      "franchise_id": 218,
+      "team": "MEM",
+      "team_name": "Memphis",
+      "games": 3,
+      "weeks": [
+        0,
+        1,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 37,
+        "attempts": 35,
+        "completions": 25,
+        "yards": 221,
+        "comp_pct": 71.4,
+        "ypa": 6.3,
+        "td": 1,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 8,
+        "pressure_pct": 21.6
+      },
+      "more_2_5": {
+        "dropbacks": 41,
+        "attempts": 31,
+        "completions": 19,
+        "yards": 574,
+        "comp_pct": 61.3,
+        "ypa": 18.5,
+        "td": 4,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 18,
+        "pressure_pct": 43.9
+      }
+    },
+    {
+      "franchise_id": 220,
+      "team": "MIA",
+      "team_name": "Miami (FL)",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 45,
+        "attempts": 45,
+        "completions": 41,
+        "yards": 315,
+        "comp_pct": 91.1,
+        "ypa": 7.0,
+        "td": 5,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 4.4
+      },
+      "more_2_5": {
+        "dropbacks": 27,
+        "attempts": 24,
+        "completions": 19,
+        "yards": 333,
+        "comp_pct": 79.2,
+        "ypa": 13.9,
+        "td": 3,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 12,
+        "pressure_pct": 44.4
+      }
+    },
+    {
+      "franchise_id": 221,
+      "team": "M-OH",
+      "team_name": "Miami (OH)",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 44,
+        "attempts": 42,
+        "completions": 26,
+        "yards": 304,
+        "comp_pct": 61.9,
+        "ypa": 7.2,
+        "td": 0,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 7,
+        "pressure_pct": 15.9
+      },
+      "more_2_5": {
+        "dropbacks": 31,
+        "attempts": 24,
+        "completions": 10,
+        "yards": 301,
+        "comp_pct": 41.7,
+        "ypa": 12.5,
+        "td": 2,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 10,
+        "pressure_pct": 32.3
+      }
+    },
+    {
+      "franchise_id": 222,
+      "team": "MICH",
+      "team_name": "Michigan",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 38,
+        "attempts": 37,
+        "completions": 27,
+        "yards": 260,
+        "comp_pct": 73.0,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 6,
+        "pressure_pct": 15.8
+      },
+      "more_2_5": {
+        "dropbacks": 35,
+        "attempts": 28,
+        "completions": 15,
+        "yards": 267,
+        "comp_pct": 53.6,
+        "ypa": 9.5,
+        "td": 2,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 16,
+        "pressure_pct": 45.7
+      }
+    },
+    {
+      "franchise_id": 223,
+      "team": "MSU",
+      "team_name": "Michigan State",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 40,
+        "attempts": 39,
+        "completions": 29,
+        "yards": 218,
+        "comp_pct": 74.4,
+        "ypa": 5.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 6,
+        "pressure_pct": 15.0
+      },
+      "more_2_5": {
+        "dropbacks": 57,
+        "attempts": 39,
+        "completions": 24,
+        "yards": 366,
+        "comp_pct": 61.5,
+        "ypa": 9.4,
+        "td": 2,
+        "int": 2,
+        "sacks": 8,
+        "pressures": 26,
+        "pressure_pct": 45.6
+      }
+    },
+    {
+      "franchise_id": 224,
+      "team": "MTSU",
+      "team_name": "Middle Tennessee",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 46,
+        "attempts": 46,
+        "completions": 33,
+        "yards": 302,
+        "comp_pct": 71.7,
+        "ypa": 6.6,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 13.0
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 30,
+        "completions": 8,
+        "yards": 114,
+        "comp_pct": 26.7,
+        "ypa": 3.8,
+        "td": 2,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 18,
+        "pressure_pct": 48.6
+      }
+    },
+    {
+      "franchise_id": 225,
+      "team": "MINN",
+      "team_name": "Minnesota",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 41,
+        "attempts": 41,
+        "completions": 26,
+        "yards": 265,
+        "comp_pct": 63.4,
+        "ypa": 6.5,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 7.3
+      },
+      "more_2_5": {
+        "dropbacks": 41,
+        "attempts": 39,
+        "completions": 22,
+        "yards": 218,
+        "comp_pct": 56.4,
+        "ypa": 5.6,
+        "td": 1,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 12,
+        "pressure_pct": 29.3
+      }
+    },
+    {
+      "franchise_id": 226,
+      "team": "MISS",
+      "team_name": "Mississippi",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 77,
+        "attempts": 75,
+        "completions": 55,
+        "yards": 533,
+        "comp_pct": 73.3,
+        "ypa": 7.1,
+        "td": 3,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 9,
+        "pressure_pct": 11.7
+      },
+      "more_2_5": {
+        "dropbacks": 53,
+        "attempts": 43,
+        "completions": 25,
+        "yards": 460,
+        "comp_pct": 58.1,
+        "ypa": 10.7,
+        "td": 4,
+        "int": 2,
+        "sacks": 3,
+        "pressures": 21,
+        "pressure_pct": 39.6
+      }
+    },
+    {
+      "franchise_id": 227,
+      "team": "MST",
+      "team_name": "Mississippi State",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 49,
+        "attempts": 49,
+        "completions": 33,
+        "yards": 387,
+        "comp_pct": 67.3,
+        "ypa": 7.9,
+        "td": 5,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 6.1
+      },
+      "more_2_5": {
+        "dropbacks": 61,
+        "attempts": 43,
+        "completions": 29,
+        "yards": 515,
+        "comp_pct": 67.4,
+        "ypa": 12.0,
+        "td": 7,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 16,
+        "pressure_pct": 26.2
+      }
+    },
+    {
+      "franchise_id": 229,
+      "team": "MIZZ",
+      "team_name": "Missouri",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 27,
+        "attempts": 27,
+        "completions": 17,
+        "yards": 206,
+        "comp_pct": 63.0,
+        "ypa": 7.6,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 14.8
+      },
+      "more_2_5": {
+        "dropbacks": 25,
+        "attempts": 23,
+        "completions": 12,
+        "yards": 180,
+        "comp_pct": 52.2,
+        "ypa": 7.8,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 12.0
+      }
+    },
+    {
+      "franchise_id": 230,
+      "team": "MOST",
+      "team_name": "Missouri State",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 27,
+        "attempts": 27,
+        "completions": 17,
+        "yards": 130,
+        "comp_pct": 63.0,
+        "ypa": 4.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 14.8
+      },
+      "more_2_5": {
+        "dropbacks": 23,
+        "attempts": 19,
+        "completions": 11,
+        "yards": 220,
+        "comp_pct": 57.9,
+        "ypa": 11.6,
+        "td": 2,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 15,
+        "pressure_pct": 65.2
+      }
+    },
+    {
+      "franchise_id": 237,
+      "team": "NAVY",
+      "team_name": "Navy",
+      "games": 1,
+      "weeks": [
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 10,
+        "attempts": 9,
+        "completions": 5,
+        "yards": 29,
+        "comp_pct": 55.6,
+        "ypa": 3.2,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 1,
+        "pressure_pct": 10.0
+      },
+      "more_2_5": {
+        "dropbacks": 17,
+        "attempts": 13,
+        "completions": 4,
+        "yards": 118,
+        "comp_pct": 30.8,
+        "ypa": 9.1,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 9,
+        "pressure_pct": 52.9
+      }
+    },
+    {
+      "franchise_id": 238,
+      "team": "NEB",
+      "team_name": "Nebraska",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 37,
+        "attempts": 37,
+        "completions": 29,
+        "yards": 305,
+        "comp_pct": 78.4,
+        "ypa": 8.2,
+        "td": 4,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 8.1
+      },
+      "more_2_5": {
+        "dropbacks": 34,
+        "attempts": 28,
+        "completions": 15,
+        "yards": 252,
+        "comp_pct": 53.6,
+        "ypa": 9.0,
+        "td": 4,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 15,
+        "pressure_pct": 44.1
+      }
+    },
+    {
+      "franchise_id": 239,
+      "team": "NEV",
+      "team_name": "Nevada",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 18,
+        "attempts": 18,
+        "completions": 13,
+        "yards": 110,
+        "comp_pct": 72.2,
+        "ypa": 6.1,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 11.1
+      },
+      "more_2_5": {
+        "dropbacks": 28,
+        "attempts": 23,
+        "completions": 11,
+        "yards": 239,
+        "comp_pct": 47.8,
+        "ypa": 10.4,
+        "td": 2,
+        "int": 2,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 17.9
+      }
+    },
+    {
+      "franchise_id": 241,
+      "team": "UNM",
+      "team_name": "New Mexico",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 27,
+        "attempts": 26,
+        "completions": 13,
+        "yards": 99,
+        "comp_pct": 50.0,
+        "ypa": 3.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 18.5
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 19,
+        "completions": 12,
+        "yards": 176,
+        "comp_pct": 63.2,
+        "ypa": 9.3,
+        "td": 1,
+        "int": 0,
+        "sacks": 6,
+        "pressures": 17,
+        "pressure_pct": 45.9
+      }
+    },
+    {
+      "franchise_id": 242,
+      "team": "NMSU",
+      "team_name": "New Mexico State",
+      "games": 2,
+      "weeks": [
+        0,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 47,
+        "attempts": 47,
+        "completions": 29,
+        "yards": 301,
+        "comp_pct": 61.7,
+        "ypa": 6.4,
+        "td": 3,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 12.8
+      },
+      "more_2_5": {
+        "dropbacks": 40,
+        "attempts": 32,
+        "completions": 16,
+        "yards": 227,
+        "comp_pct": 50.0,
+        "ypa": 7.1,
+        "td": 0,
+        "int": 3,
+        "sacks": 3,
+        "pressures": 18,
+        "pressure_pct": 45.0
+      }
+    },
+    {
+      "franchise_id": 245,
+      "team": "UNC",
+      "team_name": "North Carolina",
+      "games": 2,
+      "weeks": [
+        0,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 29,
+        "attempts": 29,
+        "completions": 18,
+        "yards": 186,
+        "comp_pct": 62.1,
+        "ypa": 6.4,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 10.3
+      },
+      "more_2_5": {
+        "dropbacks": 40,
+        "attempts": 30,
+        "completions": 11,
+        "yards": 181,
+        "comp_pct": 36.7,
+        "ypa": 6.0,
+        "td": 0,
+        "int": 1,
+        "sacks": 6,
+        "pressures": 22,
+        "pressure_pct": 55.0
+      }
+    },
+    {
+      "franchise_id": 248,
+      "team": "NCST",
+      "team_name": "North Carolina State",
+      "games": 2,
+      "weeks": [
+        0,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 41,
+        "attempts": 41,
+        "completions": 27,
+        "yards": 234,
+        "comp_pct": 65.9,
+        "ypa": 5.7,
+        "td": 2,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 4.9
+      },
+      "more_2_5": {
+        "dropbacks": 34,
+        "attempts": 24,
+        "completions": 14,
+        "yards": 138,
+        "comp_pct": 58.3,
+        "ypa": 5.8,
+        "td": 1,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 18,
+        "pressure_pct": 52.9
+      }
+    },
+    {
+      "franchise_id": 250,
+      "team": "NDSU",
+      "team_name": "North Dakota State",
+      "games": 3,
+      "weeks": [
+        0,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 32,
+        "attempts": 32,
+        "completions": 26,
+        "yards": 290,
+        "comp_pct": 81.2,
+        "ypa": 9.1,
+        "td": 4,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 18.8
+      },
+      "more_2_5": {
+        "dropbacks": 41,
+        "attempts": 39,
+        "completions": 18,
+        "yards": 312,
+        "comp_pct": 46.2,
+        "ypa": 8.0,
+        "td": 1,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 17,
+        "pressure_pct": 41.5
+      }
+    },
+    {
+      "franchise_id": 251,
+      "team": "UNT",
+      "team_name": "North Texas",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 65,
+        "attempts": 65,
+        "completions": 50,
+        "yards": 462,
+        "comp_pct": 76.9,
+        "ypa": 7.1,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 4.6
+      },
+      "more_2_5": {
+        "dropbacks": 59,
+        "attempts": 49,
+        "completions": 32,
+        "yards": 490,
+        "comp_pct": 65.3,
+        "ypa": 10.0,
+        "td": 3,
+        "int": 2,
+        "sacks": 4,
+        "pressures": 26,
+        "pressure_pct": 44.1
+      }
+    },
+    {
+      "franchise_id": 254,
+      "team": "NIU",
+      "team_name": "Northern Illinois",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 44,
+        "attempts": 41,
+        "completions": 29,
+        "yards": 170,
+        "comp_pct": 70.7,
+        "ypa": 4.1,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 11.4
+      },
+      "more_2_5": {
+        "dropbacks": 43,
+        "attempts": 26,
+        "completions": 13,
+        "yards": 198,
+        "comp_pct": 50.0,
+        "ypa": 7.6,
+        "td": 1,
+        "int": 1,
+        "sacks": 9,
+        "pressures": 25,
+        "pressure_pct": 58.1
+      }
+    },
+    {
+      "franchise_id": 256,
+      "team": "NW",
+      "team_name": "Northwestern",
+      "games": 1,
+      "weeks": [
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 9,
+        "attempts": 8,
+        "completions": 5,
+        "yards": 48,
+        "comp_pct": 62.5,
+        "ypa": 6.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 3,
+        "pressure_pct": 33.3
+      },
+      "more_2_5": {
+        "dropbacks": 16,
+        "attempts": 15,
+        "completions": 12,
+        "yards": 193,
+        "comp_pct": 80.0,
+        "ypa": 12.9,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 9,
+        "pressure_pct": 56.2
+      }
+    },
+    {
+      "franchise_id": 258,
+      "team": "ND",
+      "team_name": "Notre Dame",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 55,
+        "attempts": 55,
+        "completions": 43,
+        "yards": 455,
+        "comp_pct": 78.2,
+        "ypa": 8.3,
+        "td": 3,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 5.5
+      },
+      "more_2_5": {
+        "dropbacks": 34,
+        "attempts": 31,
+        "completions": 19,
+        "yards": 378,
+        "comp_pct": 61.3,
+        "ypa": 12.2,
+        "td": 3,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 12,
+        "pressure_pct": 35.3
+      }
+    },
+    {
+      "franchise_id": 259,
+      "team": "OHIO",
+      "team_name": "Ohio",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 48,
+        "attempts": 48,
+        "completions": 30,
+        "yards": 254,
+        "comp_pct": 62.5,
+        "ypa": 5.3,
+        "td": 5,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 7,
+        "pressure_pct": 14.6
+      },
+      "more_2_5": {
+        "dropbacks": 64,
+        "attempts": 34,
+        "completions": 18,
+        "yards": 241,
+        "comp_pct": 52.9,
+        "ypa": 7.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 8,
+        "pressures": 34,
+        "pressure_pct": 53.1
+      }
+    },
+    {
+      "franchise_id": 260,
+      "team": "OSU",
+      "team_name": "Ohio State",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 50,
+        "attempts": 49,
+        "completions": 35,
+        "yards": 450,
+        "comp_pct": 71.4,
+        "ypa": 9.2,
+        "td": 6,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 12.0
+      },
+      "more_2_5": {
+        "dropbacks": 60,
+        "attempts": 48,
+        "completions": 35,
+        "yards": 644,
+        "comp_pct": 72.9,
+        "ypa": 13.4,
+        "td": 3,
+        "int": 4,
+        "sacks": 5,
+        "pressures": 25,
+        "pressure_pct": 41.7
+      }
+    },
+    {
+      "franchise_id": 261,
+      "team": "OKLA",
+      "team_name": "Oklahoma",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 47,
+        "attempts": 47,
+        "completions": 31,
+        "yards": 306,
+        "comp_pct": 66.0,
+        "ypa": 6.5,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 17.0
+      },
+      "more_2_5": {
+        "dropbacks": 42,
+        "attempts": 30,
+        "completions": 17,
+        "yards": 352,
+        "comp_pct": 56.7,
+        "ypa": 11.7,
+        "td": 5,
+        "int": 2,
+        "sacks": 5,
+        "pressures": 24,
+        "pressure_pct": 57.1
+      }
+    },
+    {
+      "franchise_id": 262,
+      "team": "OKST",
+      "team_name": "Oklahoma State",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 37,
+        "attempts": 37,
+        "completions": 29,
+        "yards": 152,
+        "comp_pct": 78.4,
+        "ypa": 4.1,
+        "td": 0,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 10.8
+      },
+      "more_2_5": {
+        "dropbacks": 64,
+        "attempts": 56,
+        "completions": 26,
+        "yards": 406,
+        "comp_pct": 46.4,
+        "ypa": 7.2,
+        "td": 3,
+        "int": 3,
+        "sacks": 2,
+        "pressures": 28,
+        "pressure_pct": 43.8
+      }
+    },
+    {
+      "franchise_id": 263,
+      "team": "ODU",
+      "team_name": "Old Dominion",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 22,
+        "attempts": 21,
+        "completions": 16,
+        "yards": 188,
+        "comp_pct": 76.2,
+        "ypa": 9.0,
+        "td": 1,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 22.7
+      },
+      "more_2_5": {
+        "dropbacks": 28,
+        "attempts": 20,
+        "completions": 5,
+        "yards": 93,
+        "comp_pct": 25.0,
+        "ypa": 4.7,
+        "td": 0,
+        "int": 1,
+        "sacks": 5,
+        "pressures": 17,
+        "pressure_pct": 60.7
+      }
+    },
+    {
+      "franchise_id": 264,
+      "team": "ORE",
+      "team_name": "Oregon",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 36,
+        "attempts": 36,
+        "completions": 27,
+        "yards": 251,
+        "comp_pct": 75.0,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 11.1
+      },
+      "more_2_5": {
+        "dropbacks": 39,
+        "attempts": 31,
+        "completions": 15,
+        "yards": 318,
+        "comp_pct": 48.4,
+        "ypa": 10.3,
+        "td": 3,
+        "int": 0,
+        "sacks": 5,
+        "pressures": 15,
+        "pressure_pct": 38.5
+      }
+    },
+    {
+      "franchise_id": 265,
+      "team": "ORST",
+      "team_name": "Oregon State",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 46,
+        "attempts": 43,
+        "completions": 32,
+        "yards": 226,
+        "comp_pct": 74.4,
+        "ypa": 5.3,
+        "td": 1,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 12,
+        "pressure_pct": 26.1
+      },
+      "more_2_5": {
+        "dropbacks": 62,
+        "attempts": 57,
+        "completions": 29,
+        "yards": 567,
+        "comp_pct": 50.9,
+        "ypa": 9.9,
+        "td": 3,
+        "int": 1,
+        "sacks": 3,
+        "pressures": 21,
+        "pressure_pct": 33.9
+      }
+    },
+    {
+      "franchise_id": 266,
+      "team": "PSU",
+      "team_name": "Penn State",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 49,
+        "attempts": 49,
+        "completions": 41,
+        "yards": 508,
+        "comp_pct": 83.7,
+        "ypa": 10.4,
+        "td": 6,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 10.2
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 29,
+        "completions": 16,
+        "yards": 353,
+        "comp_pct": 55.2,
+        "ypa": 12.2,
+        "td": 3,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 13,
+        "pressure_pct": 35.1
+      }
+    },
+    {
+      "franchise_id": 268,
+      "team": "PITT",
+      "team_name": "Pittsburgh",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 45,
+        "attempts": 44,
+        "completions": 35,
+        "yards": 365,
+        "comp_pct": 79.5,
+        "ypa": 8.3,
+        "td": 3,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 1,
+        "pressure_pct": 2.2
+      },
+      "more_2_5": {
+        "dropbacks": 65,
+        "attempts": 52,
+        "completions": 27,
+        "yards": 450,
+        "comp_pct": 51.9,
+        "ypa": 8.7,
+        "td": 4,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 26,
+        "pressure_pct": 40.0
+      }
+    },
+    {
+      "franchise_id": 273,
+      "team": "PUR",
+      "team_name": "Purdue",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 42,
+        "attempts": 41,
+        "completions": 29,
+        "yards": 416,
+        "comp_pct": 70.7,
+        "ypa": 10.1,
+        "td": 2,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 8,
+        "pressure_pct": 19.0
+      },
+      "more_2_5": {
+        "dropbacks": 39,
+        "attempts": 34,
+        "completions": 23,
+        "yards": 339,
+        "comp_pct": 67.6,
+        "ypa": 10.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 15,
+        "pressure_pct": 38.5
+      }
+    },
+    {
+      "franchise_id": 275,
+      "team": "RICE",
+      "team_name": "Rice",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 17,
+        "attempts": 16,
+        "completions": 13,
+        "yards": 93,
+        "comp_pct": 81.2,
+        "ypa": 5.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 2,
+        "pressure_pct": 11.8
+      },
+      "more_2_5": {
+        "dropbacks": 22,
+        "attempts": 14,
+        "completions": 6,
+        "yards": 92,
+        "comp_pct": 42.9,
+        "ypa": 6.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 8,
+        "pressure_pct": 36.4
+      }
+    },
+    {
+      "franchise_id": 278,
+      "team": "RUTG",
+      "team_name": "Rutgers",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 56,
+        "attempts": 56,
+        "completions": 35,
+        "yards": 379,
+        "comp_pct": 62.5,
+        "ypa": 6.8,
+        "td": 5,
+        "int": 8,
+        "sacks": 0,
+        "pressures": 12,
+        "pressure_pct": 21.4
+      },
+      "more_2_5": {
+        "dropbacks": 59,
+        "attempts": 46,
+        "completions": 23,
+        "yards": 462,
+        "comp_pct": 50.0,
+        "ypa": 10.0,
+        "td": 4,
+        "int": 1,
+        "sacks": 8,
+        "pressures": 20,
+        "pressure_pct": 33.9
+      }
+    },
+    {
+      "franchise_id": 279,
+      "team": "SAC",
+      "team_name": "Sacramento State",
+      "games": 3,
+      "weeks": [
+        0,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 59,
+        "attempts": 59,
+        "completions": 41,
+        "yards": 349,
+        "comp_pct": 69.5,
+        "ypa": 5.9,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 13.6
+      },
+      "more_2_5": {
+        "dropbacks": 61,
+        "attempts": 58,
+        "completions": 24,
+        "yards": 264,
+        "comp_pct": 41.4,
+        "ypa": 4.6,
+        "td": 0,
+        "int": 2,
+        "sacks": 3,
+        "pressures": 23,
+        "pressure_pct": 37.7
+      }
+    },
+    {
+      "franchise_id": 281,
+      "team": "SHSU",
+      "team_name": "Sam Houston State",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 46,
+        "attempts": 46,
+        "completions": 35,
+        "yards": 411,
+        "comp_pct": 76.1,
+        "ypa": 8.9,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 17.4
+      },
+      "more_2_5": {
+        "dropbacks": 45,
+        "attempts": 35,
+        "completions": 19,
+        "yards": 240,
+        "comp_pct": 54.3,
+        "ypa": 6.9,
+        "td": 3,
+        "int": 1,
+        "sacks": 6,
+        "pressures": 28,
+        "pressure_pct": 62.2
+      }
+    },
+    {
+      "franchise_id": 284,
+      "team": "SDSU",
+      "team_name": "San Diego State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 28,
+        "attempts": 28,
+        "completions": 16,
+        "yards": 142,
+        "comp_pct": 57.1,
+        "ypa": 5.1,
+        "td": 1,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 6,
+        "pressure_pct": 21.4
+      },
+      "more_2_5": {
+        "dropbacks": 26,
+        "attempts": 22,
+        "completions": 8,
+        "yards": 112,
+        "comp_pct": 36.4,
+        "ypa": 5.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 10,
+        "pressure_pct": 38.5
+      }
+    },
+    {
+      "franchise_id": 285,
+      "team": "SJSU",
+      "team_name": "San Jose State",
+      "games": 3,
+      "weeks": [
+        0,
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 63,
+        "attempts": 63,
+        "completions": 43,
+        "yards": 442,
+        "comp_pct": 68.3,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 2,
+        "sacks": 0,
+        "pressures": 7,
+        "pressure_pct": 11.1
+      },
+      "more_2_5": {
+        "dropbacks": 63,
+        "attempts": 47,
+        "completions": 22,
+        "yards": 352,
+        "comp_pct": 46.8,
+        "ypa": 7.5,
+        "td": 4,
+        "int": 3,
+        "sacks": 8,
+        "pressures": 23,
+        "pressure_pct": 36.5
+      }
+    },
+    {
+      "franchise_id": 287,
+      "team": "SMU",
+      "team_name": "SMU",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 35,
+        "attempts": 34,
+        "completions": 28,
+        "yards": 356,
+        "comp_pct": 82.4,
+        "ypa": 10.5,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 8.6
+      },
+      "more_2_5": {
+        "dropbacks": 46,
+        "attempts": 37,
+        "completions": 22,
+        "yards": 296,
+        "comp_pct": 59.5,
+        "ypa": 8.0,
+        "td": 3,
+        "int": 3,
+        "sacks": 2,
+        "pressures": 23,
+        "pressure_pct": 50.0
+      }
+    },
+    {
+      "franchise_id": 288,
+      "team": "USA",
+      "team_name": "South Alabama",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 28,
+        "attempts": 28,
+        "completions": 20,
+        "yards": 200,
+        "comp_pct": 71.4,
+        "ypa": 7.1,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 1,
+        "pressure_pct": 3.6
+      },
+      "more_2_5": {
+        "dropbacks": 36,
+        "attempts": 24,
+        "completions": 15,
+        "yards": 284,
+        "comp_pct": 62.5,
+        "ypa": 11.8,
+        "td": 3,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 16,
+        "pressure_pct": 44.4
+      }
+    },
+    {
+      "franchise_id": 289,
+      "team": "SCAR",
+      "team_name": "South Carolina",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 39,
+        "attempts": 38,
+        "completions": 32,
+        "yards": 316,
+        "comp_pct": 84.2,
+        "ypa": 8.3,
+        "td": 4,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 3,
+        "pressure_pct": 7.7
+      },
+      "more_2_5": {
+        "dropbacks": 44,
+        "attempts": 35,
+        "completions": 20,
+        "yards": 333,
+        "comp_pct": 57.1,
+        "ypa": 9.5,
+        "td": 2,
+        "int": 2,
+        "sacks": 3,
+        "pressures": 10,
+        "pressure_pct": 22.7
+      }
+    },
+    {
+      "franchise_id": 296,
+      "team": "USM",
+      "team_name": "Southern Miss",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 56,
+        "attempts": 55,
+        "completions": 37,
+        "yards": 286,
+        "comp_pct": 67.3,
+        "ypa": 5.2,
+        "td": 2,
+        "int": 4,
+        "sacks": 1,
+        "pressures": 14,
+        "pressure_pct": 25.0
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 31,
+        "completions": 14,
+        "yards": 210,
+        "comp_pct": 45.2,
+        "ypa": 6.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 20,
+        "pressure_pct": 54.1
+      }
+    },
+    {
+      "franchise_id": 300,
+      "team": "STAN",
+      "team_name": "Stanford",
+      "games": 3,
+      "weeks": [
+        0,
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 59,
+        "attempts": 58,
+        "completions": 37,
+        "yards": 280,
+        "comp_pct": 63.8,
+        "ypa": 4.8,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 11,
+        "pressure_pct": 18.6
+      },
+      "more_2_5": {
+        "dropbacks": 63,
+        "attempts": 55,
+        "completions": 27,
+        "yards": 415,
+        "comp_pct": 49.1,
+        "ypa": 7.5,
+        "td": 0,
+        "int": 0,
+        "sacks": 4,
+        "pressures": 24,
+        "pressure_pct": 38.1
+      }
+    },
+    {
+      "franchise_id": 304,
+      "team": "SYR",
+      "team_name": "Syracuse",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 48,
+        "attempts": 47,
+        "completions": 32,
+        "yards": 312,
+        "comp_pct": 68.1,
+        "ypa": 6.6,
+        "td": 0,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 11,
+        "pressure_pct": 22.9
+      },
+      "more_2_5": {
+        "dropbacks": 45,
+        "attempts": 36,
+        "completions": 14,
+        "yards": 222,
+        "comp_pct": 38.9,
+        "ypa": 6.2,
+        "td": 1,
+        "int": 4,
+        "sacks": 4,
+        "pressures": 24,
+        "pressure_pct": 53.3
+      }
+    },
+    {
+      "franchise_id": 305,
+      "team": "TCU",
+      "team_name": "TCU",
+      "games": 2,
+      "weeks": [
+        0,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 32,
+        "attempts": 31,
+        "completions": 23,
+        "yards": 206,
+        "comp_pct": 74.2,
+        "ypa": 6.6,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 2,
+        "pressure_pct": 6.2
+      },
+      "more_2_5": {
+        "dropbacks": 38,
+        "attempts": 31,
+        "completions": 18,
+        "yards": 306,
+        "comp_pct": 58.1,
+        "ypa": 9.9,
+        "td": 1,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 13,
+        "pressure_pct": 34.2
+      }
+    },
+    {
+      "franchise_id": 306,
+      "team": "TEM",
+      "team_name": "Temple",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 26,
+        "attempts": 26,
+        "completions": 18,
+        "yards": 108,
+        "comp_pct": 69.2,
+        "ypa": 4.2,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 15.4
+      },
+      "more_2_5": {
+        "dropbacks": 31,
+        "attempts": 19,
+        "completions": 7,
+        "yards": 163,
+        "comp_pct": 36.8,
+        "ypa": 8.6,
+        "td": 3,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 13,
+        "pressure_pct": 41.9
+      }
+    },
+    {
+      "franchise_id": 307,
+      "team": "TENN",
+      "team_name": "Tennessee",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 23,
+        "attempts": 22,
+        "completions": 14,
+        "yards": 127,
+        "comp_pct": 63.6,
+        "ypa": 5.8,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 2,
+        "pressure_pct": 8.7
+      },
+      "more_2_5": {
+        "dropbacks": 35,
+        "attempts": 23,
+        "completions": 12,
+        "yards": 176,
+        "comp_pct": 52.2,
+        "ypa": 7.7,
+        "td": 1,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 11,
+        "pressure_pct": 31.4
+      }
+    },
+    {
+      "franchise_id": 311,
+      "team": "TEX",
+      "team_name": "Texas",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 47,
+        "attempts": 47,
+        "completions": 34,
+        "yards": 328,
+        "comp_pct": 72.3,
+        "ypa": 7.0,
+        "td": 6,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 8.5
+      },
+      "more_2_5": {
+        "dropbacks": 77,
+        "attempts": 57,
+        "completions": 32,
+        "yards": 393,
+        "comp_pct": 56.1,
+        "ypa": 6.9,
+        "td": 1,
+        "int": 2,
+        "sacks": 4,
+        "pressures": 26,
+        "pressure_pct": 33.8
+      }
+    },
+    {
+      "franchise_id": 312,
+      "team": "TXAM",
+      "team_name": "Texas A&M",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 51,
+        "attempts": 50,
+        "completions": 37,
+        "yards": 278,
+        "comp_pct": 74.0,
+        "ypa": 5.6,
+        "td": 3,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 3,
+        "pressure_pct": 5.9
+      },
+      "more_2_5": {
+        "dropbacks": 80,
+        "attempts": 62,
+        "completions": 29,
+        "yards": 390,
+        "comp_pct": 46.8,
+        "ypa": 6.3,
+        "td": 4,
+        "int": 2,
+        "sacks": 3,
+        "pressures": 35,
+        "pressure_pct": 43.8
+      }
+    },
+    {
+      "franchise_id": 314,
+      "team": "TXST",
+      "team_name": "Texas State",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 53,
+        "attempts": 53,
+        "completions": 39,
+        "yards": 333,
+        "comp_pct": 73.6,
+        "ypa": 6.3,
+        "td": 4,
+        "int": 3,
+        "sacks": 0,
+        "pressures": 3,
+        "pressure_pct": 5.7
+      },
+      "more_2_5": {
+        "dropbacks": 39,
+        "attempts": 28,
+        "completions": 14,
+        "yards": 313,
+        "comp_pct": 50.0,
+        "ypa": 11.2,
+        "td": 1,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 17,
+        "pressure_pct": 43.6
+      }
+    },
+    {
+      "franchise_id": 315,
+      "team": "TT",
+      "team_name": "Texas Tech",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 27,
+        "attempts": 26,
+        "completions": 21,
+        "yards": 171,
+        "comp_pct": 80.8,
+        "ypa": 6.6,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 2,
+        "pressure_pct": 7.4
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 30,
+        "completions": 17,
+        "yards": 283,
+        "comp_pct": 56.7,
+        "ypa": 9.4,
+        "td": 3,
+        "int": 2,
+        "sacks": 4,
+        "pressures": 11,
+        "pressure_pct": 29.7
+      }
+    },
+    {
+      "franchise_id": 316,
+      "team": "TOL",
+      "team_name": "Toledo",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 45,
+        "attempts": 44,
+        "completions": 32,
+        "yards": 349,
+        "comp_pct": 72.7,
+        "ypa": 7.9,
+        "td": 4,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 8,
+        "pressure_pct": 17.8
+      },
+      "more_2_5": {
+        "dropbacks": 29,
+        "attempts": 28,
+        "completions": 15,
+        "yards": 272,
+        "comp_pct": 53.6,
+        "ypa": 9.7,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 10,
+        "pressure_pct": 34.5
+      }
+    },
+    {
+      "franchise_id": 318,
+      "team": "TROY",
+      "team_name": "Troy",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 29,
+        "attempts": 26,
+        "completions": 18,
+        "yards": 180,
+        "comp_pct": 69.2,
+        "ypa": 6.9,
+        "td": 2,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 4,
+        "pressure_pct": 13.8
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 30,
+        "completions": 12,
+        "yards": 215,
+        "comp_pct": 40.0,
+        "ypa": 7.2,
+        "td": 3,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 17,
+        "pressure_pct": 45.9
+      }
+    },
+    {
+      "franchise_id": 319,
+      "team": "TUL",
+      "team_name": "Tulane",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 45,
+        "attempts": 44,
+        "completions": 28,
+        "yards": 223,
+        "comp_pct": 63.6,
+        "ypa": 5.1,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 9,
+        "pressure_pct": 20.0
+      },
+      "more_2_5": {
+        "dropbacks": 46,
+        "attempts": 35,
+        "completions": 16,
+        "yards": 358,
+        "comp_pct": 45.7,
+        "ypa": 10.2,
+        "td": 0,
+        "int": 0,
+        "sacks": 8,
+        "pressures": 25,
+        "pressure_pct": 54.3
+      }
+    },
+    {
+      "franchise_id": 320,
+      "team": "TLSA",
+      "team_name": "Tulsa",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 4,
+      "less_2_5": {
+        "dropbacks": 36,
+        "attempts": 35,
+        "completions": 26,
+        "yards": 215,
+        "comp_pct": 74.3,
+        "ypa": 6.1,
+        "td": 1,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 4,
+        "pressure_pct": 11.1
+      },
+      "more_2_5": {
+        "dropbacks": 33,
+        "attempts": 22,
+        "completions": 7,
+        "yards": 140,
+        "comp_pct": 31.8,
+        "ypa": 6.4,
+        "td": 0,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 13,
+        "pressure_pct": 39.4
+      }
+    },
+    {
+      "franchise_id": 321,
+      "team": "UAB",
+      "team_name": "UAB",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 34,
+        "attempts": 34,
+        "completions": 23,
+        "yards": 227,
+        "comp_pct": 67.6,
+        "ypa": 6.7,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 10,
+        "pressure_pct": 29.4
+      },
+      "more_2_5": {
+        "dropbacks": 57,
+        "attempts": 39,
+        "completions": 18,
+        "yards": 251,
+        "comp_pct": 46.2,
+        "ypa": 6.4,
+        "td": 2,
+        "int": 3,
+        "sacks": 7,
+        "pressures": 36,
+        "pressure_pct": 63.2
+      }
+    },
+    {
+      "franchise_id": 323,
+      "team": "UCF",
+      "team_name": "UCF",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 30,
+        "attempts": 29,
+        "completions": 20,
+        "yards": 148,
+        "comp_pct": 69.0,
+        "ypa": 5.1,
+        "td": 1,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 2,
+        "pressure_pct": 6.7
+      },
+      "more_2_5": {
+        "dropbacks": 31,
+        "attempts": 20,
+        "completions": 7,
+        "yards": 124,
+        "comp_pct": 35.0,
+        "ypa": 6.2,
+        "td": 1,
+        "int": 1,
+        "sacks": 3,
+        "pressures": 19,
+        "pressure_pct": 61.3
+      }
+    },
+    {
+      "franchise_id": 324,
+      "team": "UCLA",
+      "team_name": "UCLA",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 33,
+        "attempts": 32,
+        "completions": 22,
+        "yards": 153,
+        "comp_pct": 68.8,
+        "ypa": 4.8,
+        "td": 2,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 15.2
+      },
+      "more_2_5": {
+        "dropbacks": 57,
+        "attempts": 44,
+        "completions": 25,
+        "yards": 456,
+        "comp_pct": 56.8,
+        "ypa": 10.4,
+        "td": 1,
+        "int": 2,
+        "sacks": 4,
+        "pressures": 25,
+        "pressure_pct": 43.9
+      }
+    },
+    {
+      "franchise_id": 325,
+      "team": "UNLV",
+      "team_name": "UNLV",
+      "games": 3,
+      "weeks": [
+        0,
+        1,
+        2
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 34,
+        "attempts": 34,
+        "completions": 24,
+        "yards": 211,
+        "comp_pct": 70.6,
+        "ypa": 6.2,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 11,
+        "pressure_pct": 32.4
+      },
+      "more_2_5": {
+        "dropbacks": 75,
+        "attempts": 54,
+        "completions": 28,
+        "yards": 399,
+        "comp_pct": 51.9,
+        "ypa": 7.4,
+        "td": 2,
+        "int": 1,
+        "sacks": 11,
+        "pressures": 37,
+        "pressure_pct": 49.3
+      }
+    },
+    {
+      "franchise_id": 326,
+      "team": "USC",
+      "team_name": "USC",
+      "games": 4,
+      "weeks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 70,
+        "attempts": 69,
+        "completions": 56,
+        "yards": 600,
+        "comp_pct": 81.2,
+        "ypa": 8.7,
+        "td": 5,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 4,
+        "pressure_pct": 5.7
+      },
+      "more_2_5": {
+        "dropbacks": 68,
+        "attempts": 61,
+        "completions": 43,
+        "yards": 699,
+        "comp_pct": 70.5,
+        "ypa": 11.5,
+        "td": 7,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 17,
+        "pressure_pct": 25.0
+      }
+    },
+    {
+      "franchise_id": 327,
+      "team": "USF",
+      "team_name": "USF",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 26,
+        "attempts": 25,
+        "completions": 17,
+        "yards": 185,
+        "comp_pct": 68.0,
+        "ypa": 7.4,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 19.2
+      },
+      "more_2_5": {
+        "dropbacks": 28,
+        "attempts": 23,
+        "completions": 13,
+        "yards": 154,
+        "comp_pct": 56.5,
+        "ypa": 6.7,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 9,
+        "pressure_pct": 32.1
+      }
+    },
+    {
+      "franchise_id": 328,
+      "team": "UTAH",
+      "team_name": "Utah",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 38,
+        "attempts": 38,
+        "completions": 27,
+        "yards": 262,
+        "comp_pct": 71.1,
+        "ypa": 6.9,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 5.3
+      },
+      "more_2_5": {
+        "dropbacks": 32,
+        "attempts": 27,
+        "completions": 17,
+        "yards": 320,
+        "comp_pct": 63.0,
+        "ypa": 11.9,
+        "td": 2,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 14,
+        "pressure_pct": 43.8
+      }
+    },
+    {
+      "franchise_id": 329,
+      "team": "USU",
+      "team_name": "Utah State",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 30,
+        "attempts": 30,
+        "completions": 21,
+        "yards": 231,
+        "comp_pct": 70.0,
+        "ypa": 7.7,
+        "td": 1,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 2,
+        "pressure_pct": 6.7
+      },
+      "more_2_5": {
+        "dropbacks": 45,
+        "attempts": 27,
+        "completions": 11,
+        "yards": 95,
+        "comp_pct": 40.7,
+        "ypa": 3.5,
+        "td": 1,
+        "int": 3,
+        "sacks": 9,
+        "pressures": 27,
+        "pressure_pct": 60.0
+      }
+    },
+    {
+      "franchise_id": 330,
+      "team": "UTEP",
+      "team_name": "UTEP",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 22,
+        "attempts": 21,
+        "completions": 14,
+        "yards": 133,
+        "comp_pct": 66.7,
+        "ypa": 6.3,
+        "td": 2,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 9,
+        "pressure_pct": 40.9
+      },
+      "more_2_5": {
+        "dropbacks": 27,
+        "attempts": 12,
+        "completions": 6,
+        "yards": 46,
+        "comp_pct": 50.0,
+        "ypa": 3.8,
+        "td": 0,
+        "int": 0,
+        "sacks": 7,
+        "pressures": 22,
+        "pressure_pct": 81.5
+      }
+    },
+    {
+      "franchise_id": 331,
+      "team": "UTSA",
+      "team_name": "UTSA",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 45,
+        "attempts": 44,
+        "completions": 32,
+        "yards": 204,
+        "comp_pct": 72.7,
+        "ypa": 4.6,
+        "td": 1,
+        "int": 1,
+        "sacks": 1,
+        "pressures": 11,
+        "pressure_pct": 24.4
+      },
+      "more_2_5": {
+        "dropbacks": 29,
+        "attempts": 22,
+        "completions": 11,
+        "yards": 124,
+        "comp_pct": 50.0,
+        "ypa": 5.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 19,
+        "pressure_pct": 65.5
+      }
+    },
+    {
+      "franchise_id": 333,
+      "team": "VAN",
+      "team_name": "Vanderbilt",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 33,
+        "attempts": 33,
+        "completions": 22,
+        "yards": 216,
+        "comp_pct": 66.7,
+        "ypa": 6.5,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 15.2
+      },
+      "more_2_5": {
+        "dropbacks": 44,
+        "attempts": 33,
+        "completions": 15,
+        "yards": 300,
+        "comp_pct": 45.5,
+        "ypa": 9.1,
+        "td": 2,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 25,
+        "pressure_pct": 56.8
+      }
+    },
+    {
+      "franchise_id": 335,
+      "team": "UVA",
+      "team_name": "Virginia",
+      "games": 2,
+      "weeks": [
+        0,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 24,
+        "attempts": 22,
+        "completions": 16,
+        "yards": 132,
+        "comp_pct": 72.7,
+        "ypa": 6.0,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 10,
+        "pressure_pct": 41.7
+      },
+      "more_2_5": {
+        "dropbacks": 27,
+        "attempts": 22,
+        "completions": 14,
+        "yards": 220,
+        "comp_pct": 63.6,
+        "ypa": 10.0,
+        "td": 3,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 10,
+        "pressure_pct": 37.0
+      }
+    },
+    {
+      "franchise_id": 337,
+      "team": "VT",
+      "team_name": "Virginia Tech",
+      "games": 2,
+      "weeks": [
+        2,
+        3
+      ],
+      "qbs": 3,
+      "less_2_5": {
+        "dropbacks": 46,
+        "attempts": 44,
+        "completions": 36,
+        "yards": 360,
+        "comp_pct": 81.8,
+        "ypa": 8.2,
+        "td": 3,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 8,
+        "pressure_pct": 17.4
+      },
+      "more_2_5": {
+        "dropbacks": 46,
+        "attempts": 40,
+        "completions": 27,
+        "yards": 280,
+        "comp_pct": 67.5,
+        "ypa": 7.0,
+        "td": 2,
+        "int": 0,
+        "sacks": 3,
+        "pressures": 13,
+        "pressure_pct": 28.3
+      }
+    },
+    {
+      "franchise_id": 339,
+      "team": "WF",
+      "team_name": "Wake Forest",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 42,
+        "attempts": 42,
+        "completions": 31,
+        "yards": 299,
+        "comp_pct": 73.8,
+        "ypa": 7.1,
+        "td": 2,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 11,
+        "pressure_pct": 26.2
+      },
+      "more_2_5": {
+        "dropbacks": 79,
+        "attempts": 66,
+        "completions": 35,
+        "yards": 592,
+        "comp_pct": 53.0,
+        "ypa": 9.0,
+        "td": 5,
+        "int": 1,
+        "sacks": 6,
+        "pressures": 42,
+        "pressure_pct": 53.2
+      }
+    },
+    {
+      "franchise_id": 340,
+      "team": "UW",
+      "team_name": "Washington",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 35,
+        "attempts": 33,
+        "completions": 27,
+        "yards": 151,
+        "comp_pct": 81.8,
+        "ypa": 4.6,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 7,
+        "pressure_pct": 20.0
+      },
+      "more_2_5": {
+        "dropbacks": 55,
+        "attempts": 43,
+        "completions": 23,
+        "yards": 366,
+        "comp_pct": 53.5,
+        "ypa": 8.5,
+        "td": 0,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 23,
+        "pressure_pct": 41.8
+      }
+    },
+    {
+      "franchise_id": 341,
+      "team": "WSU",
+      "team_name": "Washington State",
+      "games": 2,
+      "weeks": [
+        1,
+        2
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 24,
+        "attempts": 23,
+        "completions": 13,
+        "yards": 69,
+        "comp_pct": 56.5,
+        "ypa": 3.0,
+        "td": 0,
+        "int": 0,
+        "sacks": 1,
+        "pressures": 5,
+        "pressure_pct": 20.8
+      },
+      "more_2_5": {
+        "dropbacks": 36,
+        "attempts": 22,
+        "completions": 12,
+        "yards": 138,
+        "comp_pct": 54.5,
+        "ypa": 6.3,
+        "td": 0,
+        "int": 2,
+        "sacks": 6,
+        "pressures": 25,
+        "pressure_pct": 69.4
+      }
+    },
+    {
+      "franchise_id": 343,
+      "team": "WVU",
+      "team_name": "West Virginia",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 16,
+        "attempts": 15,
+        "completions": 13,
+        "yards": 138,
+        "comp_pct": 86.7,
+        "ypa": 9.2,
+        "td": 1,
+        "int": 0,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 31.2
+      },
+      "more_2_5": {
+        "dropbacks": 24,
+        "attempts": 16,
+        "completions": 8,
+        "yards": 184,
+        "comp_pct": 50.0,
+        "ypa": 11.5,
+        "td": 2,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 15,
+        "pressure_pct": 62.5
+      }
+    },
+    {
+      "franchise_id": 346,
+      "team": "WKU",
+      "team_name": "Western Kentucky",
+      "games": 3,
+      "weeks": [
+        1,
+        2,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 69,
+        "attempts": 67,
+        "completions": 41,
+        "yards": 244,
+        "comp_pct": 61.2,
+        "ypa": 3.6,
+        "td": 1,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 10,
+        "pressure_pct": 14.5
+      },
+      "more_2_5": {
+        "dropbacks": 56,
+        "attempts": 42,
+        "completions": 18,
+        "yards": 194,
+        "comp_pct": 42.9,
+        "ypa": 4.6,
+        "td": 0,
+        "int": 1,
+        "sacks": 4,
+        "pressures": 29,
+        "pressure_pct": 51.8
+      }
+    },
+    {
+      "franchise_id": 347,
+      "team": "WMU",
+      "team_name": "Western Michigan",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 23,
+        "attempts": 21,
+        "completions": 15,
+        "yards": 83,
+        "comp_pct": 71.4,
+        "ypa": 4.0,
+        "td": 0,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 6,
+        "pressure_pct": 26.1
+      },
+      "more_2_5": {
+        "dropbacks": 28,
+        "attempts": 20,
+        "completions": 14,
+        "yards": 126,
+        "comp_pct": 70.0,
+        "ypa": 6.3,
+        "td": 1,
+        "int": 0,
+        "sacks": 2,
+        "pressures": 17,
+        "pressure_pct": 60.7
+      }
+    },
+    {
+      "franchise_id": 349,
+      "team": "WIS",
+      "team_name": "Wisconsin",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 1,
+      "less_2_5": {
+        "dropbacks": 38,
+        "attempts": 38,
+        "completions": 26,
+        "yards": 254,
+        "comp_pct": 68.4,
+        "ypa": 6.7,
+        "td": 2,
+        "int": 1,
+        "sacks": 0,
+        "pressures": 5,
+        "pressure_pct": 13.2
+      },
+      "more_2_5": {
+        "dropbacks": 29,
+        "attempts": 25,
+        "completions": 16,
+        "yards": 325,
+        "comp_pct": 64.0,
+        "ypa": 13.0,
+        "td": 2,
+        "int": 1,
+        "sacks": 2,
+        "pressures": 13,
+        "pressure_pct": 44.8
+      }
+    },
+    {
+      "franchise_id": 351,
+      "team": "WYO",
+      "team_name": "Wyoming",
+      "games": 2,
+      "weeks": [
+        1,
+        3
+      ],
+      "qbs": 2,
+      "less_2_5": {
+        "dropbacks": 25,
+        "attempts": 25,
+        "completions": 19,
+        "yards": 226,
+        "comp_pct": 76.0,
+        "ypa": 9.0,
+        "td": 0,
+        "int": 3,
+        "sacks": 0,
+        "pressures": 8,
+        "pressure_pct": 32.0
+      },
+      "more_2_5": {
+        "dropbacks": 37,
+        "attempts": 25,
+        "completions": 8,
+        "yards": 84,
+        "comp_pct": 32.0,
+        "ypa": 3.4,
+        "td": 0,
+        "int": 2,
+        "sacks": 2,
+        "pressures": 18,
+        "pressure_pct": 48.6
+      }
+    }
+  ],
   "summary": {
     "fbs_teams_in_directory": 138,
     "defenses_with_data": 138,
-    "total_qb_records": 1546,
+    "offenses_with_data": 138,
+    "total_qb_records": 1547,
     "total_games_processed": 468,
     "unmatched_qb_records": 0,
     "non_fbs_offense_records": 829,
