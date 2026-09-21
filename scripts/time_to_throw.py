@@ -24,18 +24,7 @@ def run_restish(args):
 
 
 def get_team_directory():
-    """
-    Get PFF's NCAA team directory.
-
-    Returns:
-        dict keyed by franchise_id with:
-            - name
-            - city
-            - abbreviation
-            - group_ids
-            - is_fbs
-            - is_fcs
-    """
+    """Get PFF's NCAA team directory."""
 
     print("Loading PFF NCAA team directory...")
 
@@ -66,6 +55,7 @@ def get_team_directory():
 
                 try:
                     group_ids.append(int(value))
+
                 except ValueError:
                     pass
 
@@ -118,13 +108,10 @@ def build_team_games(games):
     """
     Build:
 
-        offense franchise_id -> {
+        franchise_id -> {
             game_id,
             opponent_id
         }
-
-    Each team plays one game per week, so franchise_id
-    is sufficient to identify that week's opponent.
     """
 
     team_games = {}
@@ -144,12 +131,12 @@ def build_team_games(games):
 
         team_games[int(away_id)] = {
             "game_id": game_id,
-            "opponent_id": int(home_id)
+            "opponent_id": int(home_id),
         }
 
         team_games[int(home_id)] = {
             "game_id": game_id,
-            "opponent_id": int(away_id)
+            "opponent_id": int(away_id),
         }
 
     return team_games
@@ -273,6 +260,150 @@ def create_team_entry(team_info):
     }
 
 
+def create_game_entry(week, game_id, opponent_info):
+
+    return {
+        "week": week,
+        "game_id": game_id,
+        "opponent": opponent_info["city"],
+        "opponent_abbreviation": opponent_info["abbreviation"],
+
+        "less": create_empty_bucket(),
+        "more": create_empty_bucket(),
+    }
+
+
+def add_team_game(
+    game_logs,
+    team_id,
+    week,
+    game_info,
+    opponent_info,
+    row
+):
+    """
+    Add a QB record to a team's individual game log.
+
+    Multiple QBs in the same game are combined.
+    """
+
+    if team_id not in game_logs:
+
+        game_logs[team_id] = {}
+
+    team_games = game_logs[team_id]
+
+    game_id = game_info["game_id"]
+
+    if game_id not in team_games:
+
+        team_games[game_id] = create_game_entry(
+            week,
+            game_id,
+            opponent_info
+        )
+
+    game = team_games[game_id]
+
+    add_bucket(
+        game["less"],
+        row,
+        "less"
+    )
+
+    add_bucket(
+        game["more"],
+        row,
+        "more"
+    )
+
+
+def convert_game_logs(game_logs):
+
+    output = {}
+
+    for team_id, games in game_logs.items():
+
+        game_list = []
+
+        for game in games.values():
+
+            game_list.append({
+                "week": game["week"],
+                "game_id": game["game_id"],
+                "opponent": game["opponent"],
+                "opponent_abbreviation":
+                    game["opponent_abbreviation"],
+
+                "less_2_5":
+                    calculate_bucket(
+                        game["less"]
+                    ),
+
+                "more_2_5":
+                    calculate_bucket(
+                        game["more"]
+                    ),
+            })
+
+        game_list.sort(
+            key=lambda x: (
+                x["week"],
+                x["game_id"]
+            )
+        )
+
+        output[str(team_id)] = game_list
+
+    return output
+
+
+def convert_team_totals(dataset):
+
+    output = []
+
+    for team in dataset.values():
+
+        output.append({
+
+            "franchise_id":
+                team["franchise_id"],
+
+            "team":
+                team["team"],
+
+            "team_name":
+                team["team_name"],
+
+            "games":
+                len(team["games"]),
+
+            "weeks":
+                sorted(team["weeks"]),
+
+            "qbs":
+                len(team["qbs"]),
+
+            "less_2_5":
+                calculate_bucket(
+                    team["less"]
+                ),
+
+            "more_2_5":
+                calculate_bucket(
+                    team["more"]
+                ),
+        })
+
+    output.sort(
+        key=lambda x: (
+            x["team_name"] or ""
+        ).lower()
+    )
+
+    return output
+
+
 def main():
 
     print("=" * 50)
@@ -314,13 +445,15 @@ def main():
     defenses = {}
     offenses = {}
 
+    defense_game_logs = {}
+    offense_game_logs = {}
+
     weeks_processed = []
 
     total_qb_records = 0
     total_games = 0
 
     unmatched = 0
-
     non_fbs_offense = 0
     non_fbs_defense = 0
 
@@ -341,7 +474,6 @@ def main():
                 f"Week {week}: no Time to Throw data"
             )
 
-            # Week 0 may not exist for every season.
             if week == 0:
 
                 print(
@@ -360,7 +492,8 @@ def main():
         games = get_week_games(week)
 
         print(
-            f"Time to Throw records: {len(ttt_rows)}"
+            f"Time to Throw records: "
+            f"{len(ttt_rows)}"
         )
 
         print(
@@ -380,7 +513,9 @@ def main():
 
         for row in ttt_rows:
 
-            offense_id = row.get("franchise_id")
+            offense_id = row.get(
+                "franchise_id"
+            )
 
             if offense_id is None:
 
@@ -389,10 +524,6 @@ def main():
                 continue
 
             offense_id = int(offense_id)
-
-            # -------------------------------------------------
-            # MAKE SURE WE KNOW THE GAME
-            # -------------------------------------------------
 
             game_info = team_games.get(
                 offense_id
@@ -404,7 +535,9 @@ def main():
 
                 continue
 
-            defense_id = game_info["opponent_id"]
+            defense_id = game_info[
+                "opponent_id"
+            ]
 
             # -------------------------------------------------
             # ONLY FBS OFFENSES
@@ -426,27 +559,41 @@ def main():
 
                 continue
 
+            offense_info = fbs_teams[
+                offense_id
+            ]
+
+            defense_info = fbs_teams[
+                defense_id
+            ]
+
             # =================================================
-            # OFFENSE
+            # OFFENSE SEASON TOTAL
             # =================================================
 
             if offense_id not in offenses:
 
                 offenses[offense_id] = (
                     create_team_entry(
-                        fbs_teams[offense_id]
+                        offense_info
                     )
                 )
 
-            offense = offenses[offense_id]
+            offense = offenses[
+                offense_id
+            ]
 
             offense["games"].add(
                 game_info["game_id"]
             )
 
-            offense["weeks"].add(week)
+            offense["weeks"].add(
+                week
+            )
 
-            player_id = row.get("player_id")
+            player_id = row.get(
+                "player_id"
+            )
 
             if player_id is not None:
 
@@ -467,24 +614,41 @@ def main():
             )
 
             # =================================================
-            # DEFENSE
+            # OFFENSE GAME LOG
+            # =================================================
+
+            add_team_game(
+                offense_game_logs,
+                offense_id,
+                week,
+                game_info,
+                defense_info,
+                row
+            )
+
+            # =================================================
+            # DEFENSE SEASON TOTAL
             # =================================================
 
             if defense_id not in defenses:
 
                 defenses[defense_id] = (
                     create_team_entry(
-                        fbs_teams[defense_id]
+                        defense_info
                     )
                 )
 
-            defense = defenses[defense_id]
+            defense = defenses[
+                defense_id
+            ]
 
             defense["games"].add(
                 game_info["game_id"]
             )
 
-            defense["weeks"].add(week)
+            defense["weeks"].add(
+                week
+            )
 
             if player_id is not None:
 
@@ -504,61 +668,37 @@ def main():
                 "more"
             )
 
+            # =================================================
+            # DEFENSE GAME LOG
+            # =================================================
+
+            add_team_game(
+                defense_game_logs,
+                defense_id,
+                week,
+                game_info,
+                offense_info,
+                row
+            )
+
     # ---------------------------------------------------------
-    # CONVERT DATASETS
+    # CONVERT DATA
     # ---------------------------------------------------------
 
-    def build_output(dataset):
-
-        output = []
-
-        for team_id, team in dataset.items():
-
-            output.append({
-
-                "franchise_id":
-                    team["franchise_id"],
-
-                "team":
-                    team["team"],
-
-                "team_name":
-                    team["team_name"],
-
-                "games":
-                    len(team["games"]),
-
-                "weeks":
-                    sorted(team["weeks"]),
-
-                "qbs":
-                    len(team["qbs"]),
-
-                "less_2_5":
-                    calculate_bucket(
-                        team["less"]
-                    ),
-
-                "more_2_5":
-                    calculate_bucket(
-                        team["more"]
-                    ),
-            })
-
-        output.sort(
-            key=lambda x: (
-                x["team_name"] or ""
-            ).lower()
-        )
-
-        return output
-
-    defense_output = build_output(
+    defense_output = convert_team_totals(
         defenses
     )
 
-    offense_output = build_output(
+    offense_output = convert_team_totals(
         offenses
+    )
+
+    defense_games_output = convert_game_logs(
+        defense_game_logs
+    )
+
+    offense_games_output = convert_game_logs(
+        offense_game_logs
     )
 
     # ---------------------------------------------------------
@@ -597,6 +737,15 @@ def main():
 
         "offenses":
             offense_output,
+
+        "game_logs": {
+
+            "defense":
+                defense_games_output,
+
+            "offense":
+                offense_games_output,
+        },
 
         "summary": {
 
@@ -674,6 +823,16 @@ def main():
     print(
         f"Offenses with data:     "
         f"{len(offense_output)}"
+    )
+
+    print(
+        f"Defense game logs:      "
+        f"{len(defense_games_output)}"
+    )
+
+    print(
+        f"Offense game logs:      "
+        f"{len(offense_games_output)}"
     )
 
     print(
