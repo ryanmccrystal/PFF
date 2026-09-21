@@ -613,9 +613,8 @@ def main():
             + ".html"
         )
 
-        output_file =
-            OUTPUT_DIR / filename
-
+        output_file = OUTPUT_DIR / filename
+            
 
         page = build_team_page(team)
 
