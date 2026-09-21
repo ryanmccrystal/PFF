@@ -73,6 +73,12 @@
         padding: 7px 6px;
         text-align: center;
         white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    th:hover {
+        background: #eeeeee;
     }
 
     td {
@@ -100,6 +106,11 @@
 
     .team {
         font-weight: bold;
+    }
+
+    .sort-arrow {
+        font-size: 11px;
+        margin-left: 3px;
     }
 
     .loading,
@@ -170,6 +181,13 @@
 let data = null;
 let currentMode = "less_2_5";
 
+/*
+ * Default sort:
+ * Dropbacks, highest to lowest
+ */
+let sortColumn = "dropbacks";
+let sortDirection = "desc";
+
 
 function formatNumber(value) {
     return Number(value).toLocaleString("en-US");
@@ -186,6 +204,169 @@ function formatYPA(value) {
 }
 
 
+/*
+ * Get the % of all dropbacks that occurred
+ * in the currently selected time-to-throw bucket.
+ */
+function getPercentOfTotal(team) {
+
+    const lessDropbacks = Number(
+        team.less_2_5.dropbacks || 0
+    );
+
+    const moreDropbacks = Number(
+        team.more_2_5.dropbacks || 0
+    );
+
+    const totalDropbacks =
+        lessDropbacks + moreDropbacks;
+
+    if (totalDropbacks === 0) {
+        return 0;
+    }
+
+    const currentDropbacks =
+        Number(team[currentMode].dropbacks || 0);
+
+    return (
+        currentDropbacks / totalDropbacks * 100
+    );
+}
+
+
+/*
+ * Get the value used for sorting.
+ */
+function getSortValue(team, column) {
+
+    const stats = team[currentMode];
+
+    switch (column) {
+
+        case "team_name":
+            return (
+                team.team_name || ""
+            ).toLowerCase();
+
+        case "percent_total":
+            return getPercentOfTotal(team);
+
+        case "dropbacks":
+            return Number(stats.dropbacks || 0);
+
+        case "comp_pct":
+            return Number(stats.comp_pct || 0);
+
+        case "ypa":
+            return Number(stats.ypa || 0);
+
+        case "td":
+            return Number(stats.td || 0);
+
+        case "int":
+            return Number(stats.int || 0);
+
+        case "sacks":
+            return Number(stats.sacks || 0);
+
+        case "pressure_pct":
+            return Number(stats.pressure_pct || 0);
+
+        default:
+            return 0;
+    }
+}
+
+
+/*
+ * Sort the table.
+ */
+function sortTeams(teams) {
+
+    teams.sort((a, b) => {
+
+        const aValue =
+            getSortValue(a, sortColumn);
+
+        const bValue =
+            getSortValue(b, sortColumn);
+
+        /*
+         * Text sorting
+         */
+        if (
+            typeof aValue === "string" &&
+            typeof bValue === "string"
+        ) {
+
+            const comparison =
+                aValue.localeCompare(bValue);
+
+            return sortDirection === "asc"
+                ? comparison
+                : -comparison;
+        }
+
+        /*
+         * Numeric sorting
+         */
+        const comparison = aValue - bValue;
+
+        return sortDirection === "asc"
+            ? comparison
+            : -comparison;
+    });
+
+    return teams;
+}
+
+
+/*
+ * Get the arrow displayed in the
+ * currently sorted column.
+ */
+function getSortArrow(column) {
+
+    if (sortColumn !== column) {
+        return "";
+    }
+
+    return sortDirection === "asc"
+        ? '<span class="sort-arrow">▲</span>'
+        : '<span class="sort-arrow">▼</span>';
+}
+
+
+/*
+ * Change sorting when a column header
+ * is clicked.
+ */
+function handleSort(column) {
+
+    if (sortColumn === column) {
+
+        /*
+         * Clicking the same column reverses
+         * the sort direction.
+         */
+        sortDirection =
+            sortDirection === "asc"
+                ? "desc"
+                : "asc";
+
+    } else {
+
+        /*
+         * A new column starts descending.
+         */
+        sortColumn = column;
+        sortDirection = "desc";
+    }
+
+    renderTable();
+}
+
+
 function renderTable() {
 
     if (!data || !data.teams) {
@@ -194,27 +375,52 @@ function renderTable() {
 
     const teams = [...data.teams];
 
-    /*
-     * Sort by dropbacks, highest to lowest.
-     */
-    teams.sort((a, b) => {
-        return b[currentMode].dropbacks - a[currentMode].dropbacks;
-    });
+    sortTeams(teams);
 
     let html = `
         <table>
             <thead>
                 <tr>
-                    <th>Defense</th>
-                    <th>Dropbacks</th>
-                    <th>Comp%</th>
-                    <th>Yds/Att</th>
-                    <th>TD</th>
-                    <th>INT</th>
-                    <th>Sacks</th>
-                    <th>Pressure%</th>
+
+                    <th onclick="handleSort('team_name')">
+                        Defense${getSortArrow("team_name")}
+                    </th>
+
+                    <th onclick="handleSort('percent_total')">
+                        % of Total${getSortArrow("percent_total")}
+                    </th>
+
+                    <th onclick="handleSort('dropbacks')">
+                        Dropbacks${getSortArrow("dropbacks")}
+                    </th>
+
+                    <th onclick="handleSort('comp_pct')">
+                        Comp%${getSortArrow("comp_pct")}
+                    </th>
+
+                    <th onclick="handleSort('ypa')">
+                        Yds/Att${getSortArrow("ypa")}
+                    </th>
+
+                    <th onclick="handleSort('td')">
+                        TD${getSortArrow("td")}
+                    </th>
+
+                    <th onclick="handleSort('int')">
+                        INT${getSortArrow("int")}
+                    </th>
+
+                    <th onclick="handleSort('sacks')">
+                        Sacks${getSortArrow("sacks")}
+                    </th>
+
+                    <th onclick="handleSort('pressure_pct')">
+                        Pressure%${getSortArrow("pressure_pct")}
+                    </th>
+
                 </tr>
             </thead>
+
             <tbody>
     `;
 
@@ -222,26 +428,49 @@ function renderTable() {
 
         const stats = team[currentMode];
 
+        const percentOfTotal =
+            getPercentOfTotal(team);
+
         html += `
             <tr>
+
                 <td>
                     <span class="rank">${index + 1}.</span>
                     <span class="team">${team.team_name}</span>
                 </td>
 
-                <td>${formatNumber(stats.dropbacks)}</td>
+                <td>
+                    ${formatPercent(percentOfTotal)}
+                </td>
 
-                <td>${formatPercent(stats.comp_pct)}</td>
+                <td>
+                    ${formatNumber(stats.dropbacks)}
+                </td>
 
-                <td>${formatYPA(stats.ypa)}</td>
+                <td>
+                    ${formatPercent(stats.comp_pct)}
+                </td>
 
-                <td>${formatNumber(stats.td)}</td>
+                <td>
+                    ${formatYPA(stats.ypa)}
+                </td>
 
-                <td>${formatNumber(stats.int)}</td>
+                <td>
+                    ${formatNumber(stats.td)}
+                </td>
 
-                <td>${formatNumber(stats.sacks)}</td>
+                <td>
+                    ${formatNumber(stats.int)}
+                </td>
 
-                <td>${formatPercent(stats.pressure_pct)}</td>
+                <td>
+                    ${formatNumber(stats.sacks)}
+                </td>
+
+                <td>
+                    ${formatPercent(stats.pressure_pct)}
+                </td>
+
             </tr>
         `;
     });
@@ -251,14 +480,19 @@ function renderTable() {
         </table>
     `;
 
-    document.getElementById("tableContainer").innerHTML = html;
+    document.getElementById(
+        "tableContainer"
+    ).innerHTML = html;
 }
 
 
 function updateButtons() {
 
-    const lessButton = document.getElementById("lessButton");
-    const moreButton = document.getElementById("moreButton");
+    const lessButton =
+        document.getElementById("lessButton");
+
+    const moreButton =
+        document.getElementById("moreButton");
 
     lessButton.classList.toggle(
         "active",
@@ -272,7 +506,9 @@ function updateButtons() {
 }
 
 
-document.getElementById("lessButton").addEventListener(
+document.getElementById(
+    "lessButton"
+).addEventListener(
     "click",
     function() {
 
@@ -284,7 +520,9 @@ document.getElementById("lessButton").addEventListener(
 );
 
 
-document.getElementById("moreButton").addEventListener(
+document.getElementById(
+    "moreButton"
+).addEventListener(
     "click",
     function() {
 
@@ -311,22 +549,30 @@ fetch("data/time_to_throw.json")
 
         data = json;
 
-        const weeks = json.weeks_processed || [];
+        const weeks =
+            json.weeks_processed || [];
 
         let weekText = "";
 
         if (weeks.length === 1) {
-            weekText = `Week ${weeks[0]}`;
-        }
-        else if (weeks.length > 1) {
+
+            weekText =
+                `Week ${weeks[0]}`;
+
+        } else if (weeks.length > 1) {
+
             weekText =
                 `Weeks ${weeks[0]}–${weeks[weeks.length - 1]}`;
-        }
-        else {
-            weekText = "No weeks available";
+
+        } else {
+
+            weekText =
+                "No weeks available";
         }
 
-        document.getElementById("seasonInfo").textContent =
+        document.getElementById(
+            "seasonInfo"
+        ).textContent =
             `${json.season} • ${weekText} • FBS vs FBS`;
 
         updateButtons();
@@ -336,7 +582,9 @@ fetch("data/time_to_throw.json")
 
         console.error(error);
 
-        document.getElementById("tableContainer").innerHTML = `
+        document.getElementById(
+            "tableContainer"
+        ).innerHTML = `
             <div class="error">
                 Unable to load Time to Throw data.
             </div>
