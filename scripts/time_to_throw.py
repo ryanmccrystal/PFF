@@ -10,6 +10,7 @@ OUTPUT_FILE = Path("data/time_to_throw.json")
 
 def run_restish(args):
     """Run a Restish command and return parsed JSON."""
+
     command = ["restish"] + args
 
     result = subprocess.run(
@@ -49,6 +50,7 @@ def get_team_directory():
     teams = {}
 
     for row in data.get("rows", []):
+
         franchise_id = row.get("franchiseId")
 
         if franchise_id is None:
@@ -59,7 +61,9 @@ def get_team_directory():
         raw_group_ids = row.get("groupIds", "")
 
         if raw_group_ids:
+
             for value in str(raw_group_ids).split(";"):
+
                 try:
                     group_ids.append(int(value))
                 except ValueError:
@@ -126,6 +130,7 @@ def build_team_games(games):
     team_games = {}
 
     for game in games:
+
         game_id = game.get("id")
 
         away_team = game.get("away_team", {})
@@ -166,36 +171,75 @@ def create_empty_bucket():
 
 
 def add_bucket(target, row, prefix):
-    """Add one PFF Time to Throw bucket to a defense."""
+    """Add one PFF Time to Throw bucket."""
 
-    target["dropbacks"] += row.get(f"{prefix}_dropbacks", 0) or 0
-    target["attempts"] += row.get(f"{prefix}_attempts", 0) or 0
-    target["completions"] += row.get(f"{prefix}_completions", 0) or 0
-    target["yards"] += row.get(f"{prefix}_yards", 0) or 0
-    target["touchdowns"] += row.get(f"{prefix}_touchdowns", 0) or 0
-    target["interceptions"] += row.get(f"{prefix}_interceptions", 0) or 0
-    target["sacks"] += row.get(f"{prefix}_sacks", 0) or 0
-    target["pressures"] += row.get(
-        f"{prefix}_def_gen_pressures", 0
-    ) or 0
+    target["dropbacks"] += (
+        row.get(f"{prefix}_dropbacks", 0) or 0
+    )
+
+    target["attempts"] += (
+        row.get(f"{prefix}_attempts", 0) or 0
+    )
+
+    target["completions"] += (
+        row.get(f"{prefix}_completions", 0) or 0
+    )
+
+    target["yards"] += (
+        row.get(f"{prefix}_yards", 0) or 0
+    )
+
+    target["touchdowns"] += (
+        row.get(f"{prefix}_touchdowns", 0) or 0
+    )
+
+    target["interceptions"] += (
+        row.get(f"{prefix}_interceptions", 0) or 0
+    )
+
+    target["sacks"] += (
+        row.get(f"{prefix}_sacks", 0) or 0
+    )
+
+    target["pressures"] += (
+        row.get(f"{prefix}_def_gen_pressures", 0) or 0
+    )
 
 
 def calculate_bucket(bucket):
-    """Calculate the displayed statistics from raw totals."""
+    """Calculate displayed statistics from raw totals."""
 
     attempts = bucket["attempts"]
     dropbacks = bucket["dropbacks"]
 
     if attempts:
-        comp_pct = bucket["completions"] / attempts * 100
-        ypa = bucket["yards"] / attempts
+
+        comp_pct = (
+            bucket["completions"] /
+            attempts *
+            100
+        )
+
+        ypa = (
+            bucket["yards"] /
+            attempts
+        )
+
     else:
+
         comp_pct = 0
         ypa = 0
 
     if dropbacks:
-        pressure_pct = bucket["pressures"] / dropbacks * 100
+
+        pressure_pct = (
+            bucket["pressures"] /
+            dropbacks *
+            100
+        )
+
     else:
+
         pressure_pct = 0
 
     return {
@@ -213,11 +257,27 @@ def calculate_bucket(bucket):
     }
 
 
+def create_team_entry(team_info):
+
+    return {
+        "franchise_id": team_info["franchise_id"],
+        "team_name": team_info["city"],
+        "team": team_info["abbreviation"],
+
+        "games": set(),
+        "weeks": set(),
+        "qbs": set(),
+
+        "less": create_empty_bucket(),
+        "more": create_empty_bucket(),
+    }
+
+
 def main():
 
-    print("=" * 40)
+    print("=" * 50)
     print("PFF TIME TO THROW BUILD")
-    print("=" * 40)
+    print("=" * 50)
 
     # ---------------------------------------------------------
     # TEAM DIRECTORY
@@ -242,6 +302,7 @@ def main():
     print(f"FCS teams:        {len(fcs_teams)}")
 
     if not fbs_teams:
+
         raise RuntimeError(
             "No FBS teams were found in PFF team-directory."
         )
@@ -251,12 +312,15 @@ def main():
     # ---------------------------------------------------------
 
     defenses = {}
+    offenses = {}
 
     weeks_processed = []
+
     total_qb_records = 0
     total_games = 0
 
     unmatched = 0
+
     non_fbs_offense = 0
     non_fbs_defense = 0
 
@@ -265,31 +329,46 @@ def main():
     # ---------------------------------------------------------
 
     for week in range(0, MAX_WEEKS + 1):
-    
+
         print()
         print(f"--- Week {week} ---")
-    
+
         ttt_rows = get_time_to_throw(week)
-    
+
         if not ttt_rows:
-    
-            print(f"Week {week}: no Time to Throw data")
-    
-            # Week 0 may not exist for every season/data source.
-            # If Week 0 is empty, continue on to Week 1.
+
+            print(
+                f"Week {week}: no Time to Throw data"
+            )
+
+            # Week 0 may not exist for every season.
             if week == 0:
-                print("Week 0 has no data. Continuing to Week 1.")
+
+                print(
+                    "Week 0 has no data. "
+                    "Continuing to Week 1."
+                )
+
                 continue
-    
-            print(f"Stopping at Week {week}.")
+
+            print(
+                f"Stopping at Week {week}."
+            )
+
             break
 
         games = get_week_games(week)
 
-        print(f"Time to Throw records: {len(ttt_rows)}")
-        print(f"Games: {len(games)}")
+        print(
+            f"Time to Throw records: {len(ttt_rows)}"
+        )
+
+        print(
+            f"Games: {len(games)}"
+        )
 
         weeks_processed.append(week)
+
         total_qb_records += len(ttt_rows)
         total_games += len(games)
 
@@ -304,16 +383,25 @@ def main():
             offense_id = row.get("franchise_id")
 
             if offense_id is None:
+
                 unmatched += 1
+
                 continue
 
             offense_id = int(offense_id)
 
-            # Find the offense's game to determine its opponent.
-            game_info = team_games.get(offense_id)
+            # -------------------------------------------------
+            # MAKE SURE WE KNOW THE GAME
+            # -------------------------------------------------
+
+            game_info = team_games.get(
+                offense_id
+            )
 
             if not game_info:
+
                 unmatched += 1
+
                 continue
 
             defense_id = game_info["opponent_id"]
@@ -323,7 +411,9 @@ def main():
             # -------------------------------------------------
 
             if offense_id not in fbs_teams:
+
                 non_fbs_offense += 1
+
                 continue
 
             # -------------------------------------------------
@@ -331,51 +421,76 @@ def main():
             # -------------------------------------------------
 
             if defense_id not in fbs_teams:
+
                 non_fbs_defense += 1
+
                 continue
 
-            # -------------------------------------------------
-            # INITIALIZE DEFENSE
-            # -------------------------------------------------
+            # =================================================
+            # OFFENSE
+            # =================================================
 
-            if defense_id not in defenses:
+            if offense_id not in offenses:
 
-                team_info = fbs_teams[defense_id]
+                offenses[offense_id] = (
+                    create_team_entry(
+                        fbs_teams[offense_id]
+                    )
+                )
 
-                defenses[defense_id] = {
-                    "franchise_id": defense_id,
+            offense = offenses[offense_id]
 
-                    # PFF's city field is the school name
-                    # without the mascot.
-                    "team_name": team_info["city"],
+            offense["games"].add(
+                game_info["game_id"]
+            )
 
-                    "team": team_info["abbreviation"],
-
-                    "games": set(),
-                    "weeks": set(),
-                    "qbs": set(),
-
-                    "less": create_empty_bucket(),
-                    "more": create_empty_bucket(),
-                }
-
-            defense = defenses[defense_id]
-
-            # -------------------------------------------------
-            # TRACK GAME / WEEK / QB
-            # -------------------------------------------------
-
-            defense["games"].add(game_info["game_id"])
-            defense["weeks"].add(week)
+            offense["weeks"].add(week)
 
             player_id = row.get("player_id")
 
             if player_id is not None:
-                defense["qbs"].add(player_id)
 
-            # -------------------------------------------------
-            # AGGREGATE BOTH TIME-TO-THROW BUCKETS
-            # -------------------------------------------------
+                offense["qbs"].add(
+                    player_id
+                )
+
+            add_bucket(
+                offense["less"],
+                row,
+                "less"
+            )
+
+            add_bucket(
+                offense["more"],
+                row,
+                "more"
+            )
+
+            # =================================================
+            # DEFENSE
+            # =================================================
+
+            if defense_id not in defenses:
+
+                defenses[defense_id] = (
+                    create_team_entry(
+                        fbs_teams[defense_id]
+                    )
+                )
+
+            defense = defenses[defense_id]
+
+            defense["games"].add(
+                game_info["game_id"]
+            )
+
+            defense["weeks"].add(week)
+
+            if player_id is not None:
+
+                defense["qbs"].add(
+                    player_id
+                )
 
             add_bucket(
                 defense["less"],
@@ -390,39 +505,60 @@ def main():
             )
 
     # ---------------------------------------------------------
-    # BUILD FINAL OUTPUT
+    # CONVERT DATASETS
     # ---------------------------------------------------------
 
-    output = []
+    def build_output(dataset):
 
-    for defense_id, defense in defenses.items():
+        output = []
 
-        output.append({
-            "franchise_id": defense["franchise_id"],
-            "team": defense["team"],
-            "team_name": defense["team_name"],
+        for team_id, team in dataset.items():
 
-            "games": len(defense["games"]),
-            "weeks": sorted(defense["weeks"]),
-            "qbs": len(defense["qbs"]),
+            output.append({
 
-            "less_2_5": calculate_bucket(
-                defense["less"]
-            ),
+                "franchise_id":
+                    team["franchise_id"],
 
-            "more_2_5": calculate_bucket(
-                defense["more"]
-            ),
-        })
+                "team":
+                    team["team"],
 
-    # ---------------------------------------------------------
-    # SORT BY SCHOOL NAME
-    # ---------------------------------------------------------
+                "team_name":
+                    team["team_name"],
 
-    output.sort(
-        key=lambda x: (
-            x["team_name"] or ""
-        ).lower()
+                "games":
+                    len(team["games"]),
+
+                "weeks":
+                    sorted(team["weeks"]),
+
+                "qbs":
+                    len(team["qbs"]),
+
+                "less_2_5":
+                    calculate_bucket(
+                        team["less"]
+                    ),
+
+                "more_2_5":
+                    calculate_bucket(
+                        team["more"]
+                    ),
+            })
+
+        output.sort(
+            key=lambda x: (
+                x["team_name"] or ""
+            ).lower()
+        )
+
+        return output
+
+    defense_output = build_output(
+        defenses
+    )
+
+    offense_output = build_output(
+        offenses
     )
 
     # ---------------------------------------------------------
@@ -435,26 +571,58 @@ def main():
     )
 
     result = {
+
         "season": SEASON,
-        "weeks_processed": weeks_processed,
+
+        "weeks_processed":
+            weeks_processed,
 
         "filters": {
-            "division": "FBS",
-            "games": "FBS vs FBS",
-            "less_than_2_5": "< 2.5 seconds",
-            "more_than_or_equal_2_5": "2.5 seconds or more",
+
+            "division":
+                "FBS",
+
+            "games":
+                "FBS vs FBS",
+
+            "less_than_2_5":
+                "< 2.5 seconds",
+
+            "more_than_or_equal_2_5":
+                "2.5 seconds or more",
         },
 
-        "teams": output,
+        "defenses":
+            defense_output,
+
+        "offenses":
+            offense_output,
 
         "summary": {
-            "fbs_teams_in_directory": len(fbs_teams),
-            "defenses_with_data": len(output),
-            "total_qb_records": total_qb_records,
-            "total_games_processed": total_games,
-            "unmatched_qb_records": unmatched,
-            "non_fbs_offense_records": non_fbs_offense,
-            "non_fbs_defense_records": non_fbs_defense,
+
+            "fbs_teams_in_directory":
+                len(fbs_teams),
+
+            "defenses_with_data":
+                len(defense_output),
+
+            "offenses_with_data":
+                len(offense_output),
+
+            "total_qb_records":
+                total_qb_records,
+
+            "total_games_processed":
+                total_games,
+
+            "unmatched_qb_records":
+                unmatched,
+
+            "non_fbs_offense_records":
+                non_fbs_offense,
+
+            "non_fbs_defense_records":
+                non_fbs_defense,
         },
     }
 
@@ -474,21 +642,61 @@ def main():
     # ---------------------------------------------------------
 
     print()
-    print("=" * 40)
+    print("=" * 50)
     print("TIME TO THROW BUILD COMPLETE")
-    print("=" * 40)
+    print("=" * 50)
 
-    print(f"Weeks processed:        {weeks_processed}")
-    print(f"QB records:             {total_qb_records}")
-    print(f"Games:                  {total_games}")
-    print(f"FBS teams:              {len(fbs_teams)}")
-    print(f"Defenses with data:     {len(output)}")
-    print(f"Unmatched:              {unmatched}")
-    print(f"Non-FBS offense rows:   {non_fbs_offense}")
-    print(f"Non-FBS defense rows:   {non_fbs_defense}")
-    print(f"Output:                 {OUTPUT_FILE}")
+    print(
+        f"Weeks processed:        "
+        f"{weeks_processed}"
+    )
 
-    print("=" * 40)
+    print(
+        f"QB records:             "
+        f"{total_qb_records}"
+    )
+
+    print(
+        f"Games:                  "
+        f"{total_games}"
+    )
+
+    print(
+        f"FBS teams:              "
+        f"{len(fbs_teams)}"
+    )
+
+    print(
+        f"Defenses with data:     "
+        f"{len(defense_output)}"
+    )
+
+    print(
+        f"Offenses with data:     "
+        f"{len(offense_output)}"
+    )
+
+    print(
+        f"Unmatched:              "
+        f"{unmatched}"
+    )
+
+    print(
+        f"Non-FBS offense rows:   "
+        f"{non_fbs_offense}"
+    )
+
+    print(
+        f"Non-FBS defense rows:   "
+        f"{non_fbs_defense}"
+    )
+
+    print(
+        f"Output:                 "
+        f"{OUTPUT_FILE}"
+    )
+
+    print("=" * 50)
 
 
 if __name__ == "__main__":
