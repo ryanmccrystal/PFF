@@ -138,7 +138,6 @@ tbody tr:last-child td {
 </a>
 </div>
 
-
 <h1>Jacksonville State</h1>
 
 <div class="subtitle">
@@ -183,10 +182,6 @@ Loading...
 <script>
 
 const teamId = "196";
-
-const teamName = "Jacksonville State";
-
-const abbreviation = "JVST";
 
 
 function formatNumber(value) {
@@ -323,11 +318,8 @@ Pressure%
 
     games.forEach(game => {
 
-        const less =
-            game.less_2_5;
-
-        const more =
-            game.more_2_5;
+        const less = game.less_2_5;
+        const more = game.more_2_5;
 
 
         html += `
@@ -438,21 +430,49 @@ fetch("../data/time_to_throw.json")
 
 })
 
-
 .then(data => {
 
+    console.log(
+        "Time to Throw data loaded"
+    );
+
+
+    console.log(
+        "Team ID:",
+        teamId
+    );
+
+
+    const gameLogs =
+        data.game_logs || {};
+
+
+    const defenseLogs =
+        gameLogs.defense || {};
+
+
+    const offenseLogs =
+        gameLogs.offense || {};
+
+
     const defenseGames =
-        data.game_logs &&
-        data.game_logs.defense
-            ? data.game_logs.defense[teamId]
-            : [];
+        defenseLogs[String(teamId)] || [];
 
 
     const offenseGames =
-        data.game_logs &&
-        data.game_logs.offense
-            ? data.game_logs.offense[teamId]
-            : [];
+        offenseLogs[String(teamId)] || [];
+
+
+    console.log(
+        "Defense games:",
+        defenseGames.length
+    );
+
+
+    console.log(
+        "Offense games:",
+        offenseGames.length
+    );
 
 
     const weeks =
@@ -499,10 +519,12 @@ fetch("../data/time_to_throw.json")
 
 })
 
-
 .catch(error => {
 
-    console.error(error);
+    console.error(
+        "Time to Throw error:",
+        error
+    );
 
 
     document.getElementById(
