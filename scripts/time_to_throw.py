@@ -264,15 +264,23 @@ def main():
     # PROCESS WEEKS
     # ---------------------------------------------------------
 
-    for week in range(1, MAX_WEEKS + 1):
-
+    for week in range(0, MAX_WEEKS + 1):
+    
         print()
         print(f"--- Week {week} ---")
-
+    
         ttt_rows = get_time_to_throw(week)
-
+    
         if not ttt_rows:
+    
             print(f"Week {week}: no Time to Throw data")
+    
+            # Week 0 may not exist for every season/data source.
+            # If Week 0 is empty, continue on to Week 1.
+            if week == 0:
+                print("Week 0 has no data. Continuing to Week 1.")
+                continue
+    
             print(f"Stopping at Week {week}.")
             break
 
