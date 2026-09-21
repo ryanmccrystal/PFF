@@ -7,6 +7,7 @@
 <title>Time to Throw | PFF</title>
 
 <style>
+
     body {
         font-family: "Times New Roman", Times, serif;
         background: #ffffff;
@@ -37,6 +38,10 @@
         display: flex;
         justify-content: center;
         gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .controls:last-of-type {
         margin-bottom: 15px;
     }
 
@@ -121,6 +126,7 @@
     }
 
     @media (max-width: 700px) {
+
         body {
             padding: 20px 8px;
         }
@@ -142,7 +148,12 @@
             width: 22px;
             margin-right: 2px;
         }
+
+        .toggle {
+            padding: 7px 12px;
+        }
     }
+
 </style>
 </head>
 
@@ -153,10 +164,29 @@
     <h1>Time to Throw</h1>
 
     <div class="subtitle">
-        Opposing quarterback performance by time to throw
+        Quarterback performance by time to throw
     </div>
 
+
+    <!-- OFFENSE / DEFENSE TOGGLE -->
+
     <div class="controls">
+
+        <button id="defenseButton" class="toggle active">
+            Defense
+        </button>
+
+        <button id="offenseButton" class="toggle">
+            Offense
+        </button>
+
+    </div>
+
+
+    <!-- LESS / MORE TOGGLE -->
+
+    <div class="controls">
+
         <button id="lessButton" class="toggle active">
             &lt; 2.5 sec
         </button>
@@ -164,25 +194,52 @@
         <button id="moreButton" class="toggle">
             2.5+ sec
         </button>
+
     </div>
+
 
     <div id="seasonInfo" class="season-info">
         Loading...
     </div>
 
+
     <div id="tableContainer">
-        <div class="loading">Loading Time to Throw data...</div>
+
+        <div class="loading">
+            Loading Time to Throw data...
+        </div>
+
     </div>
 
 </div>
 
+
 <script>
 
 let data = null;
+
+
+/*
+ * Current team type:
+ *
+ * "defense" = opposing quarterbacks
+ * "offense" = team's own quarterbacks
+ */
+let currentTeamType = "defense";
+
+
+/*
+ * Current time-to-throw bucket:
+ *
+ * "less_2_5" = less than 2.5 seconds
+ * "more_2_5" = 2.5 seconds or more
+ */
 let currentMode = "less_2_5";
+
 
 /*
  * Default sort:
+ *
  * Dropbacks, highest to lowest
  */
 let sortColumn = "dropbacks";
@@ -190,17 +247,45 @@ let sortDirection = "desc";
 
 
 function formatNumber(value) {
+
     return Number(value).toLocaleString("en-US");
+
 }
 
 
 function formatPercent(value) {
+
     return Number(value).toFixed(1) + "%";
+
 }
 
 
 function formatYPA(value) {
+
     return Number(value).toFixed(1);
+
+}
+
+
+/*
+ * Get the currently selected dataset.
+ *
+ * Defense:
+ *     data.defenses
+ *
+ * Offense:
+ *     data.offenses
+ */
+function getCurrentTeams() {
+
+    if (currentTeamType === "offense") {
+
+        return data.offenses || [];
+
+    }
+
+    return data.defenses || [];
+
 }
 
 
@@ -222,15 +307,20 @@ function getPercentOfTotal(team) {
         lessDropbacks + moreDropbacks;
 
     if (totalDropbacks === 0) {
+
         return 0;
+
     }
 
     const currentDropbacks =
         Number(team[currentMode].dropbacks || 0);
 
     return (
-        currentDropbacks / totalDropbacks * 100
+        currentDropbacks /
+        totalDropbacks *
+        100
     );
+
 }
 
 
@@ -244,37 +334,72 @@ function getSortValue(team, column) {
     switch (column) {
 
         case "team_name":
+
             return (
                 team.team_name || ""
             ).toLowerCase();
 
+
         case "percent_total":
+
             return getPercentOfTotal(team);
 
+
         case "dropbacks":
-            return Number(stats.dropbacks || 0);
+
+            return Number(
+                stats.dropbacks || 0
+            );
+
 
         case "comp_pct":
-            return Number(stats.comp_pct || 0);
+
+            return Number(
+                stats.comp_pct || 0
+            );
+
 
         case "ypa":
-            return Number(stats.ypa || 0);
+
+            return Number(
+                stats.ypa || 0
+            );
+
 
         case "td":
-            return Number(stats.td || 0);
+
+            return Number(
+                stats.td || 0
+            );
+
 
         case "int":
-            return Number(stats.int || 0);
+
+            return Number(
+                stats.int || 0
+            );
+
 
         case "sacks":
-            return Number(stats.sacks || 0);
+
+            return Number(
+                stats.sacks || 0
+            );
+
 
         case "pressure_pct":
-            return Number(stats.pressure_pct || 0);
+
+            return Number(
+                stats.pressure_pct || 0
+            );
+
 
         default:
+
             return 0;
+
     }
+
 }
 
 
@@ -286,38 +411,54 @@ function sortTeams(teams) {
     teams.sort((a, b) => {
 
         const aValue =
-            getSortValue(a, sortColumn);
+            getSortValue(
+                a,
+                sortColumn
+            );
 
         const bValue =
-            getSortValue(b, sortColumn);
+            getSortValue(
+                b,
+                sortColumn
+            );
+
 
         /*
          * Text sorting
          */
+
         if (
             typeof aValue === "string" &&
             typeof bValue === "string"
         ) {
 
             const comparison =
-                aValue.localeCompare(bValue);
+                aValue.localeCompare(
+                    bValue
+                );
 
             return sortDirection === "asc"
                 ? comparison
                 : -comparison;
+
         }
+
 
         /*
          * Numeric sorting
          */
-        const comparison = aValue - bValue;
+
+        const comparison =
+            aValue - bValue;
 
         return sortDirection === "asc"
             ? comparison
             : -comparison;
+
     });
 
     return teams;
+
 }
 
 
@@ -328,12 +469,15 @@ function sortTeams(teams) {
 function getSortArrow(column) {
 
     if (sortColumn !== column) {
+
         return "";
+
     }
 
     return sortDirection === "asc"
         ? '<span class="sort-arrow">▲</span>'
         : '<span class="sort-arrow">▼</span>';
+
 }
 
 
@@ -349,6 +493,7 @@ function handleSort(column) {
          * Clicking the same column reverses
          * the sort direction.
          */
+
         sortDirection =
             sortDirection === "asc"
                 ? "desc"
@@ -359,153 +504,310 @@ function handleSort(column) {
         /*
          * A new column starts descending.
          */
+
         sortColumn = column;
         sortDirection = "desc";
+
     }
 
     renderTable();
+
 }
 
 
+/*
+ * Render the table.
+ */
 function renderTable() {
 
-    if (!data || !data.teams) {
+    if (!data) {
+
         return;
+
     }
 
-    const teams = [...data.teams];
+
+    const teams =
+        [...getCurrentTeams()];
+
 
     sortTeams(teams);
 
+
+    const teamLabel =
+        currentTeamType === "offense"
+            ? "Offense"
+            : "Defense";
+
+
     let html = `
+
         <table>
+
             <thead>
+
                 <tr>
 
                     <th onclick="handleSort('team_name')">
-                        Defense${getSortArrow("team_name")}
+                        ${teamLabel}${getSortArrow("team_name")}
                     </th>
+
 
                     <th onclick="handleSort('percent_total')">
                         % of Total${getSortArrow("percent_total")}
                     </th>
 
+
                     <th onclick="handleSort('dropbacks')">
                         Dropbacks${getSortArrow("dropbacks")}
                     </th>
+
 
                     <th onclick="handleSort('comp_pct')">
                         Comp%${getSortArrow("comp_pct")}
                     </th>
 
+
                     <th onclick="handleSort('ypa')">
                         Yds/Att${getSortArrow("ypa")}
                     </th>
+
 
                     <th onclick="handleSort('td')">
                         TD${getSortArrow("td")}
                     </th>
 
+
                     <th onclick="handleSort('int')">
                         INT${getSortArrow("int")}
                     </th>
 
+
                     <th onclick="handleSort('sacks')">
                         Sacks${getSortArrow("sacks")}
                     </th>
+
 
                     <th onclick="handleSort('pressure_pct')">
                         Pressure%${getSortArrow("pressure_pct")}
                     </th>
 
                 </tr>
+
             </thead>
 
+
             <tbody>
+
     `;
+
 
     teams.forEach((team, index) => {
 
-        const stats = team[currentMode];
+        const stats =
+            team[currentMode];
+
 
         const percentOfTotal =
             getPercentOfTotal(team);
 
+
         html += `
+
             <tr>
 
                 <td>
-                    <span class="rank">${index + 1}.</span>
-                    <span class="team">${team.team_name}</span>
+
+                    <span class="rank">
+                        ${index + 1}.
+                    </span>
+
+                    <span class="team">
+                        ${team.team_name}
+                    </span>
+
                 </td>
 
-                <td>
-                    ${formatPercent(percentOfTotal)}
-                </td>
 
                 <td>
-                    ${formatNumber(stats.dropbacks)}
+                    ${formatPercent(
+                        percentOfTotal
+                    )}
                 </td>
 
-                <td>
-                    ${formatPercent(stats.comp_pct)}
-                </td>
 
                 <td>
-                    ${formatYPA(stats.ypa)}
+                    ${formatNumber(
+                        stats.dropbacks
+                    )}
                 </td>
 
-                <td>
-                    ${formatNumber(stats.td)}
-                </td>
 
                 <td>
-                    ${formatNumber(stats.int)}
+                    ${formatPercent(
+                        stats.comp_pct
+                    )}
                 </td>
 
-                <td>
-                    ${formatNumber(stats.sacks)}
-                </td>
 
                 <td>
-                    ${formatPercent(stats.pressure_pct)}
+                    ${formatYPA(
+                        stats.ypa
+                    )}
+                </td>
+
+
+                <td>
+                    ${formatNumber(
+                        stats.td
+                    )}
+                </td>
+
+
+                <td>
+                    ${formatNumber(
+                        stats.int
+                    )}
+                </td>
+
+
+                <td>
+                    ${formatNumber(
+                        stats.sacks
+                    )}
+                </td>
+
+
+                <td>
+                    ${formatPercent(
+                        stats.pressure_pct
+                    )}
                 </td>
 
             </tr>
+
         `;
+
     });
 
+
     html += `
+
             </tbody>
+
         </table>
+
     `;
+
 
     document.getElementById(
         "tableContainer"
     ).innerHTML = html;
+
 }
 
 
-function updateButtons() {
+/*
+ * Update the Defense / Offense buttons.
+ */
+function updateTeamTypeButtons() {
+
+    const defenseButton =
+        document.getElementById(
+            "defenseButton"
+        );
+
+    const offenseButton =
+        document.getElementById(
+            "offenseButton"
+        );
+
+
+    defenseButton.classList.toggle(
+        "active",
+        currentTeamType === "defense"
+    );
+
+
+    offenseButton.classList.toggle(
+        "active",
+        currentTeamType === "offense"
+    );
+
+}
+
+
+/*
+ * Update the <2.5 / 2.5+ buttons.
+ */
+function updateTimeButtons() {
 
     const lessButton =
-        document.getElementById("lessButton");
+        document.getElementById(
+            "lessButton"
+        );
 
     const moreButton =
-        document.getElementById("moreButton");
+        document.getElementById(
+            "moreButton"
+        );
+
 
     lessButton.classList.toggle(
         "active",
         currentMode === "less_2_5"
     );
 
+
     moreButton.classList.toggle(
         "active",
         currentMode === "more_2_5"
     );
+
 }
 
 
+/*
+ * Defense button.
+ */
+document.getElementById(
+    "defenseButton"
+).addEventListener(
+    "click",
+    function() {
+
+        currentTeamType = "defense";
+
+        updateTeamTypeButtons();
+
+        renderTable();
+
+    }
+);
+
+
+/*
+ * Offense button.
+ */
+document.getElementById(
+    "offenseButton"
+).addEventListener(
+    "click",
+    function() {
+
+        currentTeamType = "offense";
+
+        updateTeamTypeButtons();
+
+        renderTable();
+
+    }
+);
+
+
+/*
+ * <2.5 button.
+ */
 document.getElementById(
     "lessButton"
 ).addEventListener(
@@ -514,12 +816,17 @@ document.getElementById(
 
         currentMode = "less_2_5";
 
-        updateButtons();
+        updateTimeButtons();
+
         renderTable();
+
     }
 );
 
 
+/*
+ * 2.5+ button.
+ */
 document.getElementById(
     "moreButton"
 ).addEventListener(
@@ -528,31 +835,49 @@ document.getElementById(
 
         currentMode = "more_2_5";
 
-        updateButtons();
+        updateTimeButtons();
+
         renderTable();
+
     }
 );
 
 
+/*
+ * Load the JSON data.
+ */
 fetch("data/time_to_throw.json")
+
     .then(response => {
 
         if (!response.ok) {
+
             throw new Error(
                 "Unable to load Time to Throw data."
             );
+
         }
 
         return response.json();
+
     })
+
+
     .then(json => {
 
         data = json;
 
+
+        /*
+         * Build the season/week information.
+         */
+
         const weeks =
             json.weeks_processed || [];
 
+
         let weekText = "";
+
 
         if (weeks.length === 1) {
 
@@ -568,27 +893,40 @@ fetch("data/time_to_throw.json")
 
             weekText =
                 "No weeks available";
+
         }
+
 
         document.getElementById(
             "seasonInfo"
         ).textContent =
             `${json.season} • ${weekText} • FBS vs FBS`;
 
-        updateButtons();
+
+        updateTeamTypeButtons();
+
+        updateTimeButtons();
+
         renderTable();
+
     })
+
+
     .catch(error => {
 
         console.error(error);
 
+
         document.getElementById(
             "tableContainer"
         ).innerHTML = `
+
             <div class="error">
                 Unable to load Time to Throw data.
             </div>
+
         `;
+
     });
 
 </script>
