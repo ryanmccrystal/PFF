@@ -48,7 +48,10 @@ def build_team_page(team, season):
 
     if season == 2025:
 
-        back_link = "../time-to-throw.html"
+        # 2025 team page lives at:
+        # teams/2025/team.html
+
+        back_link = "../../time-to-throw-2025.html"
 
         year_link = "../../time-to-throw.html"
         year_text = "2026"
@@ -57,9 +60,12 @@ def build_team_page(team, season):
 
     else:
 
+        # 2026 team page lives at:
+        # teams/team.html
+
         back_link = "../time-to-throw.html"
 
-        year_link = "../2025/time-to-throw.html"
+        year_link = "../time-to-throw-2025.html"
         year_text = "2025"
 
         data_path = "../data/time_to_throw_2026.json"
@@ -532,15 +538,15 @@ fetch("{data_path}")
 
 
     const gameLogs =
-        data.game_logs || {{}};
+        data.game_logs || {};
 
 
     const defenseLogs =
-        gameLogs.defense || {{}};
+        gameLogs.defense || {};
 
 
     const offenseLogs =
-        gameLogs.offense || {{}};
+        gameLogs.offense || {};
 
 
     const defenseGames =
@@ -661,8 +667,8 @@ def generate_season(season):
     else:
 
         output_dir = (
-            Path(str(season)) /
-            "teams"
+            Path("teams") /
+            str(season)
         )
 
 
