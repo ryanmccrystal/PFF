@@ -3,9 +3,18 @@ import re
 from pathlib import Path
 
 
-DATA_FILE = Path("data/time_to_throw.json")
-OUTPUT_DIR = Path("teams")
+# =========================================================
+# SETTINGS
+# =========================================================
 
+SEASONS = [2025, 2026]
+
+DATA_DIR = Path("data")
+
+
+# =========================================================
+# SLUGIFY
+# =========================================================
 
 def slugify(value):
 
@@ -28,10 +37,33 @@ def slugify(value):
     return value
 
 
-def build_team_page(team):
+# =========================================================
+# BUILD TEAM PAGE
+# =========================================================
+
+def build_team_page(team, season):
 
     team_name = team["team_name"]
     team_id = str(team["franchise_id"])
+
+    if season == 2025:
+
+        back_link = "../time-to-throw.html"
+
+        year_link = "../../time-to-throw.html"
+        year_text = "2026"
+
+        data_path = "../../data/time_to_throw_2025.json"
+
+    else:
+
+        back_link = "../time-to-throw.html"
+
+        year_link = "../2025/time-to-throw.html"
+        year_text = "2025"
+
+        data_path = "../data/time_to_throw_2026.json"
+
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -62,18 +94,29 @@ body {{
     margin: 0 auto;
 }}
 
-.back {{
-    font-size: 14px;
+.top-nav {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
+    font-size: 14px;
 }}
 
-.back a {{
+.top-nav a {{
     color: #111111;
     text-decoration: none;
 }}
 
-.back a:hover {{
+.top-nav a:hover {{
     text-decoration: underline;
+}}
+
+.back {{
+    font-size: 14px;
+}}
+
+.year {{
+    font-size: 14px;
 }}
 
 h1 {{
@@ -167,10 +210,20 @@ tbody tr:last-child td {{
 
 <div class="container">
 
+<div class="top-nav">
+
 <div class="back">
-<a href="../time-to-throw.html">
+<a href="{back_link}">
 ← Back to Time to Throw
 </a>
+</div>
+
+<div class="year">
+<a href="{year_link}">
+{year_text}
+</a>
+</div>
+
 </div>
 
 <h1>{team_name}</h1>
@@ -449,7 +502,7 @@ ${{formatPercent(more.pressure_pct)}}
 }}
 
 
-fetch("../data/time_to_throw.json")
+fetch("{data_path}")
 
 .then(response => {{
 
@@ -583,14 +636,51 @@ fetch("../data/time_to_throw.json")
 """
 
 
-def main():
+# =========================================================
+# GENERATE ONE SEASON
+# =========================================================
 
+def generate_season(season):
+
+    data_file = (
+        DATA_DIR /
+        f"time_to_throw_{season}.json"
+    )
+
+    if not data_file.exists():
+
+        raise FileNotFoundError(
+            f"Data file not found: {data_file}"
+        )
+
+
+    if season == 2026:
+
+        output_dir = Path("teams")
+
+    else:
+
+        output_dir = (
+            Path(str(season)) /
+            "teams"
+        )
+
+
+    print()
     print("=" * 50)
-    print("GENERATING TEAM PAGES")
+    print(f"GENERATING {season} TEAM PAGES")
     print("=" * 50)
 
+    print(
+        f"Data file: {data_file}"
+    )
 
-    with DATA_FILE.open(
+    print(
+        f"Output directory: {output_dir}"
+    )
+
+
+    with data_file.open(
         "r",
         encoding="utf-8"
     ) as f:
@@ -598,7 +688,7 @@ def main():
         data = json.load(f)
 
 
-    OUTPUT_DIR.mkdir(
+    output_dir.mkdir(
         parents=True,
         exist_ok=True
     )
@@ -638,11 +728,15 @@ def main():
 
 
         output_file = (
-            OUTPUT_DIR / filename
+            output_dir /
+            filename
         )
 
 
-        page = build_team_page(team)
+        page = build_team_page(
+            team,
+            season
+        )
 
 
         with output_file.open(
@@ -663,12 +757,28 @@ def main():
 
     print()
 
-
     print(
-        f"Generated {generated} team pages."
+        f"Generated {generated} {season} team pages."
     )
 
 
+# =========================================================
+# MAIN
+# =========================================================
+
+def main():
+
+    print("=" * 50)
+    print("PFF TEAM PAGE GENERATOR")
+    print("=" * 50)
+
+    for season in SEASONS:
+
+        generate_season(season)
+
+    print()
+    print("=" * 50)
+    print("TEAM PAGE GENERATION COMPLETE")
     print("=" * 50)
 
 
