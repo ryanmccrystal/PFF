@@ -542,19 +542,19 @@ fetch("{data_path}")
 
 
     const defenseLogs =
-        gameLogs.defense || {};
+        gameLogs.defense || {{}};
 
 
     const offenseLogs =
-        gameLogs.offense || {};
+        gameLogs.offense || {{}};
 
 
     const defenseGames =
-        defenseLogs[String(teamId)] || [];
+        defenseLogs[String(teamId)] || {{}};
 
 
     const offenseGames =
-        offenseLogs[String(teamId)] || [];
+        offenseLogs[String(teamId)] || {{}};
 
 
     console.log(
