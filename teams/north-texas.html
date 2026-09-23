@@ -27,18 +27,29 @@ body {
     margin: 0 auto;
 }
 
-.back {
-    font-size: 14px;
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
+    font-size: 14px;
 }
 
-.back a {
+.top-nav a {
     color: #111111;
     text-decoration: none;
 }
 
-.back a:hover {
+.top-nav a:hover {
     text-decoration: underline;
+}
+
+.back {
+    font-size: 14px;
+}
+
+.year {
+    font-size: 14px;
 }
 
 h1 {
@@ -132,10 +143,20 @@ tbody tr:last-child td {
 
 <div class="container">
 
+<div class="top-nav">
+
 <div class="back">
 <a href="../time-to-throw.html">
 ← Back to Time to Throw
 </a>
+</div>
+
+<div class="year">
+<a href="../2025/time-to-throw.html">
+2025
+</a>
+</div>
+
 </div>
 
 <h1>North Texas</h1>
@@ -414,7 +435,7 @@ ${formatPercent(more.pressure_pct)}
 }
 
 
-fetch("../data/time_to_throw.json")
+fetch("../data/time_to_throw_2026.json")
 
 .then(response => {
 
