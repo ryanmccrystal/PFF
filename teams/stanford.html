@@ -152,7 +152,7 @@ tbody tr:last-child td {
 </div>
 
 <div class="year">
-<a href="../2025/time-to-throw.html">
+<a href="../time-to-throw-2025.html">
 2025
 </a>
 </div>
@@ -477,11 +477,11 @@ fetch("../data/time_to_throw_2026.json")
 
 
     const defenseGames =
-        defenseLogs[String(teamId)] || [];
+        defenseLogs[String(teamId)] || {};
 
 
     const offenseGames =
-        offenseLogs[String(teamId)] || [];
+        offenseLogs[String(teamId)] || {};
 
 
     console.log(
