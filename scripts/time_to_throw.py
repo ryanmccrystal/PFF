@@ -1,12 +1,36 @@
 import json
 import subprocess
+import sys
 from pathlib import Path
 
-SEASON = 2026
+
+# =========================================================
+# SETTINGS
+# =========================================================
+
+DEFAULT_SEASON = 2026
 MAX_WEEKS = 20
 
-OUTPUT_FILE = Path("data/time_to_throw.json")
 
+# =========================================================
+# SEASON
+# =========================================================
+
+if len(sys.argv) > 1:
+    try:
+        SEASON = int(sys.argv[1])
+    except ValueError:
+        raise SystemExit("Season must be a number, such as 2025 or 2026.")
+else:
+    SEASON = DEFAULT_SEASON
+
+
+OUTPUT_FILE = Path(f"data/time_to_throw_{SEASON}.json")
+
+
+# =========================================================
+# RESTISH
+# =========================================================
 
 def run_restish(args):
     """Run a Restish command and return parsed JSON."""
@@ -22,6 +46,10 @@ def run_restish(args):
 
     return json.loads(result.stdout)
 
+
+# =========================================================
+# TEAM DIRECTORY
+# =========================================================
 
 def get_team_directory():
     """Get PFF's NCAA team directory."""
@@ -72,6 +100,10 @@ def get_team_directory():
     return teams
 
 
+# =========================================================
+# WEEKLY DATA
+# =========================================================
+
 def get_week_games(week):
     """Get NCAA games for a specific week."""
 
@@ -103,6 +135,10 @@ def get_time_to_throw(week):
 
     return data.get("time_in_pockets", [])
 
+
+# =========================================================
+# GAME MAPPING
+# =========================================================
 
 def build_team_games(games):
     """
@@ -141,6 +177,10 @@ def build_team_games(games):
 
     return team_games
 
+
+# =========================================================
+# RAW STAT BUCKETS
+# =========================================================
 
 def create_empty_bucket():
     """Create an empty statistical bucket."""
@@ -193,6 +233,10 @@ def add_bucket(target, row, prefix):
     )
 
 
+# =========================================================
+# CALCULATIONS
+# =========================================================
+
 def calculate_bucket(bucket):
     """Calculate displayed statistics from raw totals."""
 
@@ -244,6 +288,10 @@ def calculate_bucket(bucket):
     }
 
 
+# =========================================================
+# TEAM ENTRIES
+# =========================================================
+
 def create_team_entry(team_info):
 
     return {
@@ -259,6 +307,10 @@ def create_team_entry(team_info):
         "more": create_empty_bucket(),
     }
 
+
+# =========================================================
+# GAME LOG ENTRIES
+# =========================================================
 
 def create_game_entry(week, game_id, opponent_info):
 
@@ -318,6 +370,10 @@ def add_team_game(
     )
 
 
+# =========================================================
+# CONVERT GAME LOGS
+# =========================================================
+
 def convert_game_logs(game_logs):
 
     output = {}
@@ -329,9 +385,13 @@ def convert_game_logs(game_logs):
         for game in games.values():
 
             game_list.append({
+
                 "week": game["week"],
+
                 "game_id": game["game_id"],
+
                 "opponent": game["opponent"],
+
                 "opponent_abbreviation":
                     game["opponent_abbreviation"],
 
@@ -357,6 +417,10 @@ def convert_game_logs(game_logs):
 
     return output
 
+
+# =========================================================
+# CONVERT TEAM TOTALS
+# =========================================================
 
 def convert_team_totals(dataset):
 
@@ -404,11 +468,17 @@ def convert_team_totals(dataset):
     return output
 
 
+# =========================================================
+# MAIN
+# =========================================================
+
 def main():
 
     print("=" * 50)
     print("PFF TIME TO THROW BUILD")
     print("=" * 50)
+    print(f"Season: {SEASON}")
+    print(f"Output: {OUTPUT_FILE}")
 
     # ---------------------------------------------------------
     # TEAM DIRECTORY
