@@ -53,7 +53,7 @@ def build_team_page(team, season):
 
         back_link = "../../time-to-throw-2025.html"
 
-        year_link = "../../time-to-throw.html"
+        year_link = "../../time-to-throw-2026.html"
         year_text = "2026"
 
         data_path = "../../data/time_to_throw_2025.json"
