@@ -37,7 +37,16 @@ jobs:
 
       - name: Build Time to Throw data
         run: |
-          python scripts/time_to_throw.py
+          echo "========================================"
+          echo "BUILDING 2025"
+          echo "========================================"
+          python scripts/time_to_throw.py 2025
+
+          echo ""
+          echo "========================================"
+          echo "BUILDING 2026"
+          echo "========================================"
+          python scripts/time_to_throw.py 2026
 
       - name: Generate team pages
         run: |
@@ -49,11 +58,21 @@ jobs:
           echo "GENERATED DATA"
           echo "========================================"
 
-          ls -lh data/time_to_throw.json
+          echo ""
+          echo "2025 data:"
+          ls -lh data/time_to_throw_2025.json
 
           echo ""
-          echo "First 100 lines:"
-          head -n 100 data/time_to_throw.json
+          echo "First 20 lines of 2025 data:"
+          head -n 20 data/time_to_throw_2025.json
+
+          echo ""
+          echo "2026 data:"
+          ls -lh data/time_to_throw_2026.json
+
+          echo ""
+          echo "First 20 lines of 2026 data:"
+          head -n 20 data/time_to_throw_2026.json
 
           echo ""
           echo "========================================"
@@ -61,24 +80,42 @@ jobs:
           echo "========================================"
 
           echo ""
-          echo "Number of team pages:"
+          echo "Number of 2026 team pages:"
           find teams -maxdepth 1 -name "*.html" | wc -l
 
           echo ""
-          echo "Team pages:"
+          echo "2026 team pages:"
           find teams -maxdepth 1 -name "*.html" | sort
+
+          echo ""
+          echo "Number of 2025 team pages:"
+          if [ -d "2025/teams" ]; then
+            find 2025/teams -maxdepth 1 -name "*.html" | wc -l
+          else
+            echo "2025/teams does not exist yet."
+          fi
+
+          echo ""
+          echo "2025 team pages:"
+          if [ -d "2025/teams" ]; then
+            find 2025/teams -maxdepth 1 -name "*.html" | sort
+          else
+            echo "2025/teams does not exist yet."
+          fi
 
       - name: Commit updated data and team pages
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/time_to_throw.json
+          git add data/time_to_throw_2025.json
+          git add data/time_to_throw_2026.json
           git add teams/
+          git add 2025/
 
           if git diff --cached --quiet; then
             echo "No data changes to commit."
           else
-            git commit -m "Update Time to Throw data"
+            git commit -m "Update PFF Time to Throw data"
             git push
           fi
