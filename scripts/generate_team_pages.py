@@ -538,7 +538,7 @@ fetch("{data_path}")
 
 
     const gameLogs =
-        data.game_logs || {};
+        data.game_logs || {{}};
 
 
     const defenseLogs =
