@@ -3402,7 +3402,7 @@
         "pressure_pct": 11.4
       },
       "more_2_5": {
-        "dropbacks": 36,
+        "dropbacks": 37,
         "attempts": 21,
         "completions": 11,
         "yards": 137,
@@ -3411,8 +3411,8 @@
         "td": 0,
         "int": 1,
         "sacks": 9,
-        "pressures": 23,
-        "pressure_pct": 63.9
+        "pressures": 24,
+        "pressure_pct": 64.9
       }
     },
     {
@@ -3666,9 +3666,9 @@
         "dropbacks": 39,
         "attempts": 35,
         "completions": 16,
-        "yards": 280,
+        "yards": 283,
         "comp_pct": 45.7,
-        "ypa": 8.0,
+        "ypa": 8.1,
         "td": 4,
         "int": 3,
         "sacks": 1,
@@ -9392,9 +9392,9 @@
         "dropbacks": 40,
         "attempts": 35,
         "completions": 19,
-        "yards": 330,
+        "yards": 333,
         "comp_pct": 54.3,
-        "ypa": 9.4,
+        "ypa": 9.5,
         "td": 3,
         "int": 5,
         "sacks": 1,
@@ -9879,7 +9879,7 @@
         "pressure_pct": 27.0
       },
       "more_2_5": {
-        "dropbacks": 48,
+        "dropbacks": 49,
         "attempts": 22,
         "completions": 11,
         "yards": 85,
@@ -9888,8 +9888,8 @@
         "td": 0,
         "int": 0,
         "sacks": 14,
-        "pressures": 38,
-        "pressure_pct": 79.2
+        "pressures": 39,
+        "pressure_pct": 79.6
       }
     },
     {
@@ -14587,7 +14587,7 @@
             "pressure_pct": 6.7
           },
           "more_2_5": {
-            "dropbacks": 22,
+            "dropbacks": 23,
             "attempts": 10,
             "completions": 5,
             "yards": 39,
@@ -14596,8 +14596,8 @@
             "td": 0,
             "int": 0,
             "sacks": 8,
-            "pressures": 17,
-            "pressure_pct": 77.3
+            "pressures": 18,
+            "pressure_pct": 78.3
           }
         }
       ],
@@ -15344,9 +15344,9 @@
             "dropbacks": 22,
             "attempts": 20,
             "completions": 11,
-            "yards": 180,
+            "yards": 183,
             "comp_pct": 55.0,
-            "ypa": 9.0,
+            "ypa": 9.2,
             "td": 2,
             "int": 3,
             "sacks": 0,
@@ -28569,7 +28569,7 @@
             "pressure_pct": 6.7
           },
           "more_2_5": {
-            "dropbacks": 22,
+            "dropbacks": 23,
             "attempts": 10,
             "completions": 5,
             "yards": 39,
@@ -28578,8 +28578,8 @@
             "td": 0,
             "int": 0,
             "sacks": 8,
-            "pressures": 17,
-            "pressure_pct": 77.3
+            "pressures": 18,
+            "pressure_pct": 78.3
           }
         }
       ],
@@ -30876,9 +30876,9 @@
             "dropbacks": 22,
             "attempts": 20,
             "completions": 11,
-            "yards": 180,
+            "yards": 183,
             "comp_pct": 55.0,
-            "ypa": 9.0,
+            "ypa": 9.2,
             "td": 2,
             "int": 3,
             "sacks": 0,
@@ -32153,10 +32153,10 @@
     "fbs_teams_in_directory": 138,
     "defenses_with_data": 138,
     "offenses_with_data": 138,
-    "total_qb_records": 1499,
+    "total_qb_records": 1502,
     "total_games_processed": 460,
     "unmatched_qb_records": 0,
-    "non_fbs_offense_records": 825,
+    "non_fbs_offense_records": 828,
     "non_fbs_defense_records": 173
   }
 }
