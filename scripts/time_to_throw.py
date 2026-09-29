@@ -32,6 +32,7 @@ OUTPUT_FILE = Path(f"data/time_to_throw_{SEASON}.json")
 # RESTISH
 # =========================================================
 
+
 def run_restish(args):
     """Run a Restish command and return parsed JSON."""
 
@@ -40,9 +41,25 @@ def run_restish(args):
     result = subprocess.run(
         command,
         capture_output=True,
-        text=True,
-        check=True
+        text=True
     )
+
+    if result.returncode != 0:
+        print("\nRESTISH COMMAND FAILED:")
+        print(" ".join(command))
+
+        print("\nEXIT CODE:")
+        print(result.returncode)
+
+        print("\nSTDOUT:")
+        print(result.stdout or "(empty)")
+
+        print("\nSTDERR:")
+        print(result.stderr or "(empty)")
+
+        raise RuntimeError(
+            f"Restish failed with exit code {result.returncode}"
+        )
 
     return json.loads(result.stdout)
 
