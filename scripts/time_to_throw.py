@@ -34,17 +34,40 @@ OUTPUT_FILE = Path(f"data/time_to_throw_{SEASON}.json")
 
 
 def run_restish(args):
-    """Run a Restish command and return parsed JSON."""
+    """Run a Restish command, retrying upstream timeouts."""
 
     command = ["restish"] + args
+    max_attempts = 4
 
-    result = subprocess.run(
-        command,
-        capture_output=True,
-        text=True
-    )
+    for attempt in range(1, max_attempts + 1):
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True
+        )
 
-    if result.returncode != 0:
+        if result.returncode == 0:
+            return json.loads(result.stdout)
+
+        # Check whether this is a temporary upstream timeout.
+        try:
+            error_data = json.loads(result.stdout)
+            error_code = error_data.get("error", {}).get("code")
+        except (json.JSONDecodeError, AttributeError):
+            error_code = None
+
+        if error_code == "upstream_timeout":
+            if attempt < max_attempts:
+                wait_seconds = 10 * attempt
+                print(
+                    f"PFF upstream timeout. "
+                    f"Retrying in {wait_seconds} seconds "
+                    f"(attempt {attempt + 1}/{max_attempts})..."
+                )
+                time.sleep(wait_seconds)
+                continue
+
+        # Print details and stop for other errors or exhausted retries.
         print("\nRESTISH COMMAND FAILED:")
         print(" ".join(command))
 
@@ -60,8 +83,6 @@ def run_restish(args):
         raise RuntimeError(
             f"Restish failed with exit code {result.returncode}"
         )
-
-    return json.loads(result.stdout)
 
 
 # =========================================================
