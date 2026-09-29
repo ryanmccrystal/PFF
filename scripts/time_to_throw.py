@@ -558,6 +558,7 @@ def main():
     offense_game_logs = {}
 
     weeks_processed = []
+    weeks_failed = []
 
     total_qb_records = 0
     total_games = 0
@@ -575,7 +576,14 @@ def main():
         print()
         print(f"--- Week {week} ---")
 
-        ttt_rows = get_time_to_throw(week)
+        try:
+            ttt_rows = get_time_to_throw(week)
+        
+        except RuntimeError as e:
+            print(f"Week {week}: FAILED to retrieve Time to Throw data")
+            print(f"Error: {e}")
+            weeks_failed.append(week)
+            continue
 
         if not ttt_rows:
 
@@ -826,6 +834,9 @@ def main():
         "weeks_processed":
             weeks_processed,
 
+        "weeks_failed":
+            weeks_failed,
+
         "filters": {
 
             "division":
@@ -963,6 +974,8 @@ def main():
         f"Output:                 "
         f"{OUTPUT_FILE}"
     )
+
+    print(f"Weeks failed:           {weeks_failed}")
 
     print("=" * 50)
 
