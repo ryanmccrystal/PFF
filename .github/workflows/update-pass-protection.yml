@@ -35,32 +35,6 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Build Pass Protection data
+      - name: Inspect pass-blocking facet command
         run: |
-          python scripts/pass_protection.py 2026
-
-      - name: Show generated data
-        run: |
-          echo "========================================"
-          echo "PASS PROTECTION DATA"
-          echo "========================================"
-
-          ls -lh data/pass_protection_2026_raw.json
-
-          echo ""
-          echo "First 60 lines:"
-          head -n 60 data/pass_protection_2026_raw.json
-
-      - name: Commit updated data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add data/pass_protection_2026_raw.json
-
-          if git diff --cached --quiet; then
-            echo "No data changes to commit."
-          else
-            git commit -m "Update 2026 PFF Pass Protection data"
-            git push
-          fi
+          restish pff facet-offense-pass-blocking --help -p ci
