@@ -40,38 +40,36 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Show pass-blocking command help
-        run: |
-          restish pff facet-offense-pass-blocking --help -p ci
-
       - name: Build Pass Protection data
         run: |
           python scripts/pass_protection.py 2026
 
       - name: Verify generated JSON
         run: |
-          FILE="data/pass_protection_2026_raw.json"
+          RAW_FILE="data/pass_protection_2026_raw.json"
+          PROCESSED_FILE="data/pass_protection_2026.json"
 
-          echo "Checking for: $FILE"
-
-          if [ ! -f "$FILE" ]; then
-            echo "ERROR: JSON file was not created."
-            echo "Contents of data directory:"
+          echo "Checking raw data..."
+          if [ ! -s "$RAW_FILE" ]; then
+            echo "ERROR: Raw JSON missing or empty: $RAW_FILE"
             ls -lah data || true
             exit 1
           fi
 
-          if [ ! -s "$FILE" ]; then
-            echo "ERROR: JSON file is empty."
+          echo "Checking processed data..."
+          if [ ! -s "$PROCESSED_FILE" ]; then
+            echo "ERROR: Processed JSON missing or empty: $PROCESSED_FILE"
+            ls -lah data || true
             exit 1
           fi
 
-          echo "JSON file exists:"
-          ls -lh "$FILE"
+          echo ""
+          echo "Generated files:"
+          ls -lh "$RAW_FILE" "$PROCESSED_FILE"
 
           echo ""
-          echo "First 80 lines:"
-          head -n 80 "$FILE"
+          echo "Processed data preview:"
+          head -n 80 "$PROCESSED_FILE"
 
       - name: Commit updated data
         run: |
@@ -79,6 +77,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add data/pass_protection_2026_raw.json
+          git add data/pass_protection_2026.json
 
           if git diff --cached --quiet; then
             echo "No data changes to commit."
