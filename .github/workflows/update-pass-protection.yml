@@ -15,6 +15,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install Restish
         run: |
           curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
@@ -35,6 +40,49 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Inspect pass-blocking facet command
+      - name: Show pass-blocking command help
         run: |
           restish pff facet-offense-pass-blocking --help -p ci
+
+      - name: Build Pass Protection data
+        run: |
+          python scripts/pass_protection.py 2026
+
+      - name: Verify generated JSON
+        run: |
+          FILE="data/pass_protection_2026_raw.json"
+
+          echo "Checking for: $FILE"
+
+          if [ ! -f "$FILE" ]; then
+            echo "ERROR: JSON file was not created."
+            echo "Contents of data directory:"
+            ls -lah data || true
+            exit 1
+          fi
+
+          if [ ! -s "$FILE" ]; then
+            echo "ERROR: JSON file is empty."
+            exit 1
+          fi
+
+          echo "JSON file exists:"
+          ls -lh "$FILE"
+
+          echo ""
+          echo "First 80 lines:"
+          head -n 80 "$FILE"
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/pass_protection_2026_raw.json
+
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update 2026 PFF Pass Protection data"
+            git push
+          fi
