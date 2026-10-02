@@ -1,3 +1,4 @@
+
 name: Update PFF Time to Throw
 
 on:
@@ -11,7 +12,6 @@ jobs:
       PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -35,14 +35,8 @@ jobs:
         run: |
           restish pff whoami -p ci
 
-      - name: Build Time to Throw data
+      - name: Build 2026 Time to Throw data
         run: |
-          echo "========================================"
-          echo "BUILDING 2025"
-          echo "========================================"
-          python scripts/time_to_throw.py 2025
-
-          echo ""
           echo "========================================"
           echo "BUILDING 2026"
           echo "========================================"
@@ -55,23 +49,10 @@ jobs:
       - name: Show generated data
         run: |
           echo "========================================"
-          echo "GENERATED DATA"
+          echo "2026 GENERATED DATA"
           echo "========================================"
 
-          echo ""
-          echo "2025 data:"
-          ls -lh data/time_to_throw_2025.json
-
-          echo ""
-          echo "First 20 lines of 2025 data:"
-          head -n 20 data/time_to_throw_2025.json
-
-          echo ""
-          echo "2026 data:"
           ls -lh data/time_to_throw_2026.json
-
-          echo ""
-          echo "First 20 lines of 2026 data:"
           head -n 20 data/time_to_throw_2026.json
 
           echo ""
@@ -89,18 +70,10 @@ jobs:
 
           echo ""
           echo "Number of 2025 team pages:"
-          if [ -d "2025/teams" ]; then
-            find 2025/teams -maxdepth 1 -name "*.html" | wc -l
+          if [ -d "teams/2025" ]; then
+            find teams/2025 -maxdepth 1 -name "*.html" | wc -l
           else
-            echo "2025/teams does not exist yet."
-          fi
-
-          echo ""
-          echo "2025 team pages:"
-          if [ -d "2025/teams" ]; then
-            find 2025/teams -maxdepth 1 -name "*.html" | sort
-          else
-            echo "2025/teams does not exist yet."
+            echo "teams/2025 does not exist."
           fi
 
       - name: Commit updated data and team pages
@@ -108,14 +81,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/time_to_throw_2025.json
           git add data/time_to_throw_2026.json
           git add teams/
-          git add 2025/
 
           if git diff --cached --quiet; then
             echo "No data changes to commit."
           else
-            git commit -m "Update PFF Time to Throw data"
+            git commit -m "Update 2026 PFF Time to Throw data"
             git push
           fi
