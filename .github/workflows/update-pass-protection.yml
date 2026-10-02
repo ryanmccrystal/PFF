@@ -1,0 +1,66 @@
+
+name: Update PFF Pass Protection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-pass-protection:
+    runs-on: ubuntu-latest
+
+    env:
+      PFF_API_KEY: ${{ secrets.PFF_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Restish
+        run: |
+          curl -L https://github.com/rest-sh/restish/releases/download/v2.3.0/restish-2.3.0-linux-amd64.tar.gz -o restish.tar.gz
+          tar -xzf restish.tar.gz
+          chmod +x restish
+          sudo mv restish /usr/local/bin/restish
+
+      - name: Connect Restish to PFF
+        run: |
+          restish api connect pff https://api.pff.com
+
+      - name: Configure PFF authentication
+        run: |
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.type: bearer'
+          restish api set pff 'profiles.ci.credentials.pffApiKey.auth.params.token: env:PFF_API_KEY'
+
+      - name: Verify authentication
+        run: |
+          restish pff whoami -p ci
+
+      - name: Build Pass Protection data
+        run: |
+          python scripts/pass_protection.py 2026
+
+      - name: Show generated data
+        run: |
+          echo "========================================"
+          echo "PASS PROTECTION DATA"
+          echo "========================================"
+
+          ls -lh data/pass_protection_2026_raw.json
+
+          echo ""
+          echo "First 60 lines:"
+          head -n 60 data/pass_protection_2026_raw.json
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/pass_protection_2026_raw.json
+
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update 2026 PFF Pass Protection data"
+            git push
+          fi
