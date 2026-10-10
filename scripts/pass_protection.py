@@ -109,6 +109,10 @@ def get_team_games_played():
             if game_id is None or home is None or away is None:
                 continue
 
+            # Count only games for which PFF has published stats.
+            if game.get("has_stats") is not True:
+                continue
+
             if game_id in seen_games:
                 continue
 
@@ -118,6 +122,7 @@ def get_team_games_played():
             team_games.setdefault(str(away), 0)
             team_games[str(home)] += 1
             team_games[str(away)] += 1
+
 
         time.sleep(0.2)
 
