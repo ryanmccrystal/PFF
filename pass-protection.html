@@ -181,6 +181,7 @@ Offensive line pass-blocking performance
 
 <script>
 let players = [];
+let teamNames = {};    
 let currentPosition = "ALL";
 let sortColumn = "pass_block_snaps";
 let sortDirection = "desc";
@@ -236,9 +237,23 @@ function displayValue(player, key) {
 }
 
 function getSortValue(player, key) {
-    if (key === "player") return String(player.player || "").toLowerCase();
-    if (key === "team") return String(player.team_name || player.team || "").toLowerCase();
-    if (key === "position") return positionLabel(player.position);
+    if (key === "player") {
+        return String(player.player || "").toLowerCase();
+    }
+
+    if (key === "team") {
+        return String(
+            teamNames[String(player.franchise_id)] ||
+            player.team_name ||
+            player.team ||
+            ""
+        ).toLowerCase();
+    }
+
+    if (key === "position") {
+        return positionLabel(player.position);
+    }
+
     return number(player[key]);
 }
 
