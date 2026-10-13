@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pass Protection | PFF</title>
+
+<style>
+body {
+    font-family: "Times New Roman", Times, serif;
+    background: #ffffff;
+    color: #111111;
+    margin: 0;
+    padding: 30px 15px;
+}
+.container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 32px;
+}
+.subtitle {
+    text-align: center;
+    margin: 5px 0 20px;
+    font-size: 16px;
+}
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.toggle {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    padding: 7px 16px;
+    border: 1px solid #222;
+    background: #fff;
+    color: #111;
+    cursor: pointer;
+}
+.toggle.active {
+    background: #111;
+    color: #fff;
+}
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 14px 0;
+}
+.filters input,
+.filters select {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    padding: 7px;
+    border: 1px solid #777;
+    background: #fff;
+    color: #111;
+}
+.filters input {
+    width: 230px;
+    max-width: 55%;
+}
+.season-info {
+    text-align: center;
+    font-size: 14px;
+    margin: 12px 0;
+}
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+th {
+    border-top: 2px solid #111;
+    border-bottom: 1px solid #111;
+    padding: 8px 6px;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+}
+th:hover {
+    background: #eee;
+}
+td {
+    padding: 7px 6px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    white-space: nowrap;
+}
+th:first-child,
+td:first-child {
+    text-align: left;
+}
+tbody tr:last-child td {
+    border-bottom: 2px solid #111;
+}
+.rank {
+    display: inline-block;
+    width: 30px;
+    text-align: right;
+    margin-right: 5px;
+}
+.player {
+    font-weight: bold;
+}
+.team {
+    font-size: 13px;
+    color: #444;
+    margin-left: 4px;
+}
+.sort-arrow {
+    font-size: 11px;
+    margin-left: 3px;
+}
+.loading,
+.error,
+.no-results {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 16px;
+}
+@media (max-width: 700px) {
+    body {
+        padding: 20px 8px;
+    }
+    h1 {
+        font-size: 26px;
+    }
+    table {
+        font-size: 13px;
+    }
+    th, td {
+        padding: 6px 5px;
+    }
+    .toggle {
+        padding: 7px 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Pass Protection</h1>
+<div class="subtitle">
+Offensive line pass-blocking performance
+</div>
+
+<div class="controls" id="positionControls">
+    <button class="toggle active" data-position="ALL">All Positions</button>
+    <button class="toggle" data-position="T">Tackles</button>
+    <button class="toggle" data-position="G">Guards</button>
+    <button class="toggle" data-position="C">Centers</button>
+</div>
+
+<div class="filters">
+    <input id="searchInput" type="search"
+        placeholder="Search player or team..." aria-label="Search player or team">
+</div>
+
+<div class="season-info" id="seasonInfo">Loading...</div>
+
+<div id="tableContainer">
+    <div class="loading">Loading Pass Protection data...</div>
+</div>
+
+</div>
+
+<script>
+let players = [];
+let currentPosition = "ALL";
+let sortColumn = "pass_block_snaps";
+let sortDirection = "desc";
+let searchText = "";
+
+const columns = [
+    { key: "player", label: "Player", type: "text" },
+    { key: "position", label: "Pos", type: "text" },
+    { key: "team", label: "Team", type: "text" },
+    { key: "pass_block_snaps", label: "PB Snaps", type: "number" },
+    { key: "pressures_allowed", label: "Pressures", type: "number" },
+    { key: "sacks_allowed", label: "Sacks", type: "number" },
+    { key: "penalties", label: "Penalties", type: "number" },
+    { key: "pressure_rate_allowed", label: "Pressure Rate", type: "number" },
+    { key: "true_pass_set_snaps", label: "TPS Snaps", type: "number" },
+    { key: "true_pass_set_pressure_rate_allowed", label: "TPS Pressure Rate", type: "number" }
+];
+
+function number(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+}
+
+function formatNumber(value) {
+    return number(value).toLocaleString("en-US");
+}
+
+function formatRate(value) {
+    return number(value).toFixed(2) + "%";
+}
+
+function positionLabel(position) {
+    if (position === "T") return "OT";
+    return position || "";
+}
+
+function displayValue(player, key) {
+    switch (key) {
+        case "pass_block_snaps":
+        case "pressures_allowed":
+        case "sacks_allowed":
+        case "penalties":
+        case "true_pass_set_snaps":
+            return formatNumber(player[key]);
+        case "pressure_rate_allowed":
+        case "true_pass_set_pressure_rate_allowed":
+            return formatRate(player[key]);
+        case "position":
+            return positionLabel(player.position);
+        default:
+            return player[key] ?? "";
+    }
+}
+
+function getSortValue(player, key) {
+    if (key === "player") return String(player.player || "").toLowerCase();
+    if (key === "team") return String(player.team_name || player.team || "").toLowerCase();
+    if (key === "position") return positionLabel(player.position);
+    return number(player[key]);
+}
+
+function getSortArrow(key) {
+    if (sortColumn !== key) return "";
+    return sortDirection === "asc" ? " ▲" : " ▼";
+}
+
+function renderTable() {
+    const query = searchText.trim().toLowerCase();
+
+    let filtered = players.filter(player => {
+        const positionMatches =
+            currentPosition === "ALL" || player.position === currentPosition;
+
+        const searchMatches =
+            !query ||
+            String(player.player || "").toLowerCase().includes(query) ||
+            String(player.team || "").toLowerCase().includes(query) ||
+            String(player.team_name || "").toLowerCase().includes(query);
+
+        return positionMatches && searchMatches;
+    });
+
+    filtered.sort((a, b) => {
+        const av = getSortValue(a, sortColumn);
+        const bv = getSortValue(b, sortColumn);
+
+        let result;
+        if (typeof av === "string" && typeof bv === "string") {
+            result = av.localeCompare(bv);
+        } else {
+            result = av - bv;
+        }
+
+        return sortDirection === "asc" ? result : -result;
+    });
+
+    let html = `
+    <div class="table-wrap">
+    <table>
+    <thead><tr>`;
+
+    columns.forEach(column => {
+        html += `<th data-sort="${column.key}">${column.label}${getSortArrow(column.key)}</th>`;
+    });
+
+    html += `</tr></thead><tbody>`;
+
+    if (filtered.length === 0) {
+        html += `<tr><td colspan="${columns.length}" class="no-results">No matching players.</td></tr>`;
+    } else {
+        filtered.forEach((player, index) => {
+            html += `
+            <tr>
+                <td>
+                    <span class="rank">${index + 1}.</span>
+                    <span class="player">${escapeHtml(player.player || "")}</span>
+                </td>
+                <td>${escapeHtml(positionLabel(player.position))}</td>
+                <td>${escapeHtml(player.team_name || player.team || "")}</td>
+                <td>${formatNumber(player.pass_block_snaps)}</td>
+                <td>${formatNumber(player.pressures_allowed)}</td>
+                <td>${formatNumber(player.sacks_allowed)}</td>
+                <td>${formatNumber(player.penalties)}</td>
+                <td>${formatRate(player.pressure_rate_allowed)}</td>
+                <td>${formatNumber(player.true_pass_set_snaps)}</td>
+                <td>${formatRate(player.true_pass_set_pressure_rate_allowed)}</td>
+            </tr>`;
+        });
+    }
+
+    html += `</tbody></table></div>`;
+    document.getElementById("tableContainer").innerHTML = html;
+
+    document.querySelectorAll("th[data-sort]").forEach(th => {
+        th.addEventListener("click", () => {
+            const key = th.dataset.sort;
+
+            if (sortColumn === key) {
+                sortDirection = sortDirection === "asc" ? "desc" : "asc";
+            } else {
+                sortColumn = key;
+                sortDirection = key === "player" || key === "team" ? "asc" : "desc";
+            }
+
+            renderTable();
+        });
+    });
+}
+
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+document.querySelectorAll("#positionControls button").forEach(button => {
+    button.addEventListener("click", () => {
+        currentPosition = button.dataset.position;
+
+        document.querySelectorAll("#positionControls button").forEach(item => {
+            item.classList.toggle("active", item === button);
+        });
+
+        renderTable();
+    });
+});
+
+document.getElementById("searchInput").addEventListener("input", event => {
+    searchText = event.target.value;
+    renderTable();
+});
+
+fetch("data/pass_protection_2026.json")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Unable to load Pass Protection data.");
+        }
+        return response.json();
+    })
+    .then(json => {
+        players = json.players || [];
+
+        document.getElementById("seasonInfo").textContent =
+            `${json.season} • FBS • ${players.length} qualified players • Minimum 15 pass-block snaps per team game`;
+
+        renderTable();
+    })
+    .catch(error => {
+        console.error(error);
+        document.getElementById("seasonInfo").textContent = "";
+        document.getElementById("tableContainer").innerHTML =
+            '<div class="error">Unable to load Pass Protection data. Please check the JSON file path.</div>';
+    });
+</script>
+</body>
+</html>
