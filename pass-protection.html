@@ -372,27 +372,44 @@ document.getElementById("searchInput").addEventListener("input", event => {
     renderTable();
 });
 
-fetch("data/pass_protection_2026.json")
-    .then(response => {
+
+Promise.all([
+    fetch("data/pass_protection_2026.json").then(response => {
         if (!response.ok) {
             throw new Error("Unable to load Pass Protection data.");
         }
         return response.json();
+    }),
+    fetch("data/time_to_throw_2026.json").then(response => {
+        if (!response.ok) {
+            throw new Error("Unable to load team-name data.");
+        }
+        return response.json();
     })
-    .then(json => {
-        players = json.players || [];
+])
+.then(([json, timeToThrow]) => {
+    players = json.players || [];
 
-        document.getElementById("seasonInfo").textContent =
-            `${json.season} • FBS • ${players.length} qualified players • Minimum 15 pass-block snaps per team game`;
-
-        renderTable();
-    })
-    .catch(error => {
-        console.error(error);
-        document.getElementById("seasonInfo").textContent = "";
-        document.getElementById("tableContainer").innerHTML =
-            '<div class="error">Unable to load Pass Protection data. Please check the JSON file path.</div>';
+    // Build a lookup of PFF franchise IDs to full team names.
+    [...(timeToThrow.offenses || []),
+     ...(timeToThrow.defenses || [])].forEach(team => {
+        if (team.franchise_id != null && team.team_name) {
+            teamNames[String(team.franchise_id)] = team.team_name;
+        }
     });
+
+    document.getElementById("seasonInfo").textContent =
+        `${json.season} • FBS • ${players.length} qualified players • Minimum 15 pass-block snaps per team game`;
+
+    renderTable();
+})
+.catch(error => {
+    console.error(error);
+    document.getElementById("seasonInfo").textContent = "";
+    document.getElementById("tableContainer").innerHTML =
+        '<div class="error">Unable to load Pass Protection or team-name data. Please check the JSON file paths.</div>';
+});
+
 </script>
 </body>
 </html>
