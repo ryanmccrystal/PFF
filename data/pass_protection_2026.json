@@ -2,7 +2,7 @@
   "season": 2026,
   "league": "ncaa",
   "division": "fbs",
-  "retrieved_at": "2026-11-23T17:25:18.277879+00:00",
+  "retrieved_at": "2026-11-23T17:28:51.057450+00:00",
   "qualification": {
     "minimum_pass_block_snaps_per_team_game": 15,
     "rule": "pass_block_snaps >= 15 * team_games_played"
